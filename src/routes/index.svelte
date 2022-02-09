@@ -1,3 +1,3 @@
 <svelte:head>
-    <title>DopePanda</title>
+	<title>DopePanda</title>
 </svelte:head>

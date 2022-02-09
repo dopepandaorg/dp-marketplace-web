@@ -1,20 +1,20 @@
 <script lang="ts">
-  import Footer from "../$lib/components/Footer.svelte";
-  import Header from "../$lib/components/Header.svelte";
+	import Footer from '../$lib/components/Footer.svelte'
+	import Header from '../$lib/components/Header.svelte'
 </script>
 
-<Header/>
+<Header />
 
 <main>
-    <div class="inner">
-        <slot />
-    </div>
+	<div class="inner">
+		<slot />
+	</div>
 </main>
 
-<Footer/>
+<Footer />
 
 <style lang="scss" global>
-  * {
-    box-sizing: border-box;
-  }
+	* {
+		box-sizing: border-box;
+	}
 </style>
