@@ -1,4 +1,4 @@
-import adapter from '@sveltejs/adapter-auto';
+import vercel from '@sveltejs/adapter-vercel';
 import preprocess from 'svelte-preprocess';
 import { optimizeImports, optimizeCss } from 'carbon-preprocess-svelte'
 
@@ -15,8 +15,8 @@ const config = {
 	],
 
 	kit: {
-		adapter: adapter(),
-		
+		adapter: vercel(),
+
 		vite: {
 			plugins: [process.env.NODE_ENV === "production" && optimizeCss()]
 		}
