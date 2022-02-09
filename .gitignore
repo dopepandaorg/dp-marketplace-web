@@ -1,0 +1,10 @@
+node_modules/
+.DS_Store
+*.log
+.vscode
+/build
+/.svelte-kit
+/package
+.env
+.env.*
+!.env.example

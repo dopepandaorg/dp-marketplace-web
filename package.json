@@ -1,0 +1,33 @@
+{
+  "name": "dp-marketplace-web",
+  "version": "0.0.1",
+  "description": "Web interface for the DopePanda marketplace.",
+  "scripts": {
+    "dev": "svelte-kit dev",
+    "build": "svelte-kit build",
+    "package": "svelte-kit package",
+    "preview": "svelte-kit preview",
+    "check": "svelte-check --tsconfig ./tsconfig.json",
+    "check:watch": "svelte-check --tsconfig ./tsconfig.json --watch"
+  },
+  "type": "module",
+  "keywords": [],
+  "author": "DopePanda",
+  "license": "ISC",
+  "devDependencies": {
+    "@sveltejs/adapter-auto": "next",
+    "@sveltejs/kit": "next",
+    "carbon-components-svelte": "^0.57.1",
+    "carbon-icons-svelte": "^10.44.4",
+    "carbon-preprocess-svelte": "^0.6.0",
+    "sass": "^1.49.7",
+    "svelte": "^3.46.4",
+    "svelte-check": "^2.4.3",
+    "svelte-preprocess": "^4.10.2",
+    "tslib": "^2.3.1",
+    "typescript": "^4.5.5"
+  },
+  "dependencies": {
+
+  }
+}
