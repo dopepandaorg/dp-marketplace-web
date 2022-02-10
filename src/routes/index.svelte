@@ -1,3 +1,3 @@
 <svelte:head>
-	<title>DopePanda</title>
+	<title>Marketplace | DopePanda</title>
 </svelte:head>
