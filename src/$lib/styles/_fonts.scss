@@ -1,0 +1,25 @@
+@font-face {
+	font-family: 'HK Grotesk';
+	src: url('/fonts/HKGroteskWide-Black.woff2') format('woff2');
+	font-weight: 900;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'HK Grotesk';
+	src: url('/fonts/HKGroteskWide-Regular.woff2') format('woff2');
+	font-weight: 400;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'HK Grotesk';
+	src: url('/fonts/HKGroteskWide-Medium.woff2') format('woff2');
+	font-weight: 500;
+	font-style: normal;
+}
+
+html,
+body {
+	font-family: 'HK Grotesk', sans-serif;
+}

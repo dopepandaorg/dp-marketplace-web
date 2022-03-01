@@ -1,7 +1,6 @@
+// Theme Override
 @import 'carbon-components/scss/globals/scss/vendor/@carbon/themes/scss';
-
-$carbon--theme: $carbon--theme--g90;
-@include carbon--theme();
+@import 'theme';
 
 $feature-flags: (
 	ui-shell: true,
@@ -17,11 +16,19 @@ $css--default-type: true;
 $css--plex: true;
 
 @import 'carbon-components/scss/globals/scss/_css--reset';
-@import 'carbon-components/scss/globals/scss/_css--font-face';
+// @import 'carbon-components/scss/globals/scss/_css--font-face';
 @import 'carbon-components/scss/globals/scss/_css--helpers';
 @import 'carbon-components/scss/globals/scss/_css--body';
 @import 'carbon-components/scss/globals/grid/grid';
 
-// Carbon Components
+// Global Styles
+@import 'mixins';
+@import 'fonts';
+@import 'global';
 
-// Components
+// Carbon Components
+@import 'carbon-components/scss/components/modal/modal';
+@import 'carbon-components/scss/components/button/button';
+@import 'carbon-components/scss/components/dropdown/dropdown';
+@import 'carbon-components/scss/components/search/search';
+@import 'carbon-components/scss/components/notification/toast-notification';

@@ -1,0 +1,4 @@
+// Import theme
+$carbon--theme: map-merge($carbon--theme--g100, ());
+
+@include carbon--theme();
