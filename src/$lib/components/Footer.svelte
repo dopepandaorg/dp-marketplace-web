@@ -2,6 +2,7 @@
 	import FooterSubscribe from './footer/FooterSubscribe.svelte'
 	import { LogoTwitter32, LogoDiscord32, MailAll32 } from 'carbon-icons-svelte'
 	import NetworkSwitch from './common/NetworkSwitch.svelte'
+	import ToastNotifications from './common/ToastNotifications.svelte'
 </script>
 
 <footer>
@@ -72,6 +73,8 @@
 			</div>
 		</div>
 	</div>
+
+	<ToastNotifications />
 </footer>
 
 <style lang="scss">

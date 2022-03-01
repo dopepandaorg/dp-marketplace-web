@@ -9,6 +9,8 @@ import MyAlgoWallet from '@randlabs/myalgo-connect'
 
 import { WalletType } from '../interfaces/wallet'
 import { setWalletData, clearWalletData } from '../../stores/wallet'
+import { addToast } from '../../stores/toast'
+import { N_WALLET_DISCONNECT } from '../constants/notifications'
 
 let walletConnectConnector
 
@@ -102,6 +104,7 @@ export const onConnectPera = (silent?: boolean) => {
 
 		console.log('disconnect payload', payload)
 		clearWalletData()
+		addToast(N_WALLET_DISCONNECT)
 	})
 }
 
