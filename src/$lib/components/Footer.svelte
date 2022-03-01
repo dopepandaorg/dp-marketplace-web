@@ -1,0 +1,187 @@
+<script>
+	import FooterSubscribe from './footer/FooterSubscribe.svelte'
+	import { LogoTwitter32, LogoDiscord32, MailAll32 } from 'carbon-icons-svelte'
+	import NetworkSwitch from './common/NetworkSwitch.svelte'
+</script>
+
+<footer>
+	<div class="footer__top">
+		<div class="container">
+			<div class="footer__inner">
+				<div class="footer__explore">
+					<h4>Explore more from Dopeverse</h4>
+					<div class="footer__explore__hotlinks">
+						<div id="hotlink-staking" class="footer__explore__hotlink">
+							<img src="" alt="" />
+							<label for="hotlink-staking">Staking</label>
+						</div>
+						<div id="hotlink-games" class="footer__explore__hotlink">
+							<img src="" alt="" />
+							<label for="hotlink-games">Games</label>
+						</div>
+					</div>
+				</div>
+				<div class="footer__connect">
+					<div class="footer__social">
+						<h4>Join our <span class="gradient-highlight">AWESOME!</span> community</h4>
+						<ul>
+							<li>
+								<a href="https://twitter.com/DopePandaOrg" target="_blank" rel="nofollow"
+									><LogoTwitter32 /></a
+								>
+							</li>
+							<li>
+								<a href="https://discord.gg/KMsyYaQC" target="_blank" rel="nofollow"
+									><LogoDiscord32 /></a
+								>
+							</li>
+							<li>
+								<a href="https://www.reddit.com/r/dopepanda" target="_blank" rel="nofollow">R</a>
+							</li>
+							<li>
+								<a href="https://t.me/joinchat/3cBfw4dMqsAxYzJl" target="_blank" rel="nofollow">T</a
+								>
+							</li>
+							<li>
+								<a href="mailto:team@dopepanda.org" target="_blank" rel="nofollow"><MailAll32 /></a>
+							</li>
+						</ul>
+					</div>
+
+					<div class="footer__subscribe">
+						<FooterSubscribe />
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="footer__bottom">
+		<div class="container">
+			<div class="footer__inner">
+				<div class="footer__copyright">
+					© DopePanda {new Date().getFullYear()}, All Rights Reserved
+				</div>
+				<div class="footer__privacy_menu">
+					<ul>
+						<li><a href="/privacy-policy">Privacy Policy</a></li>
+						<li><a href="/terms-and-conditions">Terms & Conditions</a></li>
+					</ul>
+
+					<NetworkSwitch />
+				</div>
+			</div>
+		</div>
+	</div>
+</footer>
+
+<style lang="scss">
+	footer {
+		background-color: #000;
+
+		.footer__inner {
+			display: flex;
+			padding: 0 1rem;
+
+			h4 {
+				margin-bottom: 1rem;
+			}
+		}
+
+		.footer__top {
+			background-color: #000;
+			padding: 6.25rem 0 4.5rem;
+
+			.footer__inner {
+				display: grid;
+				grid-template-columns: 1fr 1fr;
+				gap: 200px;
+			}
+		}
+
+		.footer__bottom {
+			padding: 2rem 0;
+			background-color: #222222;
+
+			.footer__inner {
+				display: flex;
+				justify-content: space-between;
+			}
+		}
+
+		.footer__privacy_menu,
+		.footer__copyright {
+			font-size: 0.875rem;
+
+			&,
+			a {
+				color: rgba($color: white, $alpha: 0.75);
+			}
+		}
+
+		.footer__privacy_menu {
+			ul {
+				display: flex;
+				list-style: none;
+
+				li {
+					margin-left: 1.5rem;
+
+					&:first-child {
+						margin-left: 0;
+					}
+				}
+			}
+		}
+
+		.footer__explore__hotlinks {
+			display: grid;
+			grid-template-columns: 1fr 1fr;
+			gap: 1rem;
+		}
+
+		.footer__explore__hotlink {
+			img {
+				width: 100%;
+				max-width: 100%;
+				height: 120px;
+				object-fit: cover;
+				background-color: pink;
+				margin-bottom: 1rem;
+				border-radius: 8px;
+			}
+		}
+
+		.footer__social {
+			ul {
+				display: flex;
+
+				li {
+					margin-right: 1rem;
+
+					&:last-child {
+						margin-right: 0;
+					}
+
+					a {
+						display: flex;
+						align-items: center;
+						justify-content: center;
+						width: 3.75rem;
+						height: 3.75rem;
+						border-radius: 50%;
+						background-color: #222;
+						transition: background-color 0.3s;
+
+						&:hover {
+							background-color: #444;
+						}
+					}
+				}
+			}
+		}
+
+		.footer__subscribe {
+			margin-top: 3rem;
+		}
+	}
+</style>

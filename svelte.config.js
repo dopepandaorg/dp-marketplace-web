@@ -11,14 +11,15 @@ const config = {
 		preprocess.sass(),
 		preprocess.globalStyle(),
 		preprocess.replace(),
-		optimizeImports()
+		optimizeImports(),
+		process.env.NODE_ENV === 'production' && optimizeCss()
 	],
 
 	kit: {
 		adapter: vercel(),
 
 		vite: {
-			plugins: [process.env.NODE_ENV === 'production' && optimizeCss()]
+			plugins: []
 		}
 	}
 }
