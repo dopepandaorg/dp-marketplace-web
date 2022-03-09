@@ -1,5 +1,5 @@
-import type { WalletType } from 'src/$lib/interfaces/wallet'
-import { writable } from 'svelte/store'
+import type { WalletType } from '../$lib/interfaces/wallet'
+import { writable, get } from 'svelte/store'
 
 /**
  * Initialize the wallet store
@@ -7,7 +7,8 @@ import { writable } from 'svelte/store'
 export const wallet = writable({
 	type: localStorage.getItem('wallet-type') || null,
 	account: localStorage.getItem('wallet-account') || null,
-	isConnected: !!localStorage.getItem('wallet-account')
+	isConnected: !!localStorage.getItem('wallet-account'),
+	assets: []
 })
 
 /**
@@ -52,4 +53,14 @@ export const clearWalletData = () => {
 		isConnected: false,
 		account: null
 	}))
+}
+
+export const syncWalletAssets = () => {
+	const $wallet = get(wallet)
+
+	if ($wallet.isConnected) {
+		fetch(`/wallet/${$wallet.account}.json`)
+			.then((response) => response.json())
+			.then((body) => wallet.update((wallet) => ({ ...wallet, assets: body.assets })))
+	}
 }

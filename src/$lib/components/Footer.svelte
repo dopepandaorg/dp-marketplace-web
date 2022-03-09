@@ -1,11 +1,12 @@
 <script>
 	import FooterSubscribe from './footer/FooterSubscribe.svelte'
 	import { LogoTwitter32, LogoDiscord32, MailAll32 } from 'carbon-icons-svelte'
-	import NetworkSwitch from './common/NetworkSwitch.svelte'
 	import ToastNotifications from './common/ToastNotifications.svelte'
+	import NetworkSwitch from './common/NetworkSwitch.svelte'
 </script>
 
 <footer>
+	<NetworkSwitch />
 	<div class="footer__top">
 		<div class="container">
 			<div class="footer__inner">
@@ -67,8 +68,6 @@
 						<li><a href="/privacy-policy">Privacy Policy</a></li>
 						<li><a href="/terms-and-conditions">Terms & Conditions</a></li>
 					</ul>
-
-					<NetworkSwitch />
 				</div>
 			</div>
 		</div>
@@ -79,8 +78,6 @@
 
 <style lang="scss">
 	footer {
-		background-color: #000;
-
 		.footer__inner {
 			display: flex;
 			padding: 0 1rem;
@@ -91,7 +88,7 @@
 		}
 
 		.footer__top {
-			background-color: #000;
+			background-color: var(--dp--black-01);
 			padding: 6.25rem 0 4.5rem;
 
 			.footer__inner {
@@ -103,7 +100,7 @@
 
 		.footer__bottom {
 			padding: 2rem 0;
-			background-color: #222222;
+			background-color: var(--dp--black-03);
 
 			.footer__inner {
 				display: flex;
@@ -172,11 +169,11 @@
 						width: 3.75rem;
 						height: 3.75rem;
 						border-radius: 50%;
-						background-color: #222;
+						background-color: var(--dp--black-03);
 						transition: background-color 0.3s;
 
 						&:hover {
-							background-color: #444;
+							background-color: var(--dp--black-06);
 						}
 					}
 				}

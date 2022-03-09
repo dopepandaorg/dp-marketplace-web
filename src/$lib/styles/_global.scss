@@ -1,16 +1,10 @@
-// Sections
-.section {
+#svelte {
 	display: flex;
-	align-items: flex-start;
 	flex-direction: column;
-	gap: 6vw;
-	padding: 6vw 4vw;
+	min-height: 100vh;
 
-	.section__header {
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-		margin-bottom: 2.5rem;
+	main {
+		flex-grow: 1;
 	}
 }
 
@@ -21,18 +15,8 @@
 	background-clip: text;
 
 	@media screen and (max-width: 767px) {
-		text-shadow: 0px 0px #00000000;
+		text-shadow: 0px 0px #000;
 		display: block;
-	}
-}
-
-#svelte {
-	display: flex;
-	flex-direction: column;
-	min-height: 100vh;
-
-	main {
-		flex-grow: 1;
 	}
 }
 
@@ -50,4 +34,8 @@ a {
 	font-weight: 500;
 	color: #fff;
 	text-decoration: none;
+}
+
+button {
+	font-weight: 600;
 }

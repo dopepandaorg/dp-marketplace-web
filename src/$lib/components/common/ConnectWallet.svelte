@@ -1,16 +1,11 @@
 <script lang="ts">
 	import { onDestroy, onMount } from 'svelte'
 	import { wallet } from '../../../stores/wallet'
-	import {
-		checkWallet,
-		onConnnectMyalgo,
-		onConnectPera,
-		onDisconnect
-	} from '../../helper/walletConnect'
+	import { checkWallet, onConnnectMyalgo, onConnectPera } from '../../helper/walletConnect'
 
 	import { Modal } from 'carbon-components-svelte'
 	import { Button } from 'carbon-components-svelte'
-	import { Logout16, Wallet16 } from 'carbon-icons-svelte'
+	import { Wallet16 } from 'carbon-icons-svelte'
 	import { formatWallet } from '../../../$lib/helper/utils'
 
 	let open = false
@@ -31,12 +26,12 @@
 
 <div class="connect-wallet">
 	{#if isConnected}
-		<div>
-			{account} &nbsp;
-			<Button kind="danger" icon={Logout16} on:click={() => onDisconnect()} />
+		<div class="wallet-button">
+			<span>{account}</span>
+			<img src="/icons/algo.svg" alt="Algo" />
 		</div>
 	{:else}
-		<Button icon={Wallet16} label="Disconnect" on:click={() => (open = true)}>Connect</Button>
+		<Button kind="tertiary" icon={Wallet16} on:click={() => (open = true)}>Connect</Button>
 	{/if}
 </div>
 
@@ -68,6 +63,27 @@
 </Modal>
 
 <style lang="scss">
+	.wallet-button {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		min-height: 3rem;
+		border-radius: 5px;
+		background: linear-gradient(109.08deg, #fd2ca0 0%, #000000 104.51%);
+		padding: 0.875rem 1rem;
+
+		img {
+			width: 1rem;
+			height: 1rem;
+			margin-left: 1rem;
+			float: left;
+		}
+
+		&:hover {
+			cursor: pointer;
+		}
+	}
+
 	.wallet-list {
 		margin-top: 2rem;
 
@@ -75,7 +91,7 @@
 			display: flex;
 			align-items: center;
 			padding: 0.75rem 1rem;
-			background-color: #333;
+			background-color: var(--dp--black-02);
 			border-radius: 4px;
 			margin-bottom: 1.75rem;
 			transition: all 0.3s;
@@ -86,7 +102,7 @@
 
 			&:hover {
 				cursor: pointer;
-				background-color: #444;
+				background-color: var(--dp--black-03);
 			}
 
 			&__icon {
