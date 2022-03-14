@@ -20,8 +20,22 @@
 	}
 }
 
+.gradient-bg {
+	background: linear-gradient(109.08deg, #fd9d5d 0%, #fd2ca0 49.53%, #3397ff 104.51%);
+}
+
+.wrapper {
+	padding: 4vw 1rem;
+}
+
 .container {
 	max-width: 1440px;
+	width: 100%;
+	margin: 0 auto;
+}
+
+.container-sm {
+	max-width: 680px;
 	width: 100%;
 	margin: 0 auto;
 }

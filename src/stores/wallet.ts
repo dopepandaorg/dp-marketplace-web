@@ -55,6 +55,9 @@ export const clearWalletData = () => {
 	}))
 }
 
+/**
+ * Helper action to fetch a user's wallet assets
+ */
 export const syncWalletAssets = () => {
 	const $wallet = get(wallet)
 

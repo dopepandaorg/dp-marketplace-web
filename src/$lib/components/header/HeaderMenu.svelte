@@ -8,13 +8,7 @@
 	import HeaderWallet from './HeaderWallet.svelte'
 	import HeaderSubscription from './HeaderSubscription.svelte'
 	import HeaderNavItem from './HeaderNavItem.svelte'
-	import {
-		UserProfile16,
-		ShowDataCards16,
-		Settings16,
-		Launch16,
-		Logout16
-	} from 'carbon-icons-svelte'
+	import { UserProfile16, ShowDataCards16, Settings16, Logout16 } from 'carbon-icons-svelte'
 
 	let isConnected = false
 	let account = ''
@@ -69,7 +63,7 @@
 					<HeaderNavItem
 						icon={ShowDataCards16}
 						label="My Collections"
-						action={() => navigate('/collections')}
+						action={() => navigate('/profile/collections')}
 					/>
 					<hr />
 					<HeaderNavItem icon={Settings16} label="Settings" action={() => navigate('/settings')} />
@@ -83,6 +77,7 @@
 <style lang="scss">
 	.header-auth {
 		position: relative;
+		z-index: 1000;
 
 		&.open {
 			.header-auth__dropdown {

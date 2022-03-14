@@ -7,19 +7,19 @@
 
 	export let unit: string
 	const asset = (asaAssets as any[]).find((asa) => asa.unit === unit)
-    let isLoading = true
+	let isLoading = true
 	let amount = null
 
 	const walletSub = wallet.subscribe((wallet) => {
 		const foundAssetData = wallet.assets.find((a) => a.unit === unit)
-        
-        if (wallet.assets.length > 0) {
-            isLoading = false
-            
-            if (foundAssetData) {
-                amount = foundAssetData.amount
-            }
-        }
+
+		if (wallet.assets.length > 0) {
+			isLoading = false
+
+			if (foundAssetData) {
+				amount = foundAssetData.amount
+			}
+		}
 	})
 
 	onDestroy(walletSub)
@@ -29,14 +29,14 @@
 	<div class="header-wallet-asset__logo">
 		<img src={assetImageUrl('algo', asset.id)} alt="" />
 	</div>
-	
-    <div class="header-wallet-asset__details">
+
+	<div class="header-wallet-asset__details">
 		<div class="header-wallet-asset__name">{asset.name}</div>
 		<div class="header-wallet-asset__symbol">{unit.toUpperCase()}</div>
 	</div>
 
-    {#if isLoading }
-        <SkeletonPlaceholder style="height: 32px;" />
+	{#if isLoading}
+		<SkeletonPlaceholder style="height: 32px;" />
 	{:else if amount !== null}
 		<div class="header-wallet-asset__amount">
 			{formatAmount(amount)}

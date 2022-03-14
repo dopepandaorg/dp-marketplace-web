@@ -3,7 +3,7 @@
 
 	export let icon: any
 	export let label: string
-	export let action: Function
+	export let action: () => void
 </script>
 
 <div class="header-nav-item">
