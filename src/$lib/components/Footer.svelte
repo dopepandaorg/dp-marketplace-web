@@ -1,23 +1,28 @@
 <script>
-	import FooterSubscribe from './footer/FooterSubscribe.svelte'
+	import { ImageLoader } from 'carbon-components-svelte'
+
 	import { LogoTwitter32, LogoDiscord32, MailAll32 } from 'carbon-icons-svelte'
-	import NetworkSwitch from './common/NetworkSwitch.svelte'
 	import ToastNotifications from './common/ToastNotifications.svelte'
 </script>
 
 <footer>
 	<div class="footer__top">
 		<div class="container">
+			<!-- <NetworkSwitch /> -->
 			<div class="footer__inner">
 				<div class="footer__explore">
 					<h4>Explore more from Dopeverse</h4>
 					<div class="footer__explore__hotlinks">
 						<div id="hotlink-staking" class="footer__explore__hotlink">
-							<img src="" alt="" />
+							<div class="footer__explore__hotlink__image">
+								<ImageLoader src="" />
+							</div>
 							<label for="hotlink-staking">Staking</label>
 						</div>
 						<div id="hotlink-games" class="footer__explore__hotlink">
-							<img src="" alt="" />
+							<div class="footer__explore__hotlink__image">
+								<ImageLoader src="" />
+							</div>
 							<label for="hotlink-games">Games</label>
 						</div>
 					</div>
@@ -48,10 +53,6 @@
 							</li>
 						</ul>
 					</div>
-
-					<div class="footer__subscribe">
-						<FooterSubscribe />
-					</div>
 				</div>
 			</div>
 		</div>
@@ -67,8 +68,6 @@
 						<li><a href="/privacy-policy">Privacy Policy</a></li>
 						<li><a href="/terms-and-conditions">Terms & Conditions</a></li>
 					</ul>
-
-					<NetworkSwitch />
 				</div>
 			</div>
 		</div>
@@ -79,8 +78,6 @@
 
 <style lang="scss">
 	footer {
-		background-color: #000;
-
 		.footer__inner {
 			display: flex;
 			padding: 0 1rem;
@@ -91,7 +88,7 @@
 		}
 
 		.footer__top {
-			background-color: #000;
+			background-color: var(--dp--black-01);
 			padding: 6.25rem 0 4.5rem;
 
 			.footer__inner {
@@ -103,7 +100,7 @@
 
 		.footer__bottom {
 			padding: 2rem 0;
-			background-color: #222222;
+			background-color: var(--dp--black-03);
 
 			.footer__inner {
 				display: flex;
@@ -143,14 +140,18 @@
 		}
 
 		.footer__explore__hotlink {
-			img {
+			&__image {
 				width: 100%;
-				max-width: 100%;
 				height: 120px;
-				object-fit: cover;
-				background-color: pink;
+				background: linear-gradient(109.08deg, #fd9d5d 0%, #fd2ca0 49.53%, #3397ff 104.51%);
 				margin-bottom: 1rem;
 				border-radius: 8px;
+
+				:global(img) {
+					max-width: 100%;
+					height: 100%;
+					object-fit: cover;
+				}
 			}
 		}
 
@@ -172,19 +173,15 @@
 						width: 3.75rem;
 						height: 3.75rem;
 						border-radius: 50%;
-						background-color: #222;
+						background-color: var(--dp--black-03);
 						transition: background-color 0.3s;
 
 						&:hover {
-							background-color: #444;
+							background-color: var(--dp--black-06);
 						}
 					}
 				}
 			}
-		}
-
-		.footer__subscribe {
-			margin-top: 3rem;
 		}
 	}
 </style>

@@ -1,0 +1,15 @@
+.section {
+	display: flex;
+	align-items: flex-start;
+	flex-direction: column;
+	gap: 6vw;
+	padding: 6vw 4vw;
+	background-color: var(--dp--black-02);
+
+	.section__header {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		margin-bottom: 2.5rem;
+	}
+}

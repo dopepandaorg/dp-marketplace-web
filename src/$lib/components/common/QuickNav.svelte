@@ -5,6 +5,7 @@
 	import { goto } from '$app/navigation'
 
 	enum PageType {
+		CONTESTS = 'Contest',
 		MARKETPLACE = 'Marketplace',
 		MINTER = 'Minter',
 		PLATFORM = 'Platform',
@@ -42,6 +43,14 @@
 			path: '/launchpad',
 			allowedPaths: ['/launchpad'],
 			isDisabled: true,
+			tooltip: 'Coming Soon'
+		},
+		{
+			id: PageType.CONTESTS,
+			text: 'Contests',
+			path: '/contests',
+			allowedPaths: ['/contests'],
+			isDisabled: false,
 			tooltip: 'Coming Soon'
 		}
 	]

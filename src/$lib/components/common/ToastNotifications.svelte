@@ -5,7 +5,6 @@
 	let toastList = []
 	toasts.subscribe((t) => {
 		toastList = t
-		console.log('update t', t)
 	})
 </script>
 

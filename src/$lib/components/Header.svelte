@@ -1,9 +1,9 @@
 <script lang="ts">
 	import { Link } from 'carbon-components-svelte'
 
-	import ConnectWallet from './common/ConnectWallet.svelte'
 	import QuickNav from './common/QuickNav.svelte'
 	import Searchbar from './common/Searchbar.svelte'
+	import HeaderMenu from './header/HeaderMenu.svelte'
 </script>
 
 <header>
@@ -28,7 +28,7 @@
 					<Link href="/create" class="gradient-highlight">CREATE</Link>
 				</ul>
 
-				<ConnectWallet />
+				<HeaderMenu />
 			</div>
 		</div>
 	</div>
@@ -36,7 +36,7 @@
 
 <style lang="scss">
 	header {
-		background-color: #000;
+		background-color: var(--dp--black-01);
 		padding: 0 1rem;
 
 		.header__inner {
