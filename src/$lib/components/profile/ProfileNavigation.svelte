@@ -22,6 +22,11 @@
 			path: `${basePath}/creations`
 		},
 		{
+			id: 'assets',
+			label: 'Assets',
+			path: `${basePath}/assets`
+		},
+		{
 			id: 'activity',
 			label: 'Activity',
 			path: `${basePath}/activity`

@@ -3,7 +3,7 @@
 </script>
 
 <svelte:head>
-	<title>Platform | DopePanda</title>
+	<title>Membership | DopePanda</title>
 </svelte:head>
 
 <section class="section">

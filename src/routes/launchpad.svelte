@@ -1,5 +1,5 @@
 <script>
-	import { Link } from 'carbon-components-svelte'
+	import EmptyTab from '../$lib/components/common/EmptyTab.svelte'
 </script>
 
 <svelte:head>
@@ -8,7 +8,6 @@
 
 <section class="section">
 	<div class="container">
-		Launchpad
-		<Link href="/">First</Link>
+		<EmptyTab title="Work in progress!" description="This feature is currently being developed" />
 	</div>
 </section>
