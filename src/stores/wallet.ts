@@ -5,9 +5,9 @@ import { writable, get } from 'svelte/store'
  * Initialize the wallet store
  */
 export const wallet = writable({
-	type: localStorage.getItem('wallet-type') || null,
-	account: localStorage.getItem('wallet-account') || null,
-	isConnected: !!localStorage.getItem('wallet-account'),
+	type: (localStorage && localStorage.getItem('wallet-type')) || null,
+	account: (localStorage && localStorage.getItem('wallet-account')) || null,
+	isConnected: localStorage && !!localStorage.getItem('wallet-account'),
 	assets: []
 })
 
@@ -15,16 +15,18 @@ export const wallet = writable({
  * Handle local storage subscription
  */
 wallet.subscribe((wallet) => {
-	if (wallet.type) {
-		localStorage.setItem('wallet-type', wallet.type)
-	} else {
-		localStorage.removeItem('wallet-type')
-	}
+	if (localStorage) {
+		if (wallet.type) {
+			localStorage.setItem('wallet-type', wallet.type)
+		} else {
+			localStorage.removeItem('wallet-type')
+		}
 
-	if (wallet.account) {
-		localStorage.setItem('wallet-account', wallet.account)
-	} else {
-		localStorage.removeItem('wallet-account')
+		if (wallet.account) {
+			localStorage.setItem('wallet-account', wallet.account)
+		} else {
+			localStorage.removeItem('wallet-account')
+		}
 	}
 })
 

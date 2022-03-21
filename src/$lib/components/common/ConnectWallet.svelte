@@ -17,8 +17,8 @@
 		open = false
 		account = formatWallet(wallet.account)
 	})
-	onDestroy(walletSub)
 
+	onDestroy(walletSub)
 	onMount(() => {
 		checkWallet()
 	})

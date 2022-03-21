@@ -2,9 +2,9 @@
 	import { onDestroy } from 'svelte'
 	import { page } from '$app/stores'
 
-	let path
-	let basePath = '/profile'
+	export let basePath = '/profile'
 
+	let path
 	const pageSub = page.subscribe(({ url }) => {
 		path = url.pathname
 	})

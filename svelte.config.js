@@ -19,6 +19,9 @@ const config = {
 		adapter: vercel(),
 
 		vite: {
+			optimizeDeps: {
+				exclude: ['@urql/svelte']
+			},
 			plugins: []
 		}
 	}

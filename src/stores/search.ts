@@ -20,7 +20,7 @@ export const doSearch = (q: string) => {
 
 		fetch(`/search/${q}.json`)
 			.then((response) => response.json())
-			.then((body) =>
+			.then(() =>
 				search.update((search) => ({ ...search, q, results: [], status: LoadingStatus.SUCCESS }))
 			)
 	}

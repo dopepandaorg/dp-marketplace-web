@@ -1,38 +1,30 @@
-<script lang="ts" context="module">
-	import { authGuard } from '../../$lib/guards/auth'
-	export async function load({ url }) {
-		return authGuard({ url })
-	}
-
-	export const ssr = false
-</script>
-
 <script>
+	import { page } from '$app/stores'
 	import { operationStore, query } from '@urql/svelte'
-	import { wallet } from '../../stores/wallet'
-	import { Q_GET_PROFILE } from '../../$lib/constants/queries'
+	import { Q_GET_PROFILE_BY_HANDLE } from '../../$lib/constants/queries'
 	import ProfileBanner from '../../$lib/components/profile/ProfileBanner.svelte'
-	import ProfileNavigation from '../../$lib/components/profile/ProfileNavigation.svelte'
 	import ProfileBannerSkeleton from '../../$lib/components/profile/ProfileBannerSkeleton.svelte'
+	import ProfileNavigation from '../../$lib/components/profile/ProfileNavigation.svelte'
 	import ProfileContentSkeleton from '../../$lib/components/profile/ProfileContentSkeleton.svelte'
 
 	let isLoading = true
 	let userProfile
 
-	const profile = operationStore(Q_GET_PROFILE($wallet.account))
+	const handle = $page.params.handle
+	const profile = operationStore(Q_GET_PROFILE_BY_HANDLE(handle))
 	query(profile)
 
 	profile.subscribe((p) => {
 		isLoading = p.fetching
 
-		if (p.data && p.data.profiles_by_pk) {
-			userProfile = p.data.profiles_by_pk
+		if (p.data && p.data.profiles) {
+			userProfile = p.data.profiles.find((up) => up.handle === handle)
 		}
 	})
 </script>
 
 <svelte:head>
-	<title>Profile | DopePanda</title>
+	<title>Public Profile | DopePanda</title>
 </svelte:head>
 
 <div class="page page-profile">
@@ -43,14 +35,14 @@
 				handle={userProfile.handle}
 				wallet={userProfile.wallet}
 			/>
-			<ProfileNavigation />
+			<ProfileNavigation basePath="/@{handle}" />
 
 			<div class="profile-section">
 				<slot />
 			</div>
 		{:else if isLoading}
 			<ProfileBannerSkeleton />
-			<ProfileNavigation />
+			<ProfileNavigation basePath="/@{handle}" />
 			<ProfileContentSkeleton />
 		{/if}
 	</div>

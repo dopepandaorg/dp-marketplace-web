@@ -1,32 +1,25 @@
 <script lang="ts">
-	import { Button, OverflowMenu, OverflowMenuItem } from 'carbon-components-svelte'
-	import { Share16, UserFollow16 } from 'carbon-icons-svelte'
+	import { Button, IconSkeleton } from 'carbon-components-svelte'
 	import ProfileAvatar from './ProfileAvatar.svelte'
-	import ProfileAccountName from './ProfileAccountName.svelte'
-
-	export let name
-	export let handle
-	export let wallet
+	import ProfileAccountNameSkeleton from './ProfileAccountNameSkeleton.svelte'
 </script>
 
 <div class="profile-banner__wrap">
 	<div class="profile-banner">
 		<div class="profile-banner__avatar">
-			<ProfileAvatar identifier={wallet} />
+			<ProfileAvatar />
 		</div>
 	</div>
 
 	<div class="profile-meta">
 		<div class="profile-meta__account">
-			<ProfileAccountName {name} {handle} account={wallet} />
+			<ProfileAccountNameSkeleton />
 		</div>
 
 		<div class="profile-meta__action">
-			<Button size="field" kind="secondary" icon={UserFollow16}>Follow</Button>
-			<Button size="field" kind="secondary" icon={Share16} />
-			<OverflowMenu kind="secondary" flipped>
-				<OverflowMenuItem danger text="Report User" />
-			</OverflowMenu>
+			<Button size="field" kind="secondary" skeleton={true} />
+			<Button size="field" kind="secondary" icon={IconSkeleton} skeleton={true} />
+			<Button size="field" kind="secondary" icon={IconSkeleton} skeleton={true} />
 		</div>
 	</div>
 </div>
@@ -43,7 +36,7 @@
 		&__action {
 			display: flex;
 
-			> :global(button) {
+			> :global(.bx--btn) {
 				margin-left: 1rem;
 				min-width: 3rem;
 				min-height: 3rem;
@@ -51,7 +44,7 @@
 				justify-content: center;
 			}
 
-			:global(button.bx--overflow-menu) {
+			:global(.bx--btn) {
 				background-color: var(--dp--black-04);
 				border-radius: 5px;
 
