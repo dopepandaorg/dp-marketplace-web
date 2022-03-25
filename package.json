@@ -57,5 +57,8 @@
 		"mime": "^3.0.0",
 		"path-browserify": "^1.0.1",
 		"web3.storage": "^4.0.0"
+	},
+	"resolutions": {
+		"web3.storage/ipns": "^0.15.1"
 	}
 }

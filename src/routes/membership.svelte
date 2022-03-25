@@ -8,7 +8,11 @@
 	<title>Membership | DopePanda</title>
 </svelte:head>
 
-<PageHeader title="DopePanda Membership" subtitle="Create and mint your digital art on Algorand" size="sm" />
+<PageHeader
+	title="DopePanda Membership"
+	subtitle="Create and mint your digital art on Algorand"
+	size="sm"
+/>
 
 <section class="section">
 	<div class="container container-sm">
