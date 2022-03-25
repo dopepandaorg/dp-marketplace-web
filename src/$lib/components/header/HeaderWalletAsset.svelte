@@ -4,6 +4,7 @@
 	import { assetImageUrl, formatAmount } from '../../../$lib/helper/utils'
 	import asaAssets from '../../../$lib/data/asaAssets.json'
 	import { Button, SkeletonPlaceholder } from 'carbon-components-svelte'
+	import { goto } from '$app/navigation'
 
 	export let unit: string
 	const asset = (asaAssets as any[]).find((asa) => asa.unit === unit)
@@ -21,7 +22,6 @@
 			}
 		}
 	})
-
 	onDestroy(walletSub)
 </script>
 
@@ -41,10 +41,12 @@
 		<div class="header-wallet-asset__amount">
 			{formatAmount(amount)}
 		</div>
-	{:else}
+	{:else if asset.id === 391379500}
 		<div class="header-wallet-asset__opt-in">
-			<Button size="small">Opt In</Button>
+			<Button size="small" on:click={() => goto('/membership')}>Opt In</Button>
 		</div>
+	{:else}
+		<div class="header-wallet-asset__opt-in">N/A</div>
 	{/if}
 </div>
 

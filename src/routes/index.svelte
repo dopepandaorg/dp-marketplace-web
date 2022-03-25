@@ -1,7 +1,7 @@
 <script lang="ts">
 	import IndexBanner from '../$lib/components/index/IndexBanner.svelte'
 	import IndexCategories from '../$lib/components/index/IndexCategories.svelte'
-	import IndexCollections from '../$lib/components/index/IndexCollections.svelte'
+	import IndexTrending from '../$lib/components/index/IndexTrending.svelte'
 	import IndexExplore from '../$lib/components/index/IndexExplore.svelte'
 </script>
 
@@ -10,6 +10,6 @@
 </svelte:head>
 
 <IndexBanner />
+<IndexTrending />
 <IndexCategories />
-<IndexCollections />
 <IndexExplore />

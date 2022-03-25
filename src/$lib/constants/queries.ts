@@ -12,14 +12,14 @@ export const Q_GET_PROFILE_BY_HANDLE = (handle: string) => gql`
         }
     }
 `
-export const Q_GET_PROFILE = (wallet: string) => gql`
-    query {
-        profiles_by_pk(wallet: "${wallet}") {
-            display_name
-            handle
-            wallet
-        }
-    }
+export const Q_GET_PROFILE = gql`
+	query GetProfileByWallet($wallet: String!) {
+		profiles_by_pk(wallet: $wallet) {
+			display_name
+			handle
+			wallet
+		}
+	}
 `
 
 /**

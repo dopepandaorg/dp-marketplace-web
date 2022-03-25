@@ -1,3 +1,7 @@
+<script context="module" lang="ts">
+	export const ssr = false
+</script>
+
 <script lang="ts">
 	import { onDestroy } from 'svelte'
 	import { goto } from '$app/navigation'

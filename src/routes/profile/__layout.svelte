@@ -1,10 +1,10 @@
 <script lang="ts" context="module">
+	export const ssr = false
 	import { authGuard } from '../../$lib/guards/auth'
+
 	export async function load({ url }) {
 		return authGuard({ url })
 	}
-
-	export const ssr = false
 </script>
 
 <script>
@@ -19,7 +19,7 @@
 	let isLoading = true
 	let userProfile
 
-	const profile = operationStore(Q_GET_PROFILE($wallet.account))
+	const profile = operationStore(Q_GET_PROFILE, { wallet: $wallet.account })
 	query(profile)
 
 	profile.subscribe((p) => {
@@ -27,6 +27,12 @@
 
 		if (p.data && p.data.profiles_by_pk) {
 			userProfile = p.data.profiles_by_pk
+		} else {
+			userProfile = {
+				display_name: '',
+				handle: '',
+				wallet: $wallet.account
+			}
 		}
 	})
 </script>

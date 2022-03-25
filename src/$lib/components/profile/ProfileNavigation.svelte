@@ -12,6 +12,11 @@
 
 	const navigationItems = [
 		{
+			id: 'overview',
+			label: 'Overview',
+			path: `${basePath}`
+		},
+		{
 			id: 'collections',
 			label: 'Collections',
 			path: `${basePath}/collections`

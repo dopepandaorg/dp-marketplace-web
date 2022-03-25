@@ -31,6 +31,7 @@ $button-border-radius: 5px;
 // Common Elements
 @import 'common/pages';
 @import 'common/sections';
+@import 'common/form';
 
 // Carbon Components
 @import 'carbon-components/scss/components/modal/modal';
@@ -42,3 +43,11 @@ $button-border-radius: 5px;
 @import 'carbon-components/scss/components/copy-button/copy-button';
 @import 'carbon-components/scss/components/overflow-menu/overflow-menu';
 @import 'carbon-components/scss/components/inline-loading/inline-loading';
+@import 'carbon-components/scss/components/progress-indicator/progress-indicator';
+@import 'carbon-components/scss/components/form/form';
+@import 'carbon-components/scss/components/text-input/text-input';
+@import 'carbon-components/scss/components/text-area/text-area';
+@import 'carbon-components/scss/components/toggle/toggle';
+@import 'carbon-components/scss/components/checkbox/checkbox';
+@import 'carbon-components/scss/components/file-uploader/file-uploader';
+@import 'carbon-components/scss/components/content-switcher/content-switcher';

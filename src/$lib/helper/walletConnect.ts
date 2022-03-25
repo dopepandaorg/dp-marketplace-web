@@ -1,8 +1,3 @@
-import buffer from 'buffer'
-if (window) {
-	window.Buffer = buffer.Buffer
-}
-
 import WalletConnect from '@walletconnect/client'
 import QRCodeModal from 'algorand-walletconnect-qrcode-modal'
 import MyAlgoWallet from '@randlabs/myalgo-connect'
@@ -30,7 +25,7 @@ export const checkWallet = () => {
 		}
 	})
 
-	const hasWalletConnect = window.localStorage.getItem('walletconnect')
+	const hasWalletConnect = localStorage.getItem('walletconnect')
 	if (hasWalletConnect) {
 		onConnectPera(true)
 	}

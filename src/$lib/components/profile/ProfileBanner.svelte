@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { Button, OverflowMenu, OverflowMenuItem } from 'carbon-components-svelte'
-	import { Share16, UserFollow16 } from 'carbon-icons-svelte'
+	import { Edit16, Share16 } from 'carbon-icons-svelte'
 	import ProfileAvatar from './ProfileAvatar.svelte'
 	import ProfileAccountName from './ProfileAccountName.svelte'
 
@@ -22,7 +22,7 @@
 		</div>
 
 		<div class="profile-meta__action">
-			<Button size="field" kind="secondary" icon={UserFollow16}>Follow</Button>
+			<Button size="field" kind="secondary" icon={Edit16}>Edit Profile</Button>
 			<Button size="field" kind="secondary" icon={Share16} />
 			<OverflowMenu kind="secondary" flipped>
 				<OverflowMenuItem danger text="Report User" />

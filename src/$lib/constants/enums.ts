@@ -4,3 +4,8 @@ export enum LoadingStatus {
 	SUCCESS = 'SUCCESS',
 	ERROR = 'ERROR'
 }
+
+export enum CategoryTileTheme {
+	DARK = 'dark',
+	LIGHT = 'light'
+}

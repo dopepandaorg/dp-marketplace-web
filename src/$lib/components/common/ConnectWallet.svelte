@@ -1,3 +1,7 @@
+<script context="module" lang="ts">
+	export const ssr = false
+</script>
+
 <script lang="ts">
 	import { onDestroy, onMount } from 'svelte'
 	import { wallet } from '../../../stores/wallet'

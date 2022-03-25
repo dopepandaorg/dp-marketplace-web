@@ -1,10 +1,14 @@
 <script lang="ts">
-	import { Q_GET_CONTESTS } from '../../$lib/constants/queries'
 	import { operationStore, query } from '@urql/svelte'
+	import { Q_GET_CONTESTS } from '../../$lib/constants/queries'
+
+	import PageHeader from '../../$lib/components/common/PageHeader.svelte'
 
 	const contests = operationStore<any>(Q_GET_CONTESTS)
 	query(contests)
 </script>
+
+<PageHeader title="Contests" subtitle="Participate in ongoing contests and win prizes!" />
 
 <div class="wrapper">
 	<div class="container">

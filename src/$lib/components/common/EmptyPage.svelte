@@ -1,5 +1,5 @@
 <script lang="ts">
-	export let icon = null
+	export let icon
 	export let title
 	export let description = null
 </script>
@@ -23,11 +23,10 @@
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
+		align-items: center;
+
 		min-height: 300px;
 		padding: 4rem;
-
-		background-color: var(--dp--black-03);
-		border-radius: 5px;
 
 		h4 {
 			margin-bottom: 0.5rem;

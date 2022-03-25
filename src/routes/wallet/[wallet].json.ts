@@ -17,15 +17,18 @@ export const get: RequestHandler = async ({ params }) => {
 		})
 
 		if (walletResponse.account.assets) {
-			assets = walletResponse.account.assets.map((a) => {
-				const asset = asaAssets.find((asa) => asa.id === a['asset-id'])
+			assets = [
+				...assets,
+				...walletResponse.account.assets.map((a) => {
+					const asset = asaAssets.find((asa) => asa.id === a['asset-id'])
 
-				return {
-					id: a['asset-id'],
-					amount: a.amount,
-					...asset
-				}
-			})
+					return {
+						id: a['asset-id'],
+						amount: a.amount,
+						...asset
+					}
+				})
+			]
 		}
 	}
 
