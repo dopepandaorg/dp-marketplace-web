@@ -10,6 +10,9 @@
 	import Footer from '../$lib/components/Footer.svelte'
 	import Header from '../$lib/components/Header.svelte'
 
+	(window as any).global = window;
+	(window as any).global.Buffer = (window as any).global.Buffer || require('buffer').Buffer
+
 	// Initialize Hasura Client
 	initClient({ url: HASURA_CLIENT_URI })
 
