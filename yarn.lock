@@ -903,10 +903,10 @@ algorand-walletconnect-qrcode-modal@^1.7.4:
     preact "10.4.1"
     qrcode "1.4.4"
 
-algosdk@^1.14.0:
-  version "1.14.0"
-  resolved "https://registry.yarnpkg.com/algosdk/-/algosdk-1.14.0.tgz#729dada87cec141f8204fc77788a01a318fd6ea7"
-  integrity sha512-IaaomouKmuCnK+xLuz27X8DQro0ZjVyw4zHvV8HJap9PPDOQKbvpm+UIIsEf0CmC0xWPXIxfFbmlJ0y5CeGlqQ==
+algosdk@^1.15.0:
+  version "1.15.0"
+  resolved "https://registry.yarnpkg.com/algosdk/-/algosdk-1.15.0.tgz#f6837702966dcce8df724fdb35dbe7156f7f6f18"
+  integrity sha512-541JhpsmtIh9WcEHBrRsIJhmI8IXsMan0VtCHRfZ1GvWS8CjqafqJUXxDa2kgyZx3wdm/pKin5+gt7HcmfOuaQ==
   dependencies:
     algo-msgpack-with-bigint "^2.1.1"
     buffer "^6.0.2"
@@ -1180,10 +1180,10 @@ carbites@^1.0.6:
     "@ipld/dag-pb" "^2.0.2"
     multiformats "^9.0.4"
 
-carbon-components-svelte@^0.62.1:
-  version "0.62.1"
-  resolved "https://registry.yarnpkg.com/carbon-components-svelte/-/carbon-components-svelte-0.62.1.tgz#ef33a121062e2a70aa39b35cf23ca33584f2436f"
-  integrity sha512-tzDS7qJUCxvHve3MceXKUR3lA3S1OA/1fxmjxwHnuw6GBtkW5TjMdHkw4NJ9I+plvZt3wZZD3RioOYVGBtBAig==
+carbon-components-svelte@^0.62.2:
+  version "0.62.2"
+  resolved "https://registry.yarnpkg.com/carbon-components-svelte/-/carbon-components-svelte-0.62.2.tgz#34f40c92a86788a899be2f44497597fbb3f2544c"
+  integrity sha512-cHCZxEpcjc8dmpuW/n8M4mmHnap8WX/jbZsj1PFXFSZKkWC4m0El8OxpZVqDoobe2/GpIvC7a6i02WsvIJHELg==
   dependencies:
     flatpickr "4.6.9"
 
@@ -3571,10 +3571,10 @@ prettier-plugin-svelte@^2.6.0:
   resolved "https://registry.yarnpkg.com/prettier-plugin-svelte/-/prettier-plugin-svelte-2.6.0.tgz#0e845b560b55cd1d951d6c50431b4949f8591746"
   integrity sha512-NPSRf6Y5rufRlBleok/pqg4+1FyGsL0zYhkYP6hnueeL1J/uCm3OfOZPsLX4zqD9VAdcXfyEL2PYqGv8ZoOSfA==
 
-prettier@^2.6.0:
-  version "2.6.0"
-  resolved "https://registry.yarnpkg.com/prettier/-/prettier-2.6.0.tgz#12f8f504c4d8ddb76475f441337542fa799207d4"
-  integrity sha512-m2FgJibYrBGGgQXNzfd0PuDGShJgRavjUoRCw1mZERIWVSXF0iLzLm+aOqTAbLnC3n6JzUhAA8uZnFVghHJ86A==
+prettier@^2.6.1:
+  version "2.6.1"
+  resolved "https://registry.yarnpkg.com/prettier/-/prettier-2.6.1.tgz#d472797e0d7461605c1609808e27b80c0f9cfe17"
+  integrity sha512-8UVbTBYGwN37Bs9LERmxCPjdvPxlEowx2urIL6urHzdb3SDq4B/Z6xLFCblrSnE4iKWcS6ziJ3aOYrc1kz/E2A==
 
 protobufjs@^6.10.2, protobufjs@^6.11.2:
   version "6.11.2"
@@ -4302,10 +4302,10 @@ typescript@*, typescript@^4.2.4:
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.5.5.tgz#d8c953832d28924a9e3d37c73d729c846c5896f3"
   integrity sha512-TCTIul70LyWe6IJWT8QSYeA54WQe8EjQFU4wY52Fasj5UKx88LNYKCgBEHcOMOrFF1rKGbD8v/xcNWVUq9SymA==
 
-typescript@^4.6.2:
-  version "4.6.2"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.6.2.tgz#fe12d2727b708f4eef40f51598b3398baa9611d4"
-  integrity sha512-HM/hFigTBHZhLXshn9sN37H085+hQGeJHJ/X7LpBWLID/fbc2acUMfU+lGD98X81sKP+pFa9f0DZmCwB9GnbAg==
+typescript@^4.6.3:
+  version "4.6.3"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.6.3.tgz#eefeafa6afdd31d725584c67a0eaba80f6fc6c6c"
+  integrity sha512-yNIatDa5iaofVozS/uQJEl3JRWLKKGJKh6Yaiv0GLGSuhpFJe7P3SbHZ8/yjAHRQwKRoA6YZqlfjXWmVzoVSMw==
 
 uint8arrays@^3.0.0:
   version "3.0.0"
@@ -4419,10 +4419,10 @@ web-streams-polyfill@^3.1.1:
   resolved "https://registry.yarnpkg.com/web-streams-polyfill/-/web-streams-polyfill-3.2.0.tgz#a6b74026b38e4885869fb5c589e90b95ccfc7965"
   integrity sha512-EqPmREeOzttaLRm5HS7io98goBgZ7IVz79aDvqjD0kYXLtFZTc0T/U6wHTPKyIjb+MdN7DFIIX6hgdBEpWmfPA==
 
-web3.storage@^3.5.7:
-  version "3.5.7"
-  resolved "https://registry.yarnpkg.com/web3.storage/-/web3.storage-3.5.7.tgz#839e9abdd8369addac961a9c684df155a96cfeb2"
-  integrity sha512-TU8wmbocthzUwi4Enr2zSw5dUN593fYrDFEDzu5MHbUrF9e/pcfCLBxDa6ABD3/8LAq2JOjRT5sxY/lRfqESzg==
+web3.storage@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/web3.storage/-/web3.storage-4.0.0.tgz#adca2069b2654ae611bd5b17c384d9f1544c7528"
+  integrity sha512-JVCvh4lbtbigEYpeSyTigTH7CVnW6AARsgOwmNbfd9zbXFjnkSgl5CEHfKBHg+wlqZp9/PxnzDviScuiZ0ZmgA==
   dependencies:
     "@ipld/car" "^3.1.4"
     "@web-std/blob" "^3.0.4"
