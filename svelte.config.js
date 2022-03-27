@@ -2,6 +2,7 @@ import vercel from '@sveltejs/adapter-vercel'
 import preprocess from 'svelte-preprocess'
 import { optimizeImports, optimizeCss } from 'carbon-preprocess-svelte'
 import { NodeGlobalsPolyfillPlugin } from '@esbuild-plugins/node-globals-polyfill'
+import rollupNodePolyFill from 'rollup-plugin-node-polyfills'
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
@@ -22,13 +23,19 @@ const config = {
 		vite: {
 			resolve: {
 				alias: {
-					path: 'path-browserify'
+					path: 'path-browserify',
+					Buffer: 'rollup-plugin-node-polyfills/polyfills/buffer-es6'
+				}
+			},
+			build: {
+				transformMixedEsModules: true,
+				rollupOptions: {
+					plugins: [rollupNodePolyFill()]
 				}
 			},
 			optimizeDeps: {
-				exclude: ['@urql/svelte'],
+				exclude: ['@urql/svelte', 'graphql', 'algosdk'],
 				esbuildOptions: {
-					// Node.js global to browser globalThis
 					define: {
 						global: 'globalThis'
 					},
