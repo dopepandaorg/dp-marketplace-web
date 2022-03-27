@@ -1,31 +1,24 @@
 <script lang="ts">
 	import { toSvg } from 'jdenticon'
-	import { wallet } from '../../../stores/wallet'
-	import { onDestroy } from 'svelte'
 
-	let defaultAvatarSvg
-	let account
+	export let identifier = null
 
-	const walletSub = wallet.subscribe((wallet) => {
-		if (account !== wallet.account) {
-			account = wallet.account
-			defaultAvatarSvg = toSvg(account, 140, {
-				hues: [296],
-				lightness: {
-					color: [0.73, 1.0],
-					grayscale: [0.74, 1.0]
-				},
-				saturation: {
-					color: 0.32,
-					grayscale: 0.29
-				},
-				backColor: 'transparent',
-				padding: 0.175
-			})
-		}
-	})
-
-	onDestroy(walletSub)
+	let defaultAvatarSvg = ''
+	if (identifier) {
+		defaultAvatarSvg = toSvg(identifier, 140, {
+			hues: [296],
+			lightness: {
+				color: [0.73, 1.0],
+				grayscale: [0.74, 1.0]
+			},
+			saturation: {
+				color: 0.32,
+				grayscale: 0.29
+			},
+			backColor: 'transparent',
+			padding: 0.175
+		})
+	}
 </script>
 
 <div class="profile-avatar">

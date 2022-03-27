@@ -1,3 +1,7 @@
+<script context="module" lang="ts">
+	export const ssr = false
+</script>
+
 <script lang="ts">
 	import { onDestroy } from 'svelte'
 	import { goto } from '$app/navigation'
@@ -21,11 +25,6 @@
 		isOpen = false
 	}
 
-	const walletSub = wallet.subscribe((wallet) => {
-		isConnected = wallet.isConnected
-		account = formatWallet(wallet.account)
-	})
-
 	const walletDisconnect = () => {
 		hoverMenuExit()
 		setTimeout(() => onDisconnect(), 300)
@@ -35,6 +34,11 @@
 		goto(path)
 		hoverMenuExit()
 	}
+
+	const walletSub = wallet.subscribe((wallet) => {
+		isConnected = wallet.isConnected
+		account = formatWallet(wallet.account)
+	})
 
 	onDestroy(walletSub)
 </script>

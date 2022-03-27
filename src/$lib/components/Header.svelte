@@ -1,9 +1,15 @@
 <script lang="ts">
 	import { Link } from 'carbon-components-svelte'
+	import { onMount } from 'svelte'
 
 	import QuickNav from './common/QuickNav.svelte'
 	import Searchbar from './common/Searchbar.svelte'
-	import HeaderMenu from './header/HeaderMenu.svelte'
+
+	let HeaderMenu
+
+	onMount(async () => {
+		HeaderMenu = (await import('./header/HeaderMenu.svelte')).default
+	})
 </script>
 
 <header>
@@ -28,7 +34,7 @@
 					<Link href="/create" class="gradient-highlight">CREATE</Link>
 				</ul>
 
-				<HeaderMenu />
+				<svelte:component this={HeaderMenu} />
 			</div>
 		</div>
 	</div>

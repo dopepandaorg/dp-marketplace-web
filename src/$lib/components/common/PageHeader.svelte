@@ -1,10 +1,11 @@
 <script lang="ts">
 	export let title: string
 	export let subtitle: string = null
+	export let size: 'lg' | 'sm' = 'lg'
 </script>
 
 <div class="header__wrap">
-	<div class="container-sm">
+	<div class="container container-{size}">
 		<div class="header">
 			<h1 class="title">
 				{@html title}
@@ -19,7 +20,7 @@
 
 <style lang="scss">
 	.header__wrap {
-		padding: 4vw 1rem;
+		padding: 4vw 4vw;
 		background: linear-gradient(109.08deg, #fd9d5d 0%, #fd2ca0 49.53%, #3397ff 104.51%);
 		color: #fff;
 

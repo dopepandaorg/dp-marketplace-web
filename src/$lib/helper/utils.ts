@@ -7,7 +7,7 @@ export const formatWallet = (wallet: string, limit?: number) => {
 }
 
 export const formatAmount = (amount: number) => {
-	return Number(Number(amount / (1000 * 1000)).toFixed(2)).toLocaleString()
+	return Number(Number(amount / (1000 * 1000)).toFixed(3)).toLocaleString()
 }
 
 export const assetImageUrl = (chain: 'algo', assetId: string): string => {
@@ -15,6 +15,6 @@ export const assetImageUrl = (chain: 'algo', assetId: string): string => {
 }
 
 export const explorerAddressUrl = (chain: 'algo', account: string): string => {
-	const isTestnet = window.localStorage.getItem('dp_algo-network-testnet') == 'true'
+	const isTestnet = localStorage.getItem('dp_algo-network-testnet') == 'true'
 	return `https://${isTestnet ? 'testnet.' : ''}algoexplorer.io/address/${account}`
 }

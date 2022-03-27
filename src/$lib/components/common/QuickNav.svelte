@@ -14,6 +14,14 @@
 
 	const pageTypes = [
 		{
+			id: PageType.CONTESTS,
+			text: 'Contests',
+			path: '/contests',
+			allowedPaths: ['/contests'],
+			isDisabled: false,
+			tooltip: 'Coming Soon'
+		},
+		{
 			id: PageType.MARKETPLACE,
 			text: 'Marketplace',
 			path: '/',
@@ -43,14 +51,6 @@
 			path: '/launchpad',
 			allowedPaths: ['/launchpad'],
 			isDisabled: true,
-			tooltip: 'Coming Soon'
-		},
-		{
-			id: PageType.CONTESTS,
-			text: 'Contests',
-			path: '/contests',
-			allowedPaths: ['/contests'],
-			isDisabled: false,
 			tooltip: 'Coming Soon'
 		}
 	]

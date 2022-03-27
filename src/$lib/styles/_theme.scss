@@ -6,6 +6,9 @@
 	--dp--black-04: #262626;
 	--dp--black-05: #353535;
 	--dp--black-06: #444;
+
+	--dp--text-01: #fff;
+	--dp--text-05: #8d8d8d;
 }
 
 // Import theme
@@ -21,7 +24,7 @@ $carbon--theme: map-merge(
 		ui-03: #393939,
 		ui-04: #6f6f6f,
 		ui-05: #f4f4f4,
-		text-01: #f4f4f4,
+		text-01: var(--dp--text-01),
 		text-02: #c6c6c6,
 		text-03: #6f6f6f,
 		text-05: #8d8d8d,

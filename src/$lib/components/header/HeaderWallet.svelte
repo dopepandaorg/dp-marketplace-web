@@ -11,18 +11,22 @@
 
 	let account = ''
 
-	const walletSub = wallet.subscribe((wallet) => {
-		account = wallet.account
-	})
 	const openWalletExplorer = () => {
 		window.open(explorerAddressUrl('algo', account), '_blank')
 	}
+
 	const openPortfolio = () => {
 		goto('/profile/assets')
 	}
 
-	onMount(syncWalletAssets)
+	const walletSub = wallet.subscribe((wallet) => {
+		account = wallet.account
+	})
+
 	onDestroy(walletSub)
+	onMount(() => {
+		syncWalletAssets()
+	})
 </script>
 
 <div class="header-wallet">

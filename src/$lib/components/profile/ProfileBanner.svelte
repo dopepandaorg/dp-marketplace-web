@@ -1,35 +1,27 @@
 <script lang="ts">
-	import { onDestroy } from 'svelte'
 	import { Button, OverflowMenu, OverflowMenuItem } from 'carbon-components-svelte'
-	import { Edit16, Share16, UserFollow16 } from 'carbon-icons-svelte'
-	import { wallet } from '../../../stores/wallet'
+	import { Edit16, Share16 } from 'carbon-icons-svelte'
 	import ProfileAvatar from './ProfileAvatar.svelte'
 	import ProfileAccountName from './ProfileAccountName.svelte'
 
-	let account
-	const walletSub = wallet.subscribe((wallet) => {
-		account = wallet.account
-	})
-
-	onDestroy(walletSub)
+	export let name
+	export let handle
+	export let wallet
 </script>
 
 <div class="profile-banner__wrap">
 	<div class="profile-banner">
 		<div class="profile-banner__avatar">
-			<ProfileAvatar />
+			<ProfileAvatar identifier={wallet} />
 		</div>
-
-		<!-- <Button icon={Edit16} kind="tertiary">Edit Profile</Button> -->
 	</div>
 
 	<div class="profile-meta">
 		<div class="profile-meta__account">
-			<ProfileAccountName name={'DopePanda Org'} handle={'@dopepandaorg'} {account} />
+			<ProfileAccountName {name} {handle} account={wallet} />
 		</div>
 
 		<div class="profile-meta__action">
-			<Button size="field" kind="secondary" icon={UserFollow16}>Follow</Button>
 			<Button size="field" kind="secondary" icon={Edit16}>Edit Profile</Button>
 			<Button size="field" kind="secondary" icon={Share16} />
 			<OverflowMenu kind="secondary" flipped>

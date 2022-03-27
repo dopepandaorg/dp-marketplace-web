@@ -1,13 +1,14 @@
 import type { WalletType } from '../$lib/interfaces/wallet'
 import { writable, get } from 'svelte/store'
+import { browser } from '$app/env'
 
 /**
  * Initialize the wallet store
  */
 export const wallet = writable({
-	type: localStorage.getItem('wallet-type') || null,
-	account: localStorage.getItem('wallet-account') || null,
-	isConnected: !!localStorage.getItem('wallet-account'),
+	type: ((browser && localStorage.getItem('wallet-type')) || null) as WalletType,
+	account: (browser && localStorage.getItem('wallet-account')) || null,
+	isConnected: browser && !!localStorage.getItem('wallet-account'),
 	assets: []
 })
 
@@ -16,15 +17,11 @@ export const wallet = writable({
  */
 wallet.subscribe((wallet) => {
 	if (wallet.type) {
-		localStorage.setItem('wallet-type', wallet.type)
-	} else {
-		localStorage.removeItem('wallet-type')
+		browser && localStorage.setItem('wallet-type', wallet.type)
 	}
 
 	if (wallet.account) {
-		localStorage.setItem('wallet-account', wallet.account)
-	} else {
-		localStorage.removeItem('wallet-account')
+		browser && localStorage.setItem('wallet-account', wallet.account)
 	}
 })
 
@@ -53,6 +50,9 @@ export const clearWalletData = () => {
 		isConnected: false,
 		account: null
 	}))
+
+	browser && localStorage.removeItem('wallet-type')
+	browser && localStorage.removeItem('wallet-account')
 }
 
 /**

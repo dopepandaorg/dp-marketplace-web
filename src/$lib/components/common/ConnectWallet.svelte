@@ -1,3 +1,7 @@
+<script context="module" lang="ts">
+	export const ssr = false
+</script>
+
 <script lang="ts">
 	import { onDestroy, onMount } from 'svelte'
 	import { wallet } from '../../../stores/wallet'
@@ -17,8 +21,8 @@
 		open = false
 		account = formatWallet(wallet.account)
 	})
-	onDestroy(walletSub)
 
+	onDestroy(walletSub)
 	onMount(() => {
 		checkWallet()
 	})

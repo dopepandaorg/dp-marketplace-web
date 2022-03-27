@@ -2,15 +2,20 @@
 	import { onDestroy } from 'svelte'
 	import { page } from '$app/stores'
 
-	let path
-	let basePath = '/profile'
+	export let basePath = '/profile'
 
+	let path
 	const pageSub = page.subscribe(({ url }) => {
 		path = url.pathname
 	})
 	onDestroy(pageSub)
 
 	const navigationItems = [
+		{
+			id: 'overview',
+			label: 'Overview',
+			path: `${basePath}`
+		},
 		{
 			id: 'collections',
 			label: 'Collections',
@@ -20,6 +25,11 @@
 			id: 'creations',
 			label: 'Creations',
 			path: `${basePath}/creations`
+		},
+		{
+			id: 'assets',
+			label: 'Assets',
+			path: `${basePath}/assets`
 		},
 		{
 			id: 'activity',

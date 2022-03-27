@@ -17,7 +17,7 @@
 							<div class="footer__explore__hotlink__image">
 								<ImageLoader src="" />
 							</div>
-							<label for="hotlink-staking">Staking</label>
+							<label for="hotlink-staking">Liquidity Staking</label>
 						</div>
 						<div id="hotlink-games" class="footer__explore__hotlink">
 							<div class="footer__explore__hotlink__image">

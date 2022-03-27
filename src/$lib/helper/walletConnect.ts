@@ -1,11 +1,6 @@
-import buffer from 'buffer'
-if (window) {
-	window.Buffer = buffer.Buffer
-}
-
 import WalletConnect from '@walletconnect/client'
 import QRCodeModal from 'algorand-walletconnect-qrcode-modal'
-import MyAlgoWallet from '@randlabs/myalgo-connect'
+import MyAlgoConnect from '@randlabs/myalgo-connect'
 
 import { WalletType } from '../interfaces/wallet'
 import { setWalletData, clearWalletData } from '../../stores/wallet'
@@ -30,7 +25,7 @@ export const checkWallet = () => {
 		}
 	})
 
-	const hasWalletConnect = window.localStorage.getItem('walletconnect')
+	const hasWalletConnect = localStorage.getItem('walletconnect')
 	if (hasWalletConnect) {
 		onConnectPera(true)
 	}
@@ -40,7 +35,7 @@ export const checkWallet = () => {
  * Myalgo
  */
 export const onConnnectMyalgo = () => {
-	const myAlgoWallet = new MyAlgoWallet({ bridgeUrl: 'https://dev.myalgo.com/bridge' })
+	const myAlgoWallet = new MyAlgoConnect({ bridgeUrl: 'https://dev.myalgo.com/bridge' })
 
 	myAlgoWallet
 		.connect({ shouldSelectOneAccount: true })

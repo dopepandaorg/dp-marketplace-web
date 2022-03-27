@@ -11,7 +11,7 @@
 	{#if name && handle}
 		<div class="profile-account-name__meta">
 			<div class="profile-account-name__name">{name}</div>
-			<div class="profile-account-name__handle gradient-highlight">{handle}</div>
+			<div class="profile-account-name__handle gradient-highlight">@{handle}</div>
 		</div>
 	{/if}
 
