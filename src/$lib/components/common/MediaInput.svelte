@@ -10,6 +10,7 @@
 	import { upload } from '../../../$lib/helper/web3StorageClient'
 	import { Close16, SwitchLayer_216, TrashCan16 } from 'carbon-icons-svelte'
 
+	export let label = 'Media'
 	export let value
 	export let isValid = false
 
@@ -75,13 +76,14 @@
 			isValid = isFileCIDValid
 		} else if (selectedTypeIndex === 1) {
 			value = inputCID
+			isInputCIDValid = inputCID.length >= 8
 			isValid = isInputCIDValid
 		}
 	}
 </script>
 
 <div class="media-input bx--form-item">
-	<label for="">Media*</label>
+	<label for="">{label}*</label>
 
 	<div class="media-input-wrapper type--{selectedTypeIndex}">
 		<div class="media-input__switch">

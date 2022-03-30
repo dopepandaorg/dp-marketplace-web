@@ -1,3 +1,8 @@
+export enum NetworkEnv {
+	TESTNET = 'testnet',
+	MAINNET = 'mainnet'
+}
+
 export enum LoadingStatus {
 	NONE = 'NONE',
 	IN_PROGRESS = 'IN_PROGRESS',
@@ -8,4 +13,9 @@ export enum LoadingStatus {
 export enum CategoryTileTheme {
 	DARK = 'dark',
 	LIGHT = 'light'
+}
+
+export enum AssetType {
+	FT = 'ft',
+	NFT = 'nft'
 }

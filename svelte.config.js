@@ -34,7 +34,7 @@ const config = {
 				}
 			},
 			optimizeDeps: {
-				exclude: ['@urql/svelte', 'graphql', 'algosdk'],
+				exclude: ['@urql/svelte', 'graphql'],
 				esbuildOptions: {
 					define: {
 						global: 'globalThis'

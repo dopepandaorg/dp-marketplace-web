@@ -23,7 +23,7 @@
 		{#if isConnected}
 			<CreateForm />
 		{:else}
-			<WalletNotConnected icon="" title="Connect" description="Connect" />
+			<WalletNotConnected />
 		{/if}
 	</div>
 </div>

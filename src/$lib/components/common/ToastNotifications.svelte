@@ -11,17 +11,12 @@
 {#if toastList}
 	<section>
 		{#each toastList as toast (toast.id)}
-			<ToastNotification
-				lowContrast
-				kind={toast.kind}
-				title={toast.title}
-				subtitle={toast.subtitle}
-			/>
+			<ToastNotification kind={toast.kind} title={toast.title} subtitle={toast.subtitle} />
 		{/each}
 	</section>
 {/if}
 
-<style lang="postcss">
+<style lang="scss">
 	section {
 		position: fixed;
 		top: 5rem;

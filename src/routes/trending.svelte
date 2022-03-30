@@ -3,7 +3,7 @@
 </script>
 
 <svelte:head>
-	<title>Explore | Marketplace | DopePanda</title>
+	<title>Trending | Marketplace | DopePanda</title>
 </svelte:head>
 
 <section class="section">

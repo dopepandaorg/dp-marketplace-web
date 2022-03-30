@@ -3,18 +3,27 @@ import { gql } from '@urql/svelte'
 /**
  * Profiles
  */
-export const Q_GET_PROFILE_BY_HANDLE = (handle: string) => gql`
-    query {
-        profiles(where: {handle: {_eq: "${handle}"}}) {
-            display_name
-            handle
-            wallet
-        }
-    }
+export const Q_GET_PROFILE_BY_HANDLE = gql`
+	query GetProfileByHandle($handle: String) {
+		profiles(where: { handle: { _eq: $handle } }) {
+			display_name
+			handle
+			wallet
+		}
+	}
 `
 export const Q_GET_PROFILE = gql`
 	query GetProfileByWallet($wallet: String!) {
 		profiles_by_pk(wallet: $wallet) {
+			display_name
+			handle
+			wallet
+		}
+	}
+`
+export const Q_SYNC_PROFILE = gql`
+	mutation SyncProfileWithTx($txId: String, $wallet: String) {
+		SyncProfileWithTx(txId: $txId, wallet: $wallet) {
 			display_name
 			handle
 			wallet

@@ -1,7 +1,9 @@
 <script lang="ts">
-	export let icon
-	export let title
-	export let description = null
+	import ConnectWallet from './ConnectWallet.svelte'
+
+	let icon = '/images/working-progress-icon.svg'
+	let title = 'Wallet Not Connected'
+	let description = 'Connect your wallet to access'
 </script>
 
 <div class="empty-tab">
@@ -16,6 +18,10 @@
 	{#if description}
 		<p>{description}</p>
 	{/if}
+
+	<div class="action">
+		<ConnectWallet />
+	</div>
 </div>
 
 <style lang="scss">
@@ -39,6 +45,10 @@
 				width: 8rem;
 				height: 8rem;
 			}
+		}
+
+		.action {
+			margin-top: 2rem;
 		}
 	}
 </style>

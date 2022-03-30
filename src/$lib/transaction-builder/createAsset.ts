@@ -3,20 +3,20 @@ import {
 	SuggestedParams,
 	makeAssetCreateTxnWithSuggestedParamsFromObject
 } from 'algosdk'
-import MyAlgoConnect from '@randlabs/myalgo-connect'
-import { getAlgoClient } from '../helper/algoClient'
+import { algoSubmitTransaction, getAlgoClient } from '../helper/algoClient'
 import { SignedTxn, WalletType } from '../interfaces/wallet'
 import { addToast } from '../../stores/toast'
 import { N_ERROR_CREATE_TXN } from '../constants/notifications'
 import type { AssetMetadata } from '../interfaces/asset'
+import { onMyalgoSignTx, onPeraSignTx } from '../helper/walletConnect'
 
 export const buildTransactionCreateASA = async (
 	walletType: WalletType,
 	walletAddress: string,
 	assetMetadata: AssetMetadata,
 	fractions?: number
-): Promise<string> => {
-	let transactionId
+): Promise<Transaction> => {
+	let txn: Transaction
 
 	try {
 		// Load Algorand client
@@ -24,9 +24,45 @@ export const buildTransactionCreateASA = async (
 		const params = await algodClient.getTransactionParams().do()
 
 		// Build transaction object
-		const txn = buildTransactionCreateASATxn(walletAddress, params, assetMetadata, fractions)
-		let signedTxn: SignedTxn
+		txn = buildTransactionCreateASATxn(walletAddress, params, assetMetadata, fractions)
+		// let signedTxn: SignedTxn
 
+		// switch (walletType) {
+		// 	case WalletType.MYALGO:
+		// 		signedTxn = await executeTransactionCreateASAMyAlgo(txn)
+		// 		const myAlgoTxSubmit = await algoSubmitTransaction(signedTxn)
+		// 		txId = myAlgoTxSubmit.txId
+		// 		confirmedRound = myAlgoTxSubmit.confirmedRound
+		// 		break
+		// 	case WalletType.PERA:
+		// 		signedTxn = await executeTransactionCreateASAPera(txn)
+		// 		const peraTxSubmit = await algoSubmitTransaction(signedTxn)
+		// 		txId = peraTxSubmit.txId
+		// 		confirmedRound = peraTxSubmit.confirmedRound
+		// 		break
+		// }
+
+		// if (!txId) {
+		// 	throw new Error('Unable to generate transaction ID')
+		// }
+	} catch (error) {
+		// Display error notification
+		addToast(N_ERROR_CREATE_TXN)
+		console.error(error)
+		throw new Error(error)
+	}
+
+	return txn
+}
+
+export const signTransactionCreateASA = async (
+	walletType: WalletType,
+	txn: Transaction
+): Promise<SignedTxn> => {
+	let signedTxn: SignedTxn
+
+	try {
+		// Build transaction object
 		switch (walletType) {
 			case WalletType.MYALGO:
 				signedTxn = await executeTransactionCreateASAMyAlgo(txn)
@@ -35,20 +71,85 @@ export const buildTransactionCreateASA = async (
 				signedTxn = await executeTransactionCreateASAPera(txn)
 				break
 		}
-
-		if (signedTxn) {
-			transactionId = await algodClient.sendRawTransaction(signedTxn.blob).do()
-		} else {
-			throw new Error()
-		}
 	} catch (error) {
 		// Display error notification
 		addToast(N_ERROR_CREATE_TXN)
+		console.error(error)
 		throw new Error(error)
 	}
 
-	return transactionId
+	return signedTxn
 }
+
+export const submitTransactionCreateASA = async (
+	signedTxn: SignedTxn
+): Promise<{ txId: string; confirmedRound: number }> => {
+	let txId: string
+	let confirmedRound: number
+
+	try {
+		const myAlgoTxSubmit = await algoSubmitTransaction(signedTxn)
+		txId = myAlgoTxSubmit.txId
+		confirmedRound = myAlgoTxSubmit.confirmedRound
+
+		// if (!txId) {
+		// 	throw new Error('Unable to generate transaction ID')
+		// }
+	} catch (error) {
+		// Display error notification
+		addToast(N_ERROR_CREATE_TXN)
+		console.error(error)
+		throw new Error(error)
+	}
+
+	return { txId, confirmedRound }
+}
+
+// export const buildTransactionCreateASA = async (
+// 	walletType: WalletType,
+// 	walletAddress: string,
+// 	assetMetadata: AssetMetadata,
+// 	fractions?: number
+// ): Promise<{ txId: string; confirmedRound: number }> => {
+// 	let txId: string
+// 	let confirmedRound: number
+
+// 	try {
+// 		// Load Algorand client
+// 		const algodClient = getAlgoClient()
+// 		const params = await algodClient.getTransactionParams().do()
+
+// 		// Build transaction object
+// 		const txn = buildTransactionCreateASATxn(walletAddress, params, assetMetadata, fractions)
+// 		let signedTxn: SignedTxn
+
+// 		switch (walletType) {
+// 			case WalletType.MYALGO:
+// 				signedTxn = await executeTransactionCreateASAMyAlgo(txn)
+// 				const myAlgoTxSubmit = await algoSubmitTransaction(signedTxn)
+// 				txId = myAlgoTxSubmit.txId
+// 				confirmedRound = myAlgoTxSubmit.confirmedRound
+// 				break
+// 			case WalletType.PERA:
+// 				signedTxn = await executeTransactionCreateASAPera(txn)
+// 				const peraTxSubmit = await algoSubmitTransaction(signedTxn)
+// 				txId = peraTxSubmit.txId
+// 				confirmedRound = peraTxSubmit.confirmedRound
+// 				break
+// 		}
+
+// 		if (!txId) {
+// 			throw new Error('Unable to generate transaction ID')
+// 		}
+// 	} catch (error) {
+// 		// Display error notification
+// 		addToast(N_ERROR_CREATE_TXN)
+// 		console.error(error)
+// 		throw new Error(error)
+// 	}
+
+// 	return { txId, confirmedRound }
+// }
 
 export const buildTransactionCreateASATxn = (
 	from: string,
@@ -58,6 +159,8 @@ export const buildTransactionCreateASATxn = (
 ): Transaction => {
 	const txn = makeAssetCreateTxnWithSuggestedParamsFromObject({
 		from,
+		manager: from,
+		reserve: from,
 		assetName: assetMetadata.assetName,
 		unitName: assetMetadata.unitName,
 		assetURL: assetMetadata.assetURL,
@@ -71,12 +174,9 @@ export const buildTransactionCreateASATxn = (
 }
 
 export const executeTransactionCreateASAMyAlgo = async (txn: Transaction): Promise<SignedTxn> => {
-	const myAlgoConnect = new MyAlgoConnect({ bridgeUrl: 'https://dev.myalgo.com/bridge' })
-	const signedTxn = await myAlgoConnect.signTransaction(txn.toByte())
-
-	return signedTxn
+	return onMyalgoSignTx(txn)
 }
 
 export const executeTransactionCreateASAPera = (txn: Transaction): Promise<SignedTxn> => {
-	return null
+	return onPeraSignTx(txn)
 }

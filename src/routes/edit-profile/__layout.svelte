@@ -8,19 +8,13 @@
 </script>
 
 <script>
-	import { operationStore, query } from '@urql/svelte'
 	import { wallet } from '../../stores/wallet'
-	import { Q_GET_PROFILE } from '../../$lib/constants/queries'
 	import ProfileBanner from '../../$lib/components/profile/ProfileBanner.svelte'
-	import ProfileNavigation from '../../$lib/components/profile/ProfileNavigation.svelte'
 	import ProfileBannerSkeleton from '../../$lib/components/profile/ProfileBannerSkeleton.svelte'
-	import ProfileContentSkeleton from '../../$lib/components/profile/ProfileContentSkeleton.svelte'
+	import { fetchProfile, profile } from '../../stores/profile'
 
 	let isLoading = true
 	let userProfile
-
-	const profile = operationStore(Q_GET_PROFILE, { wallet: $wallet.account })
-	query(profile)
 
 	profile.subscribe((p) => {
 		isLoading = p.fetching
@@ -35,6 +29,8 @@
 			}
 		}
 	})
+
+	fetchProfile({ wallet: $wallet.account })
 </script>
 
 <svelte:head>
@@ -45,20 +41,17 @@
 	<div class="container">
 		{#if !isLoading && userProfile}
 			<ProfileBanner
-				isSelf={userProfile.wallet === $wallet.account}
+				isEditProfile={true}
 				name={userProfile.display_name}
 				handle={userProfile.handle}
 				wallet={userProfile.wallet}
 			/>
-			<ProfileNavigation />
 
 			<div class="profile-section">
 				<slot />
 			</div>
 		{:else if isLoading}
 			<ProfileBannerSkeleton />
-			<ProfileNavigation />
-			<ProfileContentSkeleton />
 		{/if}
 	</div>
 </div>

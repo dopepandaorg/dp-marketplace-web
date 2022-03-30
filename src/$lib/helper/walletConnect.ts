@@ -1,13 +1,17 @@
+import algosdk, { Transaction } from 'algosdk'
+import { formatJsonRpcRequest } from '@json-rpc-tools/utils'
 import WalletConnect from '@walletconnect/client'
 import QRCodeModal from 'algorand-walletconnect-qrcode-modal'
 import MyAlgoConnect from '@randlabs/myalgo-connect'
+import { Buffer } from 'buffer'
 
-import { WalletType } from '../interfaces/wallet'
+import { SignedTxn, WalletType } from '../interfaces/wallet'
 import { setWalletData, clearWalletData } from '../../stores/wallet'
 import { addToast } from '../../stores/toast'
 import { N_WALLET_DISCONNECT } from '../constants/notifications'
+import { getWalletConnectBridge, getMyAlgoBridge } from '../constants/assets'
 
-let walletConnectConnector
+let walletConnectConnector: WalletConnect
 
 /**
  * A slient check for a pre connected wallet
@@ -15,7 +19,7 @@ let walletConnectConnector
  */
 export const checkWallet = () => {
 	walletConnectConnector = new WalletConnect({
-		bridge: 'https://bridge.walletconnect.org',
+		bridge: getWalletConnectBridge(),
 		qrcodeModal: QRCodeModal,
 		clientMeta: {
 			name: 'DopePanda Marketplace',
@@ -35,7 +39,7 @@ export const checkWallet = () => {
  * Myalgo
  */
 export const onConnnectMyalgo = () => {
-	const myAlgoWallet = new MyAlgoConnect({ bridgeUrl: 'https://dev.myalgo.com/bridge' })
+	const myAlgoWallet = new MyAlgoConnect({ bridgeUrl: getMyAlgoBridge() })
 
 	myAlgoWallet
 		.connect({ shouldSelectOneAccount: true })
@@ -55,7 +59,7 @@ export const onConnnectMyalgo = () => {
  */
 export const onConnectPera = (silent?: boolean) => {
 	walletConnectConnector = new WalletConnect({
-		bridge: 'https://bridge.walletconnect.org',
+		bridge: getWalletConnectBridge(),
 		qrcodeModal: QRCodeModal,
 		clientMeta: {
 			name: 'DopePanda Marketplace',
@@ -84,23 +88,23 @@ export const onConnectPera = (silent?: boolean) => {
 		setWalletData(WalletType.PERA, account)
 	})
 
-	walletConnectConnector.on('session_update', (error, payload) => {
+	walletConnectConnector.on('disconnect', (error) => {
 		if (error) {
 			throw error
 		}
 
-		console.log('Session Update', payload)
-	})
-
-	walletConnectConnector.on('disconnect', (error, payload) => {
-		if (error) {
-			throw error
-		}
-
-		console.log('disconnect payload', payload)
 		clearWalletData()
 		addToast(N_WALLET_DISCONNECT)
 	})
+}
+
+/**
+ *
+ */
+export const onClearPera = () => {
+	if (walletConnectConnector) {
+		walletConnectConnector.transportClose()
+	}
 }
 
 export const onDisconnect = () => {
@@ -111,3 +115,120 @@ export const onDisconnect = () => {
 		clearWalletData()
 	}
 }
+
+export const onMyalgoSignTx = async (txn: Transaction): Promise<SignedTxn> => {
+	const myAlgoConnect = new MyAlgoConnect({ bridgeUrl: getMyAlgoBridge() })
+	const signedTxns = await myAlgoConnect.signTransaction(txn.toByte())
+	return signedTxns
+}
+
+export const onMyalgoSignTxMultiple = async (txn: Transaction): Promise<SignedTxn[]> => {
+	const myAlgoConnect = new MyAlgoConnect({ bridgeUrl: getMyAlgoBridge() })
+
+	const txns = [txn]
+	const txnGroup = algosdk.assignGroupID(txns)
+
+	const signedTxns = await myAlgoConnect.signTransaction(txnGroup.map((txn) => txn.toByte()))
+	return signedTxns
+}
+
+export const onPeraSignTx = async (txn: Transaction): Promise<SignedTxn> => {
+	onConnectPera(true)
+
+	const signedTx = { txID: txn.txID(), blob: null }
+	const encodedTxn = Buffer.from(algosdk.encodeUnsignedTransaction(txn)).toString('base64')
+	const txnsToSign = [
+		{
+			txn: encodedTxn,
+			message: 'Description of transaction being signed'
+		}
+	]
+
+	console.log('txnsToSign', signedTx, txnsToSign)
+
+	const requestParams = [txnsToSign]
+	const request = formatJsonRpcRequest('algo_signTxn', requestParams)
+	const result: Array<string | null> = await walletConnectConnector.sendCustomRequest(request)
+
+	const decodedResult = result
+		.filter((element) => !!element)
+		.map((element) => {
+			return element ? new Uint8Array(Buffer.from(element, 'base64')) : null
+		})
+
+	if (decodedResult && decodedResult.length > 0) {
+		console.log('decodedResult', decodedResult)
+		signedTx.blob = decodedResult[0]
+	}
+
+	console.log('decodedResult', decodedResult, signedTx)
+
+	return signedTx
+}
+
+// export const onPeraSignTxMultiple = async (txn: Transaction): Promise<SignedTxn> => {
+// 	if (walletConnectConnector) {
+// 		const txns = [txn]
+// 		const txnsToSign: any = txns.map((txn) => {
+// 			const encodedTxn = Buffer.from(algosdk.encodeUnsignedTransaction(txn)).toString('base64')
+
+// 			return {
+// 				txn: encodedTxn,
+// 				message: 'Description of transaction being signed'
+// 			}
+// 		})
+
+// 		const requestParams = [txnsToSign]
+
+// 		const request = formatJsonRpcRequest('algo_signTxn', requestParams)
+// 		const result: Array<string | null> = await walletConnectConnector.sendCustomRequest(request)
+
+// 		const indexToGroup = (index: number) => {
+// 			for (let group = 0; group < txnsToSign.length; group++) {
+// 				const groupLength = txnsToSign[group].length
+// 				console.log('group length', groupLength)
+// 				if (index < groupLength) {
+// 					return [group, index]
+// 				}
+
+// 				index -= groupLength
+// 			}
+
+// 			throw new Error(`Index too large for groups: ${index}`)
+// 		}
+
+// 		const signedPartialTxns: Array<Array<Uint8Array | null>> = txnsToSign.map(() => [])
+// 		result.forEach((r, i) => {
+// 			console.log('result each', r, i)
+
+// 			const [group, groupIndex] = indexToGroup(i)
+// 			const toSign = txnsToSign[group][groupIndex]
+
+// 			if (r == null) {
+// 				if (toSign.signers !== undefined && toSign.signers?.length < 1) {
+// 					signedPartialTxns[group].push(null)
+// 					return
+// 				}
+// 				throw new Error(`Transaction at index ${i}: was not signed when it should have been`)
+// 			}
+
+// 			if (toSign.signers !== undefined && toSign.signers?.length < 1) {
+// 				throw new Error(`Transaction at index ${i} was signed when it should not have been`)
+// 			}
+
+// 			const rawSignedTxn = Buffer.from(r, 'base64')
+// 			signedPartialTxns[group].push(new Uint8Array(rawSignedTxn))
+// 		})
+
+// 		const signedTxns: Uint8Array[][] = signedPartialTxns.map((signedPartialTxnsInternal, group) => {
+// 			return signedPartialTxnsInternal.map((stxn, groupIndex) => {
+// 				if (stxn) {
+// 					return stxn
+// 				}
+// 			})
+// 		})
+// 	} else {
+// 		console.log('nope')
+// 		return null
+// 	}
+// }

@@ -1,12 +1,23 @@
 <script lang="ts">
 	import { Button, OverflowMenu, OverflowMenuItem } from 'carbon-components-svelte'
-	import { Edit16, Share16 } from 'carbon-icons-svelte'
+	import { ArrowLeft16, Edit16, Share16 } from 'carbon-icons-svelte'
 	import ProfileAvatar from './ProfileAvatar.svelte'
 	import ProfileAccountName from './ProfileAccountName.svelte'
+	import { goto } from '$app/navigation'
 
 	export let name
 	export let handle
 	export let wallet
+	export let isSelf = false
+	export let isEditProfile = false
+
+	const editProfile = () => {
+		goto('/edit-profile')
+	}
+
+	const backToProfile = () => {
+		goto('/profile')
+	}
 </script>
 
 <div class="profile-banner__wrap">
@@ -21,13 +32,25 @@
 			<ProfileAccountName {name} {handle} account={wallet} />
 		</div>
 
-		<div class="profile-meta__action">
-			<Button size="field" kind="secondary" icon={Edit16}>Edit Profile</Button>
-			<Button size="field" kind="secondary" icon={Share16} />
-			<OverflowMenu kind="secondary" flipped>
-				<OverflowMenuItem danger text="Report User" />
-			</OverflowMenu>
-		</div>
+		{#if !isEditProfile}
+			<div class="profile-meta__action">
+				{#if isSelf}
+					<Button size="field" kind="secondary" on:click={editProfile} icon={Edit16}
+						>Edit Profile</Button
+					>
+				{/if}
+				<Button size="field" kind="secondary" icon={Share16} />
+				<OverflowMenu kind="secondary" flipped>
+					<OverflowMenuItem danger text="Report User" />
+				</OverflowMenu>
+			</div>
+		{:else}
+			<div class="profile-meta__action">
+				<Button size="field" kind="secondary" on:click={backToProfile} icon={ArrowLeft16}
+					>Back to Profile</Button
+				>
+			</div>
+		{/if}
 	</div>
 </div>
 

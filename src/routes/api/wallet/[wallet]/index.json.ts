@@ -1,18 +1,19 @@
-import { API_WALLET } from '../../$lib/constants/api'
 import type { RequestHandler } from '@sveltejs/kit'
-import asaAssets from '../../$lib/data/asaAssets.json'
+import { ALGO_EXPLORER_FETCH_OPTIONS, API_WALLET } from '../../../../$lib/constants/api'
+import { getNativeASAs } from '../../../../$lib/constants/assets'
 
 export const get: RequestHandler = async ({ params }) => {
 	const { wallet } = params
 
-	const walletRequest = await fetch(API_WALLET(wallet))
+	const walletRequest = await fetch(API_WALLET(wallet), { ...ALGO_EXPLORER_FETCH_OPTIONS })
 	const walletResponse = await walletRequest.json()
+	const nativeASAs = getNativeASAs()
 
 	let assets = []
 
 	if (walletResponse.account) {
 		assets.push({
-			...asaAssets[0],
+			...nativeASAs[0],
 			amount: walletResponse.account.amount
 		})
 
@@ -20,7 +21,7 @@ export const get: RequestHandler = async ({ params }) => {
 			assets = [
 				...assets,
 				...walletResponse.account.assets.map((a) => {
-					const asset = asaAssets.find((asa) => asa.id === a['asset-id'])
+					const asset = nativeASAs.find((asa) => asa.id === a['asset-id'])
 
 					return {
 						id: a['asset-id'],

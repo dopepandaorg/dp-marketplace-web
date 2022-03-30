@@ -21,7 +21,7 @@
 	size="xl"
 	required
 	labelText="IPFS CID"
-	placeholder="ifps:// ..."
+	placeholder="ipfs:// ..."
 	invalid={!isValid}
 	{invalidText}
 	on:input={validate}
