@@ -9,7 +9,7 @@
 		</div>
 		<div>
 			<div class="contest-detail__title">
-				<SkeletonPlaceholder style="width: 25rem; height: 2.5rem" />
+				<SkeletonPlaceholder style="width: 25rem; max-width: 100%; height: 2.5rem;" />
 			</div>
 			<div class="contest-detail__description">
 				<SkeletonText paragraph lines={5} />
@@ -62,8 +62,14 @@
 		&__header,
 		&__info {
 			display: grid;
-			grid-template-columns: 1fr 1fr;
+			grid-template-columns: 1fr;
 			gap: 4rem;
+			overflow: hidden;
+
+			@media screen and (min-width: 768px) {
+				grid-template-columns: 1fr 1fr;
+				gap: 4rem;
+			}
 		}
 	}
 </style>

@@ -2,11 +2,7 @@
 	import { operationStore, subscription } from '@urql/svelte'
 
 	import { ImageLoader } from 'carbon-components-svelte'
-	import {
-		Q_SUB_CONTEST_ENTRY_LEADERBOARD,
-		Q_SUB_CONTEST_VOTES
-	} from '../../../$lib/constants/queries'
-	import { subscribe } from 'svelte/internal'
+	import { Q_SUB_CONTEST_ENTRY_LEADERBOARD } from '../../../$lib/constants/queries'
 	import { convertIPFSUrl } from '../../../$lib/constants/assets'
 
 	import type { ContestRecord } from '../../../$lib/interfaces/contest'
@@ -35,9 +31,9 @@
 
 			const cloneArray = [...contestEntries]
 			cloneArray.sort((a, b) => b.votes - a.votes)
-			
-			contestEntries = contestEntries.map((ce, i) => {
-				const rank = cloneArray.findIndex(ca => ca.asset_id === ce.asset_id)
+
+			contestEntries = contestEntries.map((ce) => {
+				const rank = cloneArray.findIndex((ca) => ca.asset_id === ce.asset_id)
 				return { ...ce, rank: rank + 1, votes: ce.votes || 0 }
 			})
 		}
@@ -85,9 +81,9 @@
 				{/each}
 			</div>
 		{:else if tabIndex === 1}
-			Prizes
+			{@html contest.prizes_html}
 		{:else if tabIndex === 2}
-			Rules
+			{@html contest.rules_html}
 		{/if}
 	</div>
 </div>
@@ -98,13 +94,6 @@
 			h1 {
 				font-size: 2.25rem;
 			}
-		}
-
-		&__meta {
-			margin-top: 1rem;
-			background-color: pink;
-			padding: 1rem;
-			border-radius: 5px;
 		}
 
 		&__image {
@@ -138,8 +127,13 @@
 		&__header,
 		&__info {
 			display: grid;
-			grid-template-columns: 1fr 1fr;
-			gap: 4rem;
+			grid-template-columns: 1fr;
+			gap: 2rem;
+
+			@media screen and (min-width: 768px) {
+				grid-template-columns: 1fr 1fr;
+				gap: 4rem;
+			}
 		}
 
 		&__content {
@@ -148,8 +142,18 @@
 
 		&__entries {
 			display: grid;
-			grid-template-columns: 1fr 1fr 1fr;
-			gap: 4rem;
+			grid-template-columns: 1fr;
+			gap: 2rem;
+
+			@media screen and (min-width: 768px) {
+				grid-template-columns: 1fr 1fr;
+				gap: 4rem;
+			}
+
+			@media screen and (min-width: 992px) {
+				grid-template-columns: 1fr 1fr 1fr;
+				gap: 4rem;
+			}
 		}
 	}
 </style>

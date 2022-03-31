@@ -40,7 +40,7 @@ export const Q_SYNC_PROFILE = gql`
  */
 export const Q_GET_CONTESTS = gql`
 	query GetContest {
-		contests {
+		contests(order_by: { start_at: asc }) {
 			id
 			slug
 			title
@@ -156,6 +156,8 @@ export const Q_GET_CONTEST_BY_SLUG = gql`
 			end_at
 			image_cid
 			description
+			prizes_html
+			rules_html
 			contest_entries {
 				id
 				title

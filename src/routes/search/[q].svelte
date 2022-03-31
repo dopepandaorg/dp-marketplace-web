@@ -2,7 +2,6 @@
 	import { onMount } from 'svelte'
 	import { page } from '$app/stores'
 	import { doSearchNew, search } from '../../stores/search'
-	import SearchTile from '../../$lib/components/search/SearchTile.svelte'
 	import { LoadingStatus } from '../../$lib/constants/enums'
 	import EmptyPage from '../../$lib/components/common/EmptyPage.svelte'
 	import ProfileContentSkeleton from '../../$lib/components/profile/ProfileContentSkeleton.svelte'

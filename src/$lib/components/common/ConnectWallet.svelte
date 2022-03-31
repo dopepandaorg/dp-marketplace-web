@@ -12,6 +12,7 @@
 	import { Wallet16 } from 'carbon-icons-svelte'
 	import { formatWallet } from '../../../$lib/helper/utils'
 
+	export let label = 'Connect'
 	let open = false
 	let isConnected = false
 	let account = ''
@@ -35,7 +36,7 @@
 			<img src="/icons/algo.svg" alt="Algo" />
 		</div>
 	{:else}
-		<Button kind="tertiary" icon={Wallet16} on:click={() => (open = true)}>Connect</Button>
+		<Button kind="tertiary" icon={Wallet16} on:click={() => (open = true)}>{label}</Button>
 	{/if}
 </div>
 
@@ -96,7 +97,7 @@
 			display: flex;
 			align-items: center;
 			padding: 0.75rem 1rem;
-			background-color: var(--dp--black-02);
+			background-color: var(--dp--black-03);
 			border-radius: 4px;
 			margin-bottom: 1.75rem;
 			transition: all 0.3s;

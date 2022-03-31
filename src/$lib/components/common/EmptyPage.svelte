@@ -24,6 +24,7 @@
 		flex-direction: column;
 		justify-content: center;
 		align-items: center;
+		text-align: center;
 
 		min-height: 300px;
 		padding: 4rem;

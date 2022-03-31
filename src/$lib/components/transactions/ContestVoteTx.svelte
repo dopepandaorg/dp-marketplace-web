@@ -10,7 +10,6 @@
 	import { Q_CAST_VOTE, Q_SUB_DID_CONTEST_ENTRY_VOTE } from '../../../$lib/constants/queries'
 	import TxStep from './TxStep.svelte'
 	import { LoadingStatus } from '../../../$lib/constants/enums'
-	import VoteGraphic from '../../../../static/images/vote-graphic.svg'
 
 	const updateDBMutation = mutation({ query: Q_CAST_VOTE })
 
@@ -19,12 +18,10 @@
 	export let isComplete = false
 	export let isSubmitting = false
 	export let isVoted = false
-	export let onSubmit: () => void
 
 	let open = false
 	let walletType = $wallet.type
 	let walletAccount = $wallet.account
-	let walletIsConnected = $wallet.isConnected
 
 	let txn: Transaction
 	let isTxnLoading: boolean
@@ -36,7 +33,6 @@
 	let confirmedRound: number
 
 	let isUpdateDBLoading: boolean
-
 
 	let confirmModal = () => {
 		open = true
@@ -86,7 +82,6 @@
 			updateDBMutation({ txId, wallet: walletAccount, contestId })
 				.then(() => {
 					isComplete = true
-					onSubmit()
 					clear()
 				})
 				.finally(() => (isUpdateDBLoading = false))
@@ -134,7 +129,7 @@
 	<div class="tx-modal__action">
 		{#if isVoted}
 			<div class="voted-success">
-				<InlineLoading status="finished" description="Voted!"/>
+				<InlineLoading status="finished" description="Voted!" />
 			</div>
 		{:else}
 			<Button
@@ -208,7 +203,7 @@
 				/>
 			</div>
 			<div class="tx-modal__graphic">
-				<VoteGraphic />
+				<img src="/images/vote-graphic.svg" alt="" />
 			</div>
 		</div>
 	</Modal>
@@ -250,6 +245,12 @@
 	.tx-modal__inner {
 		display: flex;
 		align-items: center;
+		flex-direction: column-reverse;
+		width: 100%;
+
+		@media screen and (min-width: 768px) {
+			flex-direction: row;
+		}
 	}
 
 	.tx-modal__steps {
@@ -258,9 +259,21 @@
 	}
 
 	.tx-modal__graphic {
-		flex: 1;
-		display: flex;
-		align-items: center;
-		justify-content: center;
+		img {
+			width: 120px;
+			height: 120px;
+		}
+
+		@media screen and (min-width: 768px) {
+			flex: 1;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+
+			img {
+				width: 200px;
+				height: 200px;
+			}
+		}
 	}
 </style>

@@ -50,7 +50,12 @@
 <style lang="scss">
 	.profile-navigation {
 		display: flex;
+		flex-direction: column;
 		margin-bottom: 2rem;
+
+		@media screen and (min-width: 768px) {
+			flex-direction: row;
+		}
 
 		> div {
 			flex: 1;

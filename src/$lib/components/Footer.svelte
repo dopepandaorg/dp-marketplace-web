@@ -27,9 +27,11 @@
 							<label for="hotlink-staking">Liquidity Staking</label>
 						</div>
 						<div id="hotlink-games" class="footer__explore__hotlink">
-							<div class="footer__explore__hotlink__image">
-								<ImageLoader src="nft-hotlink-graphic.png" />
-							</div>
+							<a href="https://dopepanda.org/#nft" target="_blank">
+								<div class="footer__explore__hotlink__image">
+									<ImageLoader src="/images/nft-hotlink-graphic.png" />
+								</div>
+							</a>
 							<label for="hotlink-games">Panda NFTs</label>
 						</div>
 					</div>
@@ -46,16 +48,6 @@
 							<li>
 								<a href="https://discord.gg/KMsyYaQC" target="_blank" rel="nofollow"
 									><LogoDiscord32 /></a
-								>
-							</li>
-							<li>
-								<a href="https://www.reddit.com/r/dopepanda" target="_blank" rel="nofollow"
-									><RedditIcon /></a
-								>
-							</li>
-							<li>
-								<a href="https://t.me/joinchat/3cBfw4dMqsAxYzJl" target="_blank" rel="nofollow"
-									><TelegramIcon /></a
 								>
 							</li>
 							<li>
@@ -90,7 +82,12 @@
 	footer {
 		.footer__inner {
 			display: flex;
+			flex-direction: column;
 			padding: 0 1rem;
+
+			@media screen and (min-width: 768px) {
+				flex-direction: row;
+			}
 
 			h4 {
 				margin-bottom: 1rem;
@@ -103,14 +100,19 @@
 
 			.footer__inner {
 				display: grid;
-				grid-template-columns: 1fr 1fr;
-				gap: 200px;
+				grid-template-columns: 1fr;
+				gap: 2rem;
+
+				@media screen and (min-width: 768px) {
+					grid-template-columns: 1fr 1fr;
+					gap: 200px;
+				}
 			}
 		}
 
 		.footer__bottom {
 			padding: 2rem 0;
-			background-color: var(--dp--black-03);
+			background-color: var(--dp--black-02);
 
 			.footer__inner {
 				display: flex;
@@ -121,6 +123,11 @@
 		.footer__privacy_menu,
 		.footer__copyright {
 			font-size: 0.875rem;
+
+			@media screen and (max-width: 767px) {
+				margin-bottom: 1rem;
+				text-align: center;
+			}
 
 			&,
 			a {
@@ -133,8 +140,18 @@
 				display: flex;
 				list-style: none;
 
+				@media screen and (max-width: 767px) {
+					flex-direction: column;
+					align-items: center;
+				}
+
 				li {
-					margin-left: 1.5rem;
+					margin-top: 1rem;
+
+					@media screen and (min-width: 768px) {
+						margin-left: 1.5rem;
+						margin-top: 0;
+					}
 
 					&:first-child {
 						margin-left: 0;
@@ -145,8 +162,13 @@
 
 		.footer__explore__hotlinks {
 			display: grid;
-			grid-template-columns: 1fr 1fr;
+			grid-template-columns: 1fr;
 			gap: 1rem;
+
+			@media screen and (min-width: 768px) {
+				grid-template-columns: 1fr 1fr;
+				gap: 1rem;
+			}
 		}
 
 		.footer__explore__hotlink {
@@ -190,11 +212,16 @@
 						display: flex;
 						align-items: center;
 						justify-content: center;
-						width: 3.75rem;
-						height: 3.75rem;
+						width: 2.75rem;
+						height: 2.75rem;
 						border-radius: 50%;
 						background-color: var(--dp--black-03);
 						transition: background-color 0.3s;
+
+						@media screen and (min-width: 768px) {
+							width: 3.75rem;
+							height: 3.75rem;
+						}
 
 						&:hover {
 							background-color: var(--dp--black-06);
@@ -202,9 +229,14 @@
 					}
 
 					:global(svg) {
-						width: 32px;
-						height: 32px;
+						width: 24px;
+						height: 24px;
 						float: left;
+
+						@media screen and (min-width: 768px) {
+							width: 32px;
+							height: 32px;
+						}
 					}
 				}
 			}

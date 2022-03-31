@@ -1,5 +1,5 @@
 import type { Transaction } from 'algosdk'
-import { algoSubmitTransaction, getAlgoClient } from '../helper/algoClient'
+import { algoSubmitTransaction } from '../helper/algoClient'
 import { SignedTxn, WalletType } from '../interfaces/wallet'
 import { addToast } from '../../stores/toast'
 import { N_ERROR_CREATE_TXN } from '../constants/notifications'

@@ -15,11 +15,11 @@
 	export let isValid
 	export let name
 	export let bio
-	export let twitter = ''
-	export let instagam = ''
-	export let website = ''
-	export let avatarIpfsCID = ''
-	export let bannerIpfsCID = ''
+	export const twitter = ''
+	export const instagam = ''
+	export const website = ''
+	export const avatarIpfsCID = ''
+	export const bannerIpfsCID = ''
 	export let isComplete = false
 	export let isSubmitting = false
 	export let onSubmit: () => void

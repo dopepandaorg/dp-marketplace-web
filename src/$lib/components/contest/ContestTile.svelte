@@ -33,7 +33,10 @@
 	})
 </script>
 
-<div class="contest-tile" on:click={() => goto(`/contests/${contest.slug}`)}>
+<div
+	class="contest-tile"
+	on:click={() => status === ContestStatus.ACTIVE && goto(`/contests/${contest.slug}`)}
+>
 	<div class="contest-tile__image">
 		<div>
 			<ImageLoader fadeIn src={convertIPFSUrl(contest.image_cid)} />
@@ -80,6 +83,7 @@
 
 		&__image {
 			position: relative;
+
 			> div {
 				padding-top: 56.25%;
 			}
@@ -99,7 +103,11 @@
 		}
 
 		&__content {
-			padding: 1.25rem 1.25rem 1.5rem;
+			padding: 1rem 1rem 1.125rem;
+
+			@media screen and (min-width: 768px) {
+				padding: 1.25rem 1.25rem 1.5rem;
+			}
 		}
 
 		&__title-wrap {
@@ -110,25 +118,43 @@
 
 		&__title {
 			h4 {
-				font-size: 1.5rem;
+				font-size: 1.25rem;
 				font-weight: 500;
+				line-height: 1.1;
 				margin: 0;
+
+				@media screen and (min-width: 768px) {
+					font-size: 1.5rem;
+				}
 			}
 		}
 
 		&__status {
-			line-height: 1rem;
+			font-size: 0.75rem;
+			min-width: 100px;
+			display: flex;
+			justify-content: flex-end;
+			align-items: center;
+
+			@media screen and (min-width: 768px) {
+				font-size: 0.875rem;
+			}
 
 			&:before {
 				content: '';
 				display: flex;
 				float: left;
 
-				width: 1rem;
-				height: 1rem;
+				width: 0.875rem;
+				height: 0.875rem;
 				border-radius: 50%;
 				background-color: green;
 				margin-right: 0.5rem;
+
+				@media screen and (min-width: 768px) {
+					width: 1rem;
+					height: 1rem;
+				}
 			}
 
 			&.status--active {
@@ -149,8 +175,13 @@
 		}
 
 		&__duration {
+			font-size: 0.75rem;
 			opacity: 0.5;
-			margin-top: 0.375rem;
+			margin-top: 0.5rem;
+
+			@media screen and (min-width: 768px) {
+				font-size: 0.875rem;
+			}
 		}
 
 		&__meta {
@@ -159,8 +190,11 @@
 		}
 
 		&__meta-item {
-			font-size: 1rem;
 			margin-right: 1rem;
+
+			@media screen and (min-width: 768px) {
+				font-size: 1rem;
+			}
 		}
 	}
 </style>

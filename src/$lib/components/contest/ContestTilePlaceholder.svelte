@@ -28,6 +28,7 @@
 	.contest-tile {
 		background-color: var(--dp--black-03);
 		border-radius: 10px;
+		overflow: hidden;
 
 		&:hover {
 			cursor: pointer;

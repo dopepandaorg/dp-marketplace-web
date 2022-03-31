@@ -19,6 +19,9 @@ export interface ContestRecord {
 			count: number
 		}
 	}
+
+	prizes_html?: string
+	rules_html?: string
 }
 
 export interface ContestEntryRecord {

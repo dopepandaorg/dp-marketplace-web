@@ -3,6 +3,6 @@
 </script>
 
 <EmptyTab
-	title="No NFT's Here :("
-	description="You can change the network you're on. Or Buy you first NFT from the Marketplace"
+	title="There's no activity here :("
+	description="You can change the network you're on, or join us as a Beta tester and get early access to more features!"
 />

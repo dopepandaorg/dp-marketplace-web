@@ -7,7 +7,8 @@
 	import IconAlgoExplorer from '../../../../static/icons/algoexplorer.svg'
 	import ContestVoteTx from '../../../$lib/components/transactions/ContestVoteTx.svelte'
 	import { getGetOrdinal } from '../../../$lib/helper/stringUtils'
-import { wallet } from '../../../stores/wallet';
+	import { wallet } from '../../../stores/wallet'
+	import ConnectWallet from './ConnectWallet.svelte'
 
 	export let id
 	export let contestId
@@ -18,7 +19,7 @@ import { wallet } from '../../../stores/wallet';
 	let isLoading = false
 	let walletIsConnected = false
 
-	wallet.subscribe(w => {
+	wallet.subscribe((w) => {
 		walletIsConnected = w.isConnected
 	})
 
@@ -31,8 +32,6 @@ import { wallet } from '../../../stores/wallet';
 			.finally(() => (isLoading = false))
 	})
 
-	const onSubmit = () => {}
-
 	const openIpfs = (ipfsCID: string) => {
 		window.open(convertIPFSUrlOnly(ipfsCID), '_blank')
 	}
@@ -40,7 +39,6 @@ import { wallet } from '../../../stores/wallet';
 	const openAlgoExplorer = () => {
 		window.open(`https://algoexplorer.io/asset/${id}`, '_blank')
 	}
-
 </script>
 
 <div class="asset-tile">
@@ -105,9 +103,9 @@ import { wallet } from '../../../stores/wallet';
 
 				<div class="asset-tile__action">
 					{#if walletIsConnected}
-						<ContestVoteTx {contestId} assetId={id} {onSubmit} />
+						<ContestVoteTx {contestId} assetId={id} />
 					{:else}
-						Connect Wallet to Vote
+						<ConnectWallet label="Connect Wallet to Vote" />
 					{/if}
 				</div>
 			</div>
@@ -176,8 +174,15 @@ import { wallet } from '../../../stores/wallet';
 		&__title-wrap {
 			position: relative;
 			display: flex;
+			flex-direction: column;
 			justify-content: space-between;
 			align-items: center;
+			padding-top: 1rem;
+
+			@media screen and (min-width: 768px) {
+				flex-direction: row;
+				padding-top: 0;
+			}
 		}
 
 		&__title {
@@ -191,8 +196,13 @@ import { wallet } from '../../../stores/wallet';
 		&__links {
 			display: flex;
 			justify-content: flex-end;
-			min-width: 80px;
-			margin-left: 1rem;
+			margin-top: 0.75rem;
+
+			@media screen and (min-width: 768px) {
+				min-width: 80px;
+				margin-left: 1rem;
+				margin-top: 0;
+			}
 		}
 
 		&__collection {
@@ -218,6 +228,12 @@ import { wallet } from '../../../stores/wallet';
 		}
 
 		&__meta-item {
+			text-align: center;
+
+			@media screen and (min-width: 768px) {
+				text-align: left;
+			}
+
 			&__label {
 				font-size: 0.75rem;
 				margin-bottom: 0.375rem;
@@ -232,6 +248,10 @@ import { wallet } from '../../../stores/wallet';
 
 		&__action {
 			margin-top: 1.25rem;
+
+			:global(.bx--btn) {
+				width: 100%;
+			}
 		}
 
 		&:hover {

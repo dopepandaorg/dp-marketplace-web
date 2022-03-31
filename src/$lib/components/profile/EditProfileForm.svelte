@@ -2,7 +2,7 @@
 	import { Form, FormGroup, Button, TextInput, TextArea } from 'carbon-components-svelte'
 
 	import MediaInput from '../common/MediaInput.svelte'
-	import { fetchProfile, getProfile } from '../../../stores/profile'
+	import { getProfile } from '../../../stores/profile'
 	import ProfileHandleInput from './ProfileHandleInput.svelte'
 	import EditProfileTx from '../transactions/EditProfileTx.svelte'
 
@@ -44,7 +44,6 @@
 	$: {
 		// Validate form with default conditions
 		const isNameValid = !!name
-		const isBioValid = !!bio
 
 		// Combine all individual validations
 		isValid = isNameValid

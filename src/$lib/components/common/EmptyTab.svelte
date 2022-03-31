@@ -24,10 +24,17 @@
 		flex-direction: column;
 		justify-content: center;
 		min-height: 300px;
-		padding: 4rem;
+		padding: 2rem;
+		text-align: center;
 
 		background-color: var(--dp--black-03);
 		border-radius: 5px;
+
+		@media screen and (min-width: 768px) {
+			padding: 4rem;
+			min-height: 300px;
+			text-align: left;
+		}
 
 		h4 {
 			margin-bottom: 0.5rem;
