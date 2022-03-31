@@ -1,0 +1,34 @@
+{
+	"mainnet": [
+		{
+			"id": 0,
+			"name": "Algorand",
+			"unit": "ALGO",
+			"total": 10000000000000000,
+			"decimals": 6
+		},
+		{
+			"id": 391379500,
+			"name": "Dope Panda",
+			"unit": "DPANDA",
+			"total": 1000000000000000,
+			"decimals": 6
+		}
+	],
+	"testnet": [
+		{
+			"id": 0,
+			"name": "Algorand",
+			"unit": "ALGO",
+			"total": 10000000000000000,
+			"decimals": 6
+		},
+		{
+			"id": 62484045,
+			"name": "Dope Panda",
+			"unit": "DPANDA",
+			"total": 1000000000000000,
+			"decimals": 6
+		}
+	]
+}

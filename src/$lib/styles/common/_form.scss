@@ -1,0 +1,38 @@
+.bx--form-item {
+	margin-bottom: 2.5rem;
+
+	&:last-child {
+		margin-bottom: 0;
+	}
+
+	> label,
+	.bx--text-area__label-wrapper label {
+		font-size: 1.125rem;
+		font-weight: 500;
+		color: var(--dp--text-01);
+		margin-bottom: 1rem;
+	}
+
+	.bx--text-input,
+	.bx--text-area {
+		border-radius: 5px;
+		border-bottom: 0;
+	}
+
+	.bx--text-area {
+		padding: 1rem;
+		min-height: 100px;
+	}
+}
+
+.bx--fieldset {
+	margin-bottom: 2.5rem;
+}
+
+.bx--form {
+	hr {
+		opacity: 0.25;
+		border-top: 0;
+		margin-bottom: 2.5rem;
+	}
+}
