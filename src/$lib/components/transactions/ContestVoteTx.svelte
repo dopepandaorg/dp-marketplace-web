@@ -69,9 +69,10 @@
 
 					updateDB()
 				})
-				.catch(() => {
+				.catch((error) => {
 					txId = null
 					confirmedRound = null
+					console.log('error in submitting transaction', error)
 				})
 				.finally(() => (isSubmitting = false))
 		}
