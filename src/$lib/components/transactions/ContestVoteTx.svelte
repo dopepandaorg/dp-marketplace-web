@@ -106,6 +106,8 @@
 	}
 
 	const close = () => {
+		clear()
+
 		if (walletType === WalletType.PERA) {
 			onClearPera()
 		}
@@ -120,7 +122,6 @@
 	subscription(contestVote).subscribe((cv) => {
 		if (cv.data && cv.data.contest_entries_votes) {
 			isVoted = cv.data.contest_entries_votes.length > 0
-			console.log(cv.data, contestId, assetId, walletAccount)
 		}
 	})
 </script>

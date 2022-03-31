@@ -155,11 +155,8 @@ export const onPeraSignTx = async (txn: Transaction, description: string): Promi
 		})
 
 	if (decodedResult && decodedResult.length > 0) {
-		console.log('decodedResult', decodedResult)
 		signedTx.blob = decodedResult[0]
 	}
-
-	console.log('decodedResult', decodedResult, signedTx)
 
 	return signedTx
 }
