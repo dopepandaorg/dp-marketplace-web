@@ -16,12 +16,6 @@ export const assets = writable<AssetsStore>({
 	opted: []
 })
 
-/**
- * Handle local storage subscription
- */
-assets.subscribe((assets) => {
-	console.log('assets being synced', assets)
-})
 
 /**
  * Helper action to fetch a user's wallet assets

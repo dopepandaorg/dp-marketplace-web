@@ -37,7 +37,6 @@
 	}
 
 	const onUpdate = () => {
-		console.log('update!!!')
 		profileData = getProfile()
 	}
 
