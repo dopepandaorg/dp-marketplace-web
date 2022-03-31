@@ -228,10 +228,12 @@
 		}
 
 		&__meta-item {
-			text-align: center;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
 
 			@media screen and (min-width: 768px) {
-				text-align: left;
+				align-items: flex-start;
 			}
 
 			&__label {

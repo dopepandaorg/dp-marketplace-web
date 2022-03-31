@@ -17,7 +17,7 @@
 	export let assetId
 	export let isComplete = false
 	export let isSubmitting = false
-	export let isVoted = false
+	export let isVoted: boolean = null
 
 	let open = false
 	let walletType = $wallet.type
@@ -136,7 +136,7 @@
 			<Button
 				on:click={confirmModal}
 				type="button"
-				disabled={open}
+				disabled={open || isVoted === null}
 				icon={isSubmitting && InlineLoading}>Vote</Button
 			>
 		{/if}
