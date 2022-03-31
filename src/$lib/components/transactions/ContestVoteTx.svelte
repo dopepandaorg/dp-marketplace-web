@@ -257,6 +257,7 @@
 	.tx-modal__steps {
 		flex: 1;
 		margin-top: 2rem;
+		width: 100%;
 	}
 
 	.tx-modal__graphic {

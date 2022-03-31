@@ -251,6 +251,7 @@
 
 			:global(.bx--btn) {
 				width: 100%;
+				max-width: none;
 			}
 		}
 
