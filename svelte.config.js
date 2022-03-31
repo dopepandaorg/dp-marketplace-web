@@ -3,6 +3,7 @@ import preprocess from 'svelte-preprocess'
 import { optimizeImports, optimizeCss } from 'carbon-preprocess-svelte'
 import { NodeGlobalsPolyfillPlugin } from '@esbuild-plugins/node-globals-polyfill'
 import rollupNodePolyFill from 'rollup-plugin-node-polyfills'
+import svg from '@poppanator/sveltekit-svg'
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
@@ -34,7 +35,7 @@ const config = {
 				}
 			},
 			optimizeDeps: {
-				exclude: ['@urql/svelte', 'graphql', 'algosdk'],
+				exclude: ['@urql/svelte', 'graphql', 'subscriptions-transport-ws'],
 				esbuildOptions: {
 					define: {
 						global: 'globalThis'
@@ -47,7 +48,7 @@ const config = {
 					]
 				}
 			},
-			plugins: []
+			plugins: [svg({})]
 		}
 	}
 }

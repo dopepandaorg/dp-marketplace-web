@@ -62,7 +62,7 @@ export const syncWalletAssets = () => {
 	const $wallet = get(wallet)
 
 	if ($wallet.isConnected) {
-		fetch(`/wallet/${$wallet.account}.json`)
+		fetch(`/api/wallet/${$wallet.account}.json`)
 			.then((response) => response.json())
 			.then((body) => wallet.update((wallet) => ({ ...wallet, assets: body.assets })))
 	}

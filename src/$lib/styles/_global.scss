@@ -14,10 +14,10 @@
 	-webkit-background-clip: text;
 	background-clip: text;
 
-	@media screen and (max-width: 767px) {
-		text-shadow: 0px 0px #000;
-		display: block;
-	}
+	// @media screen and (max-width: 767px) {
+	// 	text-shadow: 0px 0px #000;
+	// 	display: block;
+	// }
 }
 
 .gradient-bg {
@@ -25,7 +25,11 @@
 }
 
 .wrapper {
-	padding: 4vw 1rem;
+	padding: 2rem 1rem;
+
+	@media screen and (min-width: 768px) {
+		padding: 4vw 4vw;
+	}
 }
 
 .container {
@@ -50,6 +54,18 @@ a {
 	text-decoration: none;
 }
 
+p {
+	margin-bottom: 1rem;
+
+	&:last-child {
+		margin-bottom: 0;
+	}
+}
+
 button {
 	font-weight: 600;
+}
+
+.bx--inline-notification--low-contrast.bx--inline-notification--error {
+	background-color: var(--dp--black-02);
 }

@@ -16,14 +16,19 @@
 	<title>Create with Minter | DopePanda</title>
 </svelte:head>
 
-<PageHeader title="Minter" subtitle="Create and mint your digital art on Algorand" size="sm" />
+<PageHeader
+	title="Minter"
+	subtitle="Create and mint your digital art on Algorand"
+	size="sm"
+	theme={1}
+/>
 
 <div class="section section-create">
 	<div class="container container-sm">
 		{#if isConnected}
 			<CreateForm />
 		{:else}
-			<WalletNotConnected icon="" title="Connect" description="Connect" />
+			<WalletNotConnected />
 		{/if}
 	</div>
 </div>

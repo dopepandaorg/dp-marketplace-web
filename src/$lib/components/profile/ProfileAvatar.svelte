@@ -2,10 +2,11 @@
 	import { toSvg } from 'jdenticon'
 
 	export let identifier = null
+	export let size = 140
 
 	let defaultAvatarSvg = ''
 	if (identifier) {
-		defaultAvatarSvg = toSvg(identifier, 140, {
+		defaultAvatarSvg = toSvg(identifier, size, {
 			hues: [296],
 			lightness: {
 				color: [0.73, 1.0],
@@ -21,15 +22,12 @@
 	}
 </script>
 
-<div class="profile-avatar">
+<div class="profile-avatar" style="width: {size}px; height: {size}px">
 	{@html defaultAvatarSvg}
 </div>
 
 <style lang="scss">
 	.profile-avatar {
-		width: 140px;
-		height: 140px;
-
 		background: linear-gradient(109.08deg, #fd9d5d 0%, #fd2ca0 49.53%, #3397ff 104.51%);
 		border-radius: 50%;
 

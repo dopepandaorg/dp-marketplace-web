@@ -8,14 +8,17 @@
 </script>
 
 <div class="profile-account-name">
-	{#if name && handle}
+	{#if name || (name && handle)}
 		<div class="profile-account-name__meta">
 			<div class="profile-account-name__name">{name}</div>
-			<div class="profile-account-name__handle gradient-highlight">@{handle}</div>
+
+			{#if handle}
+				<div class="profile-account-name__handle gradient-highlight">@{handle}</div>
+			{/if}
 		</div>
 	{/if}
 
-	<div class="profile-account-name__account {name && handle ? 'style-muted' : ''}">
+	<div class="profile-account-name__account {name || handle ? 'style-muted' : ''}">
 		{formatWallet(account, 9)}
 		<CopyButton kind="ghost" text={account} />
 	</div>
@@ -30,14 +33,24 @@
 
 		&__meta {
 			display: flex;
+			flex-direction: column;
 			align-items: center;
 			margin-bottom: 0.5rem;
+
+			@media screen and (min-width: 768px) {
+				flex-direction: row;
+			}
 		}
 
 		&__handle {
 			font-size: 1.125rem;
 			line-height: 1.3;
-			margin-left: 1rem;
+			margin-top: 0.5rem;
+
+			@media screen and (min-width: 768px) {
+				margin-left: 1rem;
+				margin-top: 0;
+			}
 		}
 
 		&__account {

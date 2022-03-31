@@ -45,6 +45,7 @@
 	<div class="container">
 		{#if !isLoading && userProfile}
 			<ProfileBanner
+				isSelf={userProfile.wallet === $wallet.account}
 				name={userProfile.display_name}
 				handle={userProfile.handle}
 				wallet={userProfile.wallet}

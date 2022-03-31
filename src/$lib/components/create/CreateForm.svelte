@@ -1,19 +1,9 @@
 <script lang="ts">
-	import {
-		Form,
-		FormGroup,
-		Button,
-		TextInput,
-		TextArea,
-		Toggle,
-		InlineLoading
-	} from 'carbon-components-svelte'
+	import { Form, FormGroup, Button, TextInput, TextArea, Toggle } from 'carbon-components-svelte'
 
 	import AssetUnitInput from './AssetUnitInput.svelte'
-	import MediaInput from './MediaInput.svelte'
-	import { wallet } from '../../../stores/wallet'
-	import { buildTransactionCreateASA } from '../../../$lib/transaction-builder/createAsset'
-	import type { AssetMetadata } from 'src/$lib/interfaces/asset'
+	import MediaInput from '../common/MediaInput.svelte'
+	import CreateAssetTx from '../transactions/CreateAssetTx.svelte'
 
 	let name = ''
 	let unit = ''
@@ -38,25 +28,6 @@
 		isValid = false
 	}
 
-	let submit = (e: Event) => {
-		e.preventDefault()
-
-		if (isValid) {
-			isSubmitting = true
-
-			// Build Asset Metadata
-			const metadata: AssetMetadata = {
-				assetName: name,
-				unitName: unit,
-				assetURL: `ipfs://${ipfsCID}`
-			}
-
-			buildTransactionCreateASA($wallet.type, $wallet.account, metadata, 0)
-				.then(() => clearForm())
-				.finally(() => (isSubmitting = false))
-		}
-	}
-
 	$: {
 		// Validate form with default conditions
 		const isNameValid = !!name
@@ -66,7 +37,7 @@
 	}
 </script>
 
-<Form on:submit={submit}>
+<Form on:submit={(e) => e.preventDefault()}>
 	<FormGroup>
 		<TextInput
 			size="xl"
@@ -105,40 +76,27 @@
 	<hr />
 
 	<div class="form-submit">
-		<div>
-			<Button kind="secondary" on:click={clearForm} disabled={isSubmitting}>Clear</Button>
-		</div>
-
-		<div>
-			{#if isSubmitting}
-				<InlineLoading status="active" description="Submitting ..." />
-			{:else}
-				<Button type="submit" disabled={!isValid}>Create</Button>
-			{/if}
-		</div>
+		<Button kind="secondary" on:click={clearForm} disabled={isSubmitting}>Clear</Button>
+		<CreateAssetTx
+			{name}
+			{unit}
+			{ipfsCID}
+			{isSensitive}
+			{isValid}
+			onClear={clearForm}
+			bind:isSubmitting
+		/>
 	</div>
 </Form>
 
 <style lang="scss">
 	.form-submit {
-		display: flex;
+		display: grid;
 		justify-content: space-between;
+		grid-template-columns: 1fr 1fr;
+		gap: 4rem;
 
-		> div:first-child {
-			flex: 1;
-			margin-right: 2rem;
-		}
-
-		> div:last-child {
-			flex: 1;
-			margin-left: 2rem;
-
-			display: flex;
-			align-items: center;
-			justify-content: center;
-		}
-
-		:global(button) {
+		:global(.bx--btn) {
 			width: 100%;
 			min-height: 3.5rem;
 		}

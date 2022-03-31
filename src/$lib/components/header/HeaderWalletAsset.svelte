@@ -2,12 +2,13 @@
 	import { wallet } from '../../../stores/wallet'
 	import { onDestroy } from 'svelte'
 	import { assetImageUrl, formatAmount } from '../../../$lib/helper/utils'
-	import asaAssets from '../../../$lib/data/asaAssets.json'
+	import { DPANDA_ASSET_ID, getNativeASAs } from '../../../$lib/constants/assets'
 	import { Button, SkeletonPlaceholder } from 'carbon-components-svelte'
 	import { goto } from '$app/navigation'
 
 	export let unit: string
-	const asset = (asaAssets as any[]).find((asa) => asa.unit === unit)
+	const nativeAssets = getNativeASAs()
+	const asset = nativeAssets.find((asa) => asa.unit === unit)
 	let isLoading = true
 	let amount = null
 
@@ -41,7 +42,7 @@
 		<div class="header-wallet-asset__amount">
 			{formatAmount(amount)}
 		</div>
-	{:else if asset.id === 391379500}
+	{:else if asset.id === DPANDA_ASSET_ID()}
 		<div class="header-wallet-asset__opt-in">
 			<Button size="small" on:click={() => goto('/membership')}>Opt In</Button>
 		</div>

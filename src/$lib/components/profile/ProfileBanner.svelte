@@ -1,12 +1,23 @@
 <script lang="ts">
 	import { Button, OverflowMenu, OverflowMenuItem } from 'carbon-components-svelte'
-	import { Edit16, Share16 } from 'carbon-icons-svelte'
+	import { ArrowLeft16, Edit16, Share16 } from 'carbon-icons-svelte'
 	import ProfileAvatar from './ProfileAvatar.svelte'
 	import ProfileAccountName from './ProfileAccountName.svelte'
+	import { goto } from '$app/navigation'
 
 	export let name
 	export let handle
 	export let wallet
+	export let isSelf = false
+	export let isEditProfile = false
+
+	const editProfile = () => {
+		goto('/edit-profile')
+	}
+
+	const backToProfile = () => {
+		goto('/profile')
+	}
 </script>
 
 <div class="profile-banner__wrap">
@@ -21,13 +32,25 @@
 			<ProfileAccountName {name} {handle} account={wallet} />
 		</div>
 
-		<div class="profile-meta__action">
-			<Button size="field" kind="secondary" icon={Edit16}>Edit Profile</Button>
-			<Button size="field" kind="secondary" icon={Share16} />
-			<OverflowMenu kind="secondary" flipped>
-				<OverflowMenuItem danger text="Report User" />
-			</OverflowMenu>
-		</div>
+		{#if !isEditProfile}
+			<div class="profile-meta__action">
+				{#if isSelf}
+					<Button size="field" kind="secondary" on:click={editProfile} icon={Edit16}
+						>Edit Profile</Button
+					>
+				{/if}
+				<Button size="field" kind="secondary" icon={Share16} />
+				<OverflowMenu kind="secondary" flipped>
+					<OverflowMenuItem danger text="Report User" />
+				</OverflowMenu>
+			</div>
+		{:else}
+			<div class="profile-meta__action">
+				<Button size="field" kind="secondary" on:click={backToProfile} icon={ArrowLeft16}
+					>Back to Profile</Button
+				>
+			</div>
+		{/if}
 	</div>
 </div>
 
@@ -38,10 +61,24 @@
 
 	.profile-meta {
 		display: flex;
-		justify-content: space-between;
+		flex-direction: column;
+		align-items: center;
+
+		padding: 2rem 0 0;
+
+		@media screen and (min-width: 768px) {
+			justify-content: space-between;
+			flex-direction: row;
+			padding: 0;
+		}
 
 		&__action {
 			display: flex;
+			margin-top: 1rem;
+
+			@media screen and (min-width: 768px) {
+				margin-top: 0;
+			}
 
 			> :global(button) {
 				margin-left: 1rem;
@@ -49,6 +86,10 @@
 				min-height: 3rem;
 				align-self: center;
 				justify-content: center;
+
+				&:first-child {
+					margin-left: 0;
+				}
 			}
 
 			:global(button.bx--overflow-menu) {
@@ -70,17 +111,29 @@
 		justify-content: flex-end;
 
 		width: 100%;
-		height: 150px;
+		height: 120px;
 		border-radius: 10px;
 		margin-bottom: 2rem;
 		padding: 1rem;
 
 		background: radial-gradient(50% 442.86% at 50% 100%, #420023 9.86%, #ff0089 92.25%);
+
+		@media screen and (min-width: 768px) {
+			height: 150px;
+		}
 	}
+
 	.profile-banner__avatar {
 		position: absolute;
 		left: 50%;
 		top: 100%;
 		transform: translate(-50%, -65%);
+
+		:global(.profile-avatar) {
+			@media screen and (max-width: 767px) {
+				width: 100px !important;
+				height: 100px !important;
+			}
+		}
 	}
 </style>

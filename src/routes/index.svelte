@@ -1,3 +1,12 @@
+<script context="module">
+	export async function load() {
+		return {
+			status: 302,
+			redirect: '/contests'
+		}
+	}
+</script>
+
 <script lang="ts">
 	import IndexBanner from '../$lib/components/index/IndexBanner.svelte'
 	import IndexCategories from '../$lib/components/index/IndexCategories.svelte'
