@@ -45,6 +45,7 @@
 	passiveModal
 	preventCloseOnClickOutside
 	modalHeading="Sign in with Algorand"
+	modalLabel="Connect Wallet"
 	on:open
 	on:close
 	on:submit

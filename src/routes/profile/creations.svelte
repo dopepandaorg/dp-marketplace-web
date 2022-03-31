@@ -5,6 +5,7 @@
 	import ProfileContentSkeleton from '../../$lib/components/profile/ProfileContentSkeleton.svelte'
 	import { LoadingStatus } from '../../$lib/constants/enums'
 	import AssetTile from '../../$lib/components/common/AssetTile.svelte'
+	import EmptyPage from '../../$lib/components/common/EmptyPage.svelte'
 
 	let walletAssets = []
 	let status = LoadingStatus.IN_PROGRESS
@@ -24,11 +25,16 @@
 	{#if status === LoadingStatus.IN_PROGRESS}
 		<ProfileContentSkeleton />
 	{:else if status === LoadingStatus.SUCCESS && walletAssets.length > 0}
-		<div class="profile-assets__list">
+		<!-- <div class="profile-assets__list">
 			{#each walletAssets as asset}
 				<AssetTile id={asset['asset-id']} />
 			{/each}
-		</div>
+		</div> -->
+		<EmptyPage
+			icon="/images/restricted-access-icon.svg"
+			title="Access Restricted"
+			description="This feature is only available to Beta testers"
+		/>
 	{:else}
 		<EmptyTab
 			title="You have no NFT creations :("

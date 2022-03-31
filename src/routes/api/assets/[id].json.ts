@@ -19,7 +19,7 @@ export const get: RequestHandler = async ({ params }) => {
 		response = {
 			id: asset.index,
 			name: (asset.params && asset.params.name) || '',
-			unit: (asset.params && asset.params.unit) || '',
+			unit: (asset.params && asset.params['unit-name']) || '',
 			url: (asset.params && asset.params.url) || '',
 
 			decimal: asset.params.decimals,

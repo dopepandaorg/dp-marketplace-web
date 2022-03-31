@@ -1,19 +1,12 @@
 <script lang="ts">
-	import {
-		Form,
-		FormGroup,
-		Button,
-		TextInput,
-		TextArea,
-		InlineLoading
-	} from 'carbon-components-svelte'
+	import { Form, FormGroup, Button, TextInput, TextArea } from 'carbon-components-svelte'
 
 	import MediaInput from '../common/MediaInput.svelte'
-	import { getProfile } from '../../../stores/profile'
-	import { UpdateNow16 } from 'carbon-icons-svelte'
+	import { fetchProfile, getProfile } from '../../../stores/profile'
 	import ProfileHandleInput from './ProfileHandleInput.svelte'
+	import EditProfileTx from '../transactions/EditProfileTx.svelte'
 
-	const profileData = getProfile()
+	let profileData = getProfile()
 
 	let name = profileData.display_name
 	let handle = profileData.handle
@@ -43,35 +36,22 @@
 		isValid = false
 	}
 
-	let submit = (e: Event) => {
-		e.preventDefault()
-
-		if (isValid) {
-			isSubmitting = true
-
-			// // Build Asset Metadata
-			// const metadata: AssetMetadata = {
-			// 	assetName: name,
-			// 	unitName: unit,
-			// 	assetURL: `ipfs://${ipfsCID}`
-			// }
-
-			// buildTransactionCreateASA($wallet.type, $wallet.account, metadata, 0)
-			// 	.then(() => clearForm())
-			// 	.finally(() => (isSubmitting = false))
-		}
+	const onUpdate = () => {
+		console.log('update!!!')
+		profileData = getProfile()
 	}
 
 	$: {
 		// Validate form with default conditions
 		const isNameValid = !!name
+		const isBioValid = !!bio
 
 		// Combine all individual validations
-		isValid = isNameValid && isAvatarIpfsCIDValid && isBannerIpfsCIDValid
+		isValid = isNameValid
 	}
 </script>
 
-<Form on:submit={submit}>
+<Form on:submit={(e) => e.preventDefault()}>
 	<FormGroup>
 		<TextInput
 			size="xl"
@@ -144,17 +124,26 @@
 	<hr />
 
 	<div class="form-submit">
-		<div>
-			<Button kind="secondary" on:click={clearForm} disabled={isSubmitting}>Clear</Button>
-		</div>
+		<Button kind="secondary" on:click={clearForm} disabled={isSubmitting}>Clear</Button>
+		<EditProfileTx
+			{isValid}
+			{name}
+			{bio}
+			{twitter}
+			{instagram}
+			{website}
+			{avatarIpfsCID}
+			{bannerIpfsCID}
+			onSubmit={onUpdate}
+		/>
 
-		<div>
+		<!-- <div>
 			{#if isSubmitting}
 				<InlineLoading status="active" description="Submitting ..." />
 			{:else}
 				<Button type="submit" disabled={!isValid} icon={UpdateNow16}>Update Profile</Button>
 			{/if}
-		</div>
+		</div> -->
 	</div>
 </Form>
 

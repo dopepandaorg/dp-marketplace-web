@@ -1,5 +1,7 @@
 <script>
 	import { ImageLoader } from 'carbon-components-svelte'
+	import RedditIcon from '../../../static/icons/reddit.svg'
+	import TelegramIcon from '../../../static/icons/telegram.svg'
 
 	import { LogoTwitter32, LogoDiscord32, MailAll32 } from 'carbon-icons-svelte'
 	import ToastNotifications from './common/ToastNotifications.svelte'
@@ -14,16 +16,21 @@
 					<h4>Explore more from Dopeverse</h4>
 					<div class="footer__explore__hotlinks">
 						<div id="hotlink-staking" class="footer__explore__hotlink">
-							<div class="footer__explore__hotlink__image">
-								<ImageLoader src="" />
-							</div>
+							<a
+								href="https://dopepanda.medium.com/moving-away-from-lp-competition-stake-your-algo-dpanda-lp-tokens-with-algostake-801557fb7caa"
+								target="_blank"
+							>
+								<div class="footer__explore__hotlink__image">
+									<ImageLoader src="/images/staking-hotlink-graphic.png" />
+								</div>
+							</a>
 							<label for="hotlink-staking">Liquidity Staking</label>
 						</div>
 						<div id="hotlink-games" class="footer__explore__hotlink">
 							<div class="footer__explore__hotlink__image">
-								<ImageLoader src="" />
+								<ImageLoader src="nft-hotlink-graphic.png" />
 							</div>
-							<label for="hotlink-games">Games</label>
+							<label for="hotlink-games">Panda NFTs</label>
 						</div>
 					</div>
 				</div>
@@ -42,10 +49,13 @@
 								>
 							</li>
 							<li>
-								<a href="https://www.reddit.com/r/dopepanda" target="_blank" rel="nofollow">R</a>
+								<a href="https://www.reddit.com/r/dopepanda" target="_blank" rel="nofollow"
+									><RedditIcon /></a
+								>
 							</li>
 							<li>
-								<a href="https://t.me/joinchat/3cBfw4dMqsAxYzJl" target="_blank" rel="nofollow">T</a
+								<a href="https://t.me/joinchat/3cBfw4dMqsAxYzJl" target="_blank" rel="nofollow"
+									><TelegramIcon /></a
 								>
 							</li>
 							<li>
@@ -146,11 +156,21 @@
 				background: linear-gradient(109.08deg, #fd9d5d 0%, #fd2ca0 49.53%, #3397ff 104.51%);
 				margin-bottom: 1rem;
 				border-radius: 8px;
+				overflow: hidden;
+				padding: 2px;
 
 				:global(img) {
 					max-width: 100%;
 					height: 100%;
 					object-fit: cover;
+					border-radius: 8px;
+					transition: transform 0.125s;
+				}
+
+				&:hover {
+					:global(img) {
+						transform: scale(1.05);
+					}
 				}
 			}
 		}
@@ -179,6 +199,12 @@
 						&:hover {
 							background-color: var(--dp--black-06);
 						}
+					}
+
+					:global(svg) {
+						width: 32px;
+						height: 32px;
+						float: left;
 					}
 				}
 			}

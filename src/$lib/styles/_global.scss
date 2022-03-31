@@ -25,7 +25,7 @@
 }
 
 .wrapper {
-	padding: 4vw 1rem;
+	padding: 4vw 4vw;
 }
 
 .container {
@@ -50,6 +50,18 @@ a {
 	text-decoration: none;
 }
 
+p {
+	margin-bottom: 1rem;
+
+	&:last-child {
+		margin-bottom: 0;
+	}
+}
+
 button {
 	font-weight: 600;
+}
+
+.bx--inline-notification--low-contrast.bx--inline-notification--error {
+	background-color: var(--dp--black-02);
 }

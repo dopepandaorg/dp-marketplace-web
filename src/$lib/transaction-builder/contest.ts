@@ -4,10 +4,10 @@ import { getAlgoClient } from '../helper/algoClient'
 import { addToast } from '../../stores/toast'
 import { N_ERROR_CREATE_TXN } from '../constants/notifications'
 
-export const buildTransactionProfileEdit = async (
+export const buildTransactionContestVote = async (
 	walletAddress: string,
-	displayName: string,
-	bio: string
+	contestId: string,
+	assetId: string
 ): Promise<Transaction> => {
 	let txn: Transaction
 
@@ -16,7 +16,9 @@ export const buildTransactionProfileEdit = async (
 		const algodClient = getAlgoClient()
 		const params = await algodClient.getTransactionParams().do()
 
-		const note = `dp.profile({"display_name":"${displayName}","bio":"${bio}"})`
+		const note = `dp.contest["${contestId}"].vote({"asset_id":${Number(
+			assetId
+		)},"contest_id":"${contestId}"})`
 
 		txn = makePaymentTxnWithSuggestedParamsFromObject({
 			suggestedParams: { ...params },

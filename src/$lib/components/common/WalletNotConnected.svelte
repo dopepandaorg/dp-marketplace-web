@@ -1,7 +1,7 @@
 <script lang="ts">
 	import ConnectWallet from './ConnectWallet.svelte'
 
-	let icon = '/images/working-progress-icon.svg'
+	let icon = '/images/unplug-icon.svg'
 	let title = 'Wallet Not Connected'
 	let description = 'Connect your wallet to access'
 </script>
@@ -42,8 +42,9 @@
 			margin-bottom: 2rem;
 
 			img {
-				width: 8rem;
-				height: 8rem;
+				width: 15rem;
+				height: auto;
+				max-width: 100%;
 			}
 		}
 

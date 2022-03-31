@@ -132,7 +132,7 @@ export const onMyalgoSignTxMultiple = async (txn: Transaction): Promise<SignedTx
 	return signedTxns
 }
 
-export const onPeraSignTx = async (txn: Transaction): Promise<SignedTxn> => {
+export const onPeraSignTx = async (txn: Transaction, description: string): Promise<SignedTxn> => {
 	onConnectPera(true)
 
 	const signedTx = { txID: txn.txID(), blob: null }
@@ -140,11 +140,9 @@ export const onPeraSignTx = async (txn: Transaction): Promise<SignedTxn> => {
 	const txnsToSign = [
 		{
 			txn: encodedTxn,
-			message: 'Description of transaction being signed'
+			message: description
 		}
 	]
-
-	console.log('txnsToSign', signedTx, txnsToSign)
 
 	const requestParams = [txnsToSign]
 	const request = formatJsonRpcRequest('algo_signTxn', requestParams)

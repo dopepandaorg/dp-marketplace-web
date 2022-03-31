@@ -6,7 +6,6 @@
 
 	enum PageType {
 		CONTESTS = 'Contest',
-		MARKETPLACE = 'Marketplace',
 		MINTER = 'Minter',
 		PLATFORM = 'Platform',
 		LAUNCHPAD = 'Launchpad'
@@ -17,17 +16,9 @@
 			id: PageType.CONTESTS,
 			text: 'Contests',
 			path: '/contests',
-			allowedPaths: ['/contests'],
+			allowedPaths: ['/', '/contests'],
 			isDisabled: false,
 			tooltip: 'Coming Soon'
-		},
-		{
-			id: PageType.MARKETPLACE,
-			text: 'Marketplace',
-			path: '/',
-			allowedPaths: ['/', '/explore'],
-			isDisabled: false,
-			tooltip: ''
 		},
 		{
 			id: PageType.MINTER,
@@ -55,7 +46,7 @@
 		}
 	]
 
-	let activePage: PageType = PageType.MARKETPLACE
+	let activePage: PageType = PageType.CONTESTS
 
 	const pageSub = page.subscribe((page) => {
 		const matchedPageType = pageTypes.find(

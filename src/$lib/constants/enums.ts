@@ -19,3 +19,9 @@ export enum AssetType {
 	FT = 'ft',
 	NFT = 'nft'
 }
+
+export enum ContestStatus {
+	ACTIVE = 'active',
+	UPCOMING = 'upcoming',
+	ENDED = 'ended'
+}

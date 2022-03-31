@@ -13,12 +13,9 @@
 	import ProfileBannerSkeleton from '../../$lib/components/profile/ProfileBannerSkeleton.svelte'
 	import { fetchProfile, profile } from '../../stores/profile'
 
-	let isLoading = true
 	let userProfile
 
 	profile.subscribe((p) => {
-		isLoading = p.fetching
-
 		if (p.data && p.data.profiles_by_pk) {
 			userProfile = p.data.profiles_by_pk
 		} else {
@@ -39,7 +36,7 @@
 
 <div class="page page-profile">
 	<div class="container">
-		{#if !isLoading && userProfile}
+		{#if !$profile.fetching && userProfile}
 			<ProfileBanner
 				isEditProfile={true}
 				name={userProfile.display_name}
@@ -50,7 +47,7 @@
 			<div class="profile-section">
 				<slot />
 			</div>
-		{:else if isLoading}
+		{:else if $profile.fetching}
 			<ProfileBannerSkeleton />
 		{/if}
 	</div>
