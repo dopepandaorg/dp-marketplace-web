@@ -17,7 +17,7 @@
 	export let assetId
 	export let isComplete = false
 	export let isSubmitting = false
-	export let isVoted = false
+	export let isVoted: boolean = null
 
 	let open = false
 	let walletType = $wallet.type
@@ -106,6 +106,8 @@
 	}
 
 	const close = () => {
+		clear()
+
 		if (walletType === WalletType.PERA) {
 			onClearPera()
 		}
@@ -120,7 +122,6 @@
 	subscription(contestVote).subscribe((cv) => {
 		if (cv.data && cv.data.contest_entries_votes) {
 			isVoted = cv.data.contest_entries_votes.length > 0
-			console.log(cv.data, contestId, assetId, walletAccount)
 		}
 	})
 </script>
@@ -135,7 +136,7 @@
 			<Button
 				on:click={confirmModal}
 				type="button"
-				disabled={open}
+				disabled={open || isVoted === null}
 				icon={isSubmitting && InlineLoading}>Vote</Button
 			>
 		{/if}
@@ -256,6 +257,7 @@
 	.tx-modal__steps {
 		flex: 1;
 		margin-top: 2rem;
+		width: 100%;
 	}
 
 	.tx-modal__graphic {
