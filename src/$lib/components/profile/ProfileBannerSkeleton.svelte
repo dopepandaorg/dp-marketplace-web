@@ -31,10 +31,24 @@
 
 	.profile-meta {
 		display: flex;
-		justify-content: space-between;
+		flex-direction: column;
+		align-items: center;
+
+		padding: 2rem 0 0;
+
+		@media screen and (min-width: 768px) {
+			flex-direction: row;
+			justify-content: space-between;
+			padding: 0;
+		}
 
 		&__action {
 			display: flex;
+			margin-top: 1rem;
+
+			@media screen and (min-width: 768px) {
+				margin-top: 0;
+			}
 
 			> :global(.bx--btn) {
 				margin-left: 1rem;
@@ -42,6 +56,10 @@
 				min-height: 3rem;
 				align-self: center;
 				justify-content: center;
+
+				&:first-child {
+					margin-left: 0;
+				}
 			}
 
 			:global(.bx--btn) {
@@ -63,17 +81,29 @@
 		justify-content: flex-end;
 
 		width: 100%;
-		height: 150px;
+		height: 120px;
 		border-radius: 10px;
 		margin-bottom: 2rem;
 		padding: 1rem;
 
 		background: radial-gradient(50% 442.86% at 50% 100%, #420023 9.86%, #ff0089 92.25%);
+
+		@media screen and (min-width: 768px) {
+			height: 150px;
+		}
 	}
+
 	.profile-banner__avatar {
 		position: absolute;
 		left: 50%;
 		top: 100%;
 		transform: translate(-50%, -65%);
+
+		:global(.profile-avatar) {
+			@media screen and (max-width: 767px) {
+				width: 100px !important;
+				height: 100px !important;
+			}
+		}
 	}
 </style>

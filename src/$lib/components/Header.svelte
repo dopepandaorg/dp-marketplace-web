@@ -61,7 +61,9 @@
 		}
 
 		.header__left {
-			flex: 2;
+			@media screen and (min-width: 768px) {
+				flex: 2;
+			}
 		}
 
 		.header__right {
@@ -71,16 +73,32 @@
 
 		.header__search {
 			flex: 1;
+			display: none;
+
+			@media screen and (min-width: 768px) {
+				display: block;
+			}
 		}
 
 		.header__switch {
 			min-width: 172px;
+			display: none;
+
+			@media screen and (min-width: 768px) {
+				display: block;
+			}
 		}
 
 		.header__nav {
 			display: flex;
-			gap: 2rem;
 			margin-right: 2rem;
+			gap: 2rem;
+
+			display: none;
+
+			@media screen and (min-width: 768px) {
+				display: flex;
+			}
 		}
 
 		.header__brand {
@@ -93,9 +111,6 @@
 		.header__switch {
 			padding-left: 0.5rem;
 			margin-left: 0.5rem;
-
-			&::before {
-			}
 		}
 	}
 </style>

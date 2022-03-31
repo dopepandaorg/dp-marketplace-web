@@ -8,7 +8,12 @@
 	<title>Platform | DopePanda</title>
 </svelte:head>
 
-<PageHeader title="Platform" subtitle="Create and mint your digital art on Algorand" size="sm" />
+<PageHeader
+	title="Platform"
+	subtitle="Create and mint your digital art on Algorand"
+	size="sm"
+	theme={3}
+/>
 
 <section class="section">
 	<div class="container">

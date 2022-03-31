@@ -4,6 +4,9 @@
  */
 
 interface ImportMetaEnv {
+	NETWORK_ENV: string
 	HASURA_CLIENT_URI: string
+	HASURA_WS_CLIENT_URI: string
 	WEB3_STORAGE_TOKEN: string
+	PURESTAKE_API_KEY: string
 }

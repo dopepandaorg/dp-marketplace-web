@@ -2,9 +2,9 @@
 	import { onMount } from 'svelte'
 	import { page } from '$app/stores'
 	import { doSearchNew, search } from '../../stores/search'
-	import EmptyTab from '../../$lib/components/common/EmptyTab.svelte'
-	import SearchTile from '../../$lib/components/search/SearchTile.svelte'
 	import { LoadingStatus } from '../../$lib/constants/enums'
+	import EmptyPage from '../../$lib/components/common/EmptyPage.svelte'
+	import ProfileContentSkeleton from '../../$lib/components/profile/ProfileContentSkeleton.svelte'
 
 	let q = $page.params.q
 	let results = []
@@ -31,11 +31,19 @@
 		<h2 class="search-page__title">Search results for "{q}"</h2>
 		<div class="search-page__content">
 			{#if loadingStatus === LoadingStatus.IN_PROGRESS}
-				<SearchTile />
+				<ProfileContentSkeleton />
 			{:else if results.length > 0}
-				Results!
+				<EmptyPage
+					icon="/images/restricted-access-icon.svg"
+					title="Access Restricted"
+					description="This feature is only available to Beta testers"
+				/>
 			{:else}
-				<EmptyTab title="Search results not found" />
+				<EmptyPage
+					icon="/images/restricted-access-icon.svg"
+					title="Access Restricted"
+					description="This feature is only available to Beta testers"
+				/>
 			{/if}
 		</div>
 	</div>

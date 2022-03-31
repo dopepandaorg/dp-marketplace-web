@@ -10,7 +10,6 @@
 	import { formatWallet } from '../../../$lib/helper/utils'
 	import ConnectWallet from '../common/ConnectWallet.svelte'
 	import HeaderWallet from './HeaderWallet.svelte'
-	import HeaderSubscription from './HeaderSubscription.svelte'
 	import HeaderNavItem from './HeaderNavItem.svelte'
 	import { UserProfile16, ShowDataCards16, Settings16, Logout16 } from 'carbon-icons-svelte'
 
@@ -23,6 +22,9 @@
 	}
 	const hoverMenuExit = () => {
 		isOpen = false
+	}
+	const hoverMenuToggle = () => {
+		isOpen = !isOpen
 	}
 
 	const walletDisconnect = () => {
@@ -47,6 +49,7 @@
 	class="header-auth {isOpen ? 'open' : ''}"
 	on:mouseenter={hoverMenuEnter}
 	on:mouseleave={hoverMenuExit}
+	on:click={hoverMenuToggle}
 >
 	<div class="header-auth__action">
 		<ConnectWallet />
@@ -56,7 +59,6 @@
 		<div class="header-auth__dropdown">
 			<div class="header-auth__dropdown__inner">
 				<div><HeaderWallet /></div>
-				<div><HeaderSubscription /></div>
 
 				<div class="header-nav">
 					<HeaderNavItem
