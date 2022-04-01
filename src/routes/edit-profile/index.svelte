@@ -1,11 +1,15 @@
 <script>
-	import EditProfileForm from '../../$lib/components/profile/EditProfileForm.svelte'
+	import EmptyPage from '../../$lib/components/common/EmptyPage.svelte'
 </script>
 
 <div class="edit-profile">
 	<div class="container-sm">
 		<h2>Edit Profile</h2>
-		<EditProfileForm />
+		<EmptyPage
+			icon="/images/restricted-access-icon.svg"
+			title="Access Restricted"
+			description="This feature is only available to Beta testers"
+		/>
 	</div>
 </div>
 

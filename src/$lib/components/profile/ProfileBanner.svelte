@@ -39,7 +39,7 @@
 						>Edit Profile</Button
 					>
 				{/if}
-				<Button size="field" kind="secondary" icon={Share16} />
+				<Button size="field" kind="secondary" icon={Share16} iconDescription="Share Profile" />
 				<OverflowMenu kind="secondary" flipped>
 					<OverflowMenuItem danger text="Report User" />
 				</OverflowMenu>

@@ -16,7 +16,6 @@ export const assets = writable<AssetsStore>({
 	opted: []
 })
 
-
 /**
  * Helper action to fetch a user's wallet assets
  */

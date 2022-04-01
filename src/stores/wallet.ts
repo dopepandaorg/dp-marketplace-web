@@ -9,7 +9,8 @@ export const wallet = writable({
 	type: ((browser && localStorage.getItem('wallet-type')) || null) as WalletType,
 	account: (browser && localStorage.getItem('wallet-account')) || null,
 	isConnected: browser && !!localStorage.getItem('wallet-account'),
-	assets: []
+	assets: [],
+	dpandaTier: 0
 })
 
 /**
@@ -64,6 +65,8 @@ export const syncWalletAssets = () => {
 	if ($wallet.isConnected) {
 		fetch(`/api/wallet/${$wallet.account}.json`)
 			.then((response) => response.json())
-			.then((body) => wallet.update((wallet) => ({ ...wallet, assets: body.assets })))
+			.then((body) =>
+				wallet.update((wallet) => ({ ...wallet, assets: body.assets, dpandaTier: body.dpandaTier }))
+			)
 	}
 }
