@@ -13,13 +13,7 @@ import { getWalletConnectBridge, getMyAlgoBridge } from '../constants/assets'
 
 let walletConnectConnector: WalletConnect = new WalletConnect({
 	bridge: getWalletConnectBridge(),
-	qrcodeModal: QRCodeModal,
-	clientMeta: {
-		name: 'DopePanda Marketplace',
-		description: 'A next-gen creator ecosystem.',
-		url: 'https://dopepanda.app',
-		icons: ['https://dopepanda.app/favicon-120x120.png']
-	}
+	qrcodeModal: QRCodeModal
 })
 
 /**
@@ -37,7 +31,6 @@ export const checkWallet = () => {
 	// 		icons: ['https://dopepanda.app/favicon-96x96.png']
 	// 	}
 	// })
-
 	// const hasWalletConnect = localStorage.getItem('walletconnect')
 	// if (hasWalletConnect) {
 	// 	onConnectPera(true)
@@ -87,14 +80,14 @@ export const onConnectPera = (silent?: boolean) => {
 		setWalletData(WalletType.PERA, account)
 	})
 
-	walletConnectConnector.on("session_update", (error, payload) => {
-		console.log("%cOn session_update")
+	walletConnectConnector.on('session_update', (error, payload) => {
+		console.log('%cOn session_update')
 		if (error) {
 			throw error
 		}
 		const { accounts } = payload.params[0]
 		console.log('accounts on update', accounts, payload)
-	});
+	})
 
 	walletConnectConnector.on('disconnect', (error) => {
 		if (error) {
