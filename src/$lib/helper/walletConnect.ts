@@ -142,7 +142,7 @@ export const onMyalgoSignTxMultiple = async (txn: Transaction): Promise<SignedTx
 }
 
 export const onPeraSignTx = async (txn: Transaction, description: string): Promise<SignedTxn> => {
-	onConnectPera(true)
+	onConnectPera()
 
 	const signedTx = { txID: txn.txID(), blob: null }
 	const encodedTxn = Buffer.from(algosdk.encodeUnsignedTransaction(txn)).toString('base64')
