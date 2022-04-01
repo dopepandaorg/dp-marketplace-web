@@ -11,7 +11,7 @@
 {#if toastList}
 	<section>
 		{#each toastList as toast (toast.id)}
-			<ToastNotification kind={toast.kind} title={toast.title} subtitle={toast.subtitle} />
+			<ToastNotification lowContrast={true} kind={toast.kind} title={toast.title} subtitle={toast.subtitle} />
 		{/each}
 	</section>
 {/if}

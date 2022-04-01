@@ -59,10 +59,18 @@ export const onConnnectMyalgo = () => {
  * Connect with PERA Wallet
  *
  */
-export const onConnectPera = (silent?: boolean) => {
+export const onConnectPera = () => {
+	console.log('Session Start Pera')
+
+	walletConnectConnector = new WalletConnect({
+		bridge: getWalletConnectBridge(),
+		qrcodeModal: QRCodeModal
+	})
+
 	if (!walletConnectConnector.connected) {
 		walletConnectConnector.createSession()
 	} else {
+		console.log('Wallet Connect URI', walletConnectConnector.uri)
 		const account = walletConnectConnector.accounts[0]
 		setWalletData(WalletType.PERA, account)
 	}

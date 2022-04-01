@@ -47,6 +47,13 @@
 	preventCloseOnClickOutside
 	modalHeading="Sign in with Algorand"
 	modalLabel="Connect Wallet"
+	on:keydown="{({ key }) => {
+		if (open) {
+			if (key === 'Escape') {
+				setTimeout(() => open = true)
+			}
+		}
+	}}"
 	on:open
 	on:close
 	on:submit
