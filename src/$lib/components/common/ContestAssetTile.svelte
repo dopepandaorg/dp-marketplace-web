@@ -126,6 +126,7 @@
 			display: flex;
 			flex-direction: column;
 			width: 100%;
+			height: 100%;
 		}
 
 		&__image {
@@ -156,6 +157,7 @@
 			min-height: 120px;
 			top: -4rem;
 			padding: 2.25rem 1.25rem 1.25rem;
+			flex: 1;
 
 			background-color: var(--dp--black-03);
 			transition: transform 0.125s;
