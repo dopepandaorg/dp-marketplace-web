@@ -11,28 +11,30 @@ import { addToast } from '../../stores/toast'
 import { N_WALLET_DISCONNECT } from '../constants/notifications'
 import { getWalletConnectBridge, getMyAlgoBridge } from '../constants/assets'
 
-let walletConnectConnector: WalletConnect
+let walletConnectConnector: WalletConnect = new WalletConnect({
+	bridge: getWalletConnectBridge(),
+	qrcodeModal: QRCodeModal
+})
 
 /**
  * A slient check for a pre connected wallet
  *
  */
 export const checkWallet = () => {
-	walletConnectConnector = new WalletConnect({
-		bridge: getWalletConnectBridge(),
-		qrcodeModal: QRCodeModal,
-		clientMeta: {
-			name: 'DopePanda Marketplace',
-			description: 'A next-gen creator ecosystem.',
-			url: 'https://dopepanda.app',
-			icons: ['https://dopepanda.app/favicon-96x96.png']
-		}
-	})
-
-	const hasWalletConnect = localStorage.getItem('walletconnect')
-	if (hasWalletConnect) {
-		onConnectPera(true)
-	}
+	// walletConnectConnector = new WalletConnect({
+	// 	bridge: getWalletConnectBridge(),
+	// 	qrcodeModal: QRCodeModal,
+	// 	clientMeta: {
+	// 		name: 'DopePanda Marketplace',
+	// 		description: 'A next-gen creator ecosystem.',
+	// 		url: 'https://dopepanda.app',
+	// 		icons: ['https://dopepanda.app/favicon-96x96.png']
+	// 	}
+	// })
+	// const hasWalletConnect = localStorage.getItem('walletconnect')
+	// if (hasWalletConnect) {
+	// 	onConnectPera(true)
+	// }
 }
 
 /**
@@ -57,21 +59,18 @@ export const onConnnectMyalgo = () => {
  * Connect with PERA Wallet
  *
  */
-export const onConnectPera = (silent?: boolean) => {
+export const onConnectPera = () => {
+	console.log('Session Start Pera')
+
 	walletConnectConnector = new WalletConnect({
 		bridge: getWalletConnectBridge(),
-		qrcodeModal: QRCodeModal,
-		clientMeta: {
-			name: 'DopePanda Marketplace',
-			description: 'A next-gen creator ecosystem.',
-			url: 'https://dopepanda.app',
-			icons: ['https://dopepanda.app/favicon-120x120.png']
-		}
+		qrcodeModal: QRCodeModal
 	})
 
-	if (!walletConnectConnector.connected && !silent) {
+	if (!walletConnectConnector.connected) {
 		walletConnectConnector.createSession()
 	} else {
+		console.log('Wallet Connect URI', walletConnectConnector.uri)
 		const account = walletConnectConnector.accounts[0]
 		setWalletData(WalletType.PERA, account)
 	}
@@ -85,7 +84,17 @@ export const onConnectPera = (silent?: boolean) => {
 		// Get provided accounts
 		const { accounts } = payload.params[0]
 		const account = accounts[0]
+		console.log('accounts on connect', accounts, payload)
 		setWalletData(WalletType.PERA, account)
+	})
+
+	walletConnectConnector.on('session_update', (error, payload) => {
+		console.log('%cOn session_update')
+		if (error) {
+			throw error
+		}
+		const { accounts } = payload.params[0]
+		console.log('accounts on update', accounts, payload)
 	})
 
 	walletConnectConnector.on('disconnect', (error) => {
@@ -133,7 +142,7 @@ export const onMyalgoSignTxMultiple = async (txn: Transaction): Promise<SignedTx
 }
 
 export const onPeraSignTx = async (txn: Transaction, description: string): Promise<SignedTxn> => {
-	onConnectPera(true)
+	onConnectPera()
 
 	const signedTx = { txID: txn.txID(), blob: null }
 	const encodedTxn = Buffer.from(algosdk.encodeUnsignedTransaction(txn)).toString('base64')

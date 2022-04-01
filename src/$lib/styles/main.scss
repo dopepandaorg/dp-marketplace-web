@@ -18,7 +18,6 @@ $css--plex: true;
 $button-border-radius: 5px;
 
 @import 'carbon-components/scss/globals/scss/_css--reset';
-// @import 'carbon-components/scss/globals/scss/_css--font-face';
 @import 'carbon-components/scss/globals/scss/_css--helpers';
 @import 'carbon-components/scss/globals/scss/_css--body';
 @import 'carbon-components/scss/globals/grid/grid';
@@ -38,7 +37,6 @@ $button-border-radius: 5px;
 @import 'carbon-components/scss/components/button/button';
 @import 'carbon-components/scss/components/dropdown/dropdown';
 @import 'carbon-components/scss/components/search/search';
-@import 'carbon-components/scss/components/notification/tokens';
 @import 'carbon-components/scss/components/notification/toast-notification';
 @import 'carbon-components/scss/components/notification/inline-notification';
 @import 'carbon-components/scss/components/skeleton/skeleton';

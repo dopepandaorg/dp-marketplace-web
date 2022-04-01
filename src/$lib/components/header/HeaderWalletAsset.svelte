@@ -44,7 +44,7 @@
 		</div>
 	{:else if asset.id === DPANDA_ASSET_ID()}
 		<div class="header-wallet-asset__opt-in">
-			<Button size="small" on:click={() => goto('/membership')}>Opt In</Button>
+			<Button size="small" on:click={() => window.open('https://app.tinyman.org/#/swap?asset_in=0&asset_out=391379500', '_blank')}>Opt In</Button>
 		</div>
 	{:else}
 		<div class="header-wallet-asset__opt-in">N/A</div>

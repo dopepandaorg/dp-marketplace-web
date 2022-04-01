@@ -69,9 +69,10 @@
 
 					updateDB()
 				})
-				.catch(() => {
+				.catch((error) => {
 					txId = null
 					confirmedRound = null
+					console.log('error in submitting transaction', error)
 				})
 				.finally(() => (isSubmitting = false))
 		}
@@ -136,9 +137,21 @@
 			<Button
 				on:click={confirmModal}
 				type="button"
-				disabled={open || isVoted === null}
+				disabled={open || isVoted === null || $wallet.dpandaTier < 1}
 				icon={isSubmitting && InlineLoading}>Vote</Button
 			>
+
+			{#if $wallet.dpandaTier < 1}
+				<span class="tier-warn">
+					You need atleast 1,000 DPANDA tokens to vote.
+					<br />
+					<a
+						href="https://app.tinyman.org/#/swap?asset_in=0&asset_out=391379500"
+						target="_blank"
+						rel="noopener noreferrer">Get DPANDA on Tinyman</a
+					>
+				</span>
+			{/if}
 		{/if}
 	</div>
 
@@ -277,5 +290,14 @@
 				height: 200px;
 			}
 		}
+	}
+
+	.tier-warn {
+		font-size: 0.75rem;
+		font-style: italic;
+		line-height: 1.5;
+		display: block;
+		padding-top: 1rem;
+		text-align: center;
 	}
 </style>
