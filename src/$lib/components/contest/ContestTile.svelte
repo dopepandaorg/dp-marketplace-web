@@ -35,7 +35,7 @@
 
 <div
 	class="contest-tile"
-	on:click={() => status === ContestStatus.ACTIVE && goto(`/contests/${contest.slug}`)}
+	on:click={() => (status === ContestStatus.ACTIVE || status === ContestStatus.ENDED) && goto(`/contests/${contest.slug}`)}
 >
 	<div class="contest-tile__image">
 		<div>
@@ -54,8 +54,10 @@
 		<div class="contest-tile__duration">
 			{#if status === ContestStatus.ACTIVE}
 				{dayjs(contest.end_at).fromNow(true)} remaining
+			{:else if status === ContestStatus.ENDED}
+				Ended {dayjs().to(contest.end_at)}
 			{:else}
-				Starts {dayjs().to(contest.end_at)}
+				Starts {dayjs().to(contest.start_at)}
 			{/if}
 		</div>
 		<div class="contest-tile__meta">
