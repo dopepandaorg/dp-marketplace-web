@@ -14,6 +14,7 @@
 	export let contestId
 	export let votes: number = null
 	export let rank: number = null
+	export let isVoteable: boolean = false
 
 	let asset
 	let isLoading = false
@@ -101,13 +102,15 @@
 					</div>
 				</div>
 
-				<div class="asset-tile__action">
-					{#if walletIsConnected}
-						<ContestVoteTx {contestId} assetId={id} />
-					{:else}
-						<ConnectWallet label="Connect Wallet to Vote" />
-					{/if}
-				</div>
+				{#if isVoteable}
+					 <div class="asset-tile__action">
+						 {#if walletIsConnected}
+							 <ContestVoteTx {contestId} assetId={id} />
+						 {:else}
+							 <ConnectWallet label="Connect Wallet to Vote" />
+						 {/if}
+					 </div>
+				{/if}
 			</div>
 		</div>
 	{/if}
