@@ -6,12 +6,22 @@
 	import { convertIPFSUrl } from '../../../$lib/constants/assets'
 
 	import type { ContestRecord } from '../../../$lib/interfaces/contest'
+	import { ContestStatus } from '../../../$lib/constants/enums';
 	import ContestAssetTile from '../common/ContestAssetTile.svelte'
 	import ContestTabs from './ContestTabs.svelte'
-
-	let tabIndex = 0
+	import dayjs from 'dayjs'
+	
 	export let contest: ContestRecord
+	
+	let tabIndex = 0
 	let contestEntries = contest.contest_entries
+	let status = ContestStatus.UPCOMING
+
+	if (dayjs(contest.start_at) <= dayjs() && dayjs(contest.end_at) > dayjs()) {
+		status = ContestStatus.ACTIVE
+	} else if (dayjs(contest.start_at) <= dayjs() && dayjs(contest.end_at) <= dayjs()) {
+		status = ContestStatus.ENDED
+	}
 
 	const contestVotes = operationStore(Q_SUB_CONTEST_ENTRY_LEADERBOARD, {
 		contest_id: contest.id
@@ -72,6 +82,7 @@
 				{#each [...contestEntries] as entry}
 					{#if entry.asset_id}
 						<ContestAssetTile
+							isVoteable={status === ContestStatus.ACTIVE}
 							contestId={contest.id}
 							id={Number(entry.asset_id)}
 							votes={entry.votes}
