@@ -22,6 +22,7 @@ export interface ContestRecord {
 
 	prizes_html?: string
 	rules_html?: string
+	pending_submission_html?: string
 }
 
 export interface ContestEntryRecord {

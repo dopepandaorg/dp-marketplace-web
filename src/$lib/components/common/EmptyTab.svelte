@@ -14,7 +14,9 @@
 	<h4>{title}</h4>
 
 	{#if description}
-		<p>{description}</p>
+		<div class="description">
+			{@html description}
+		</div>
 	{/if}
 </div>
 
@@ -37,7 +39,15 @@
 		}
 
 		h4 {
+			font-weight: 500;
 			margin-bottom: 0.5rem;
+		}
+
+		.description {
+			font-size: 1rem;
+			line-height: 1.3;
+			margin-top: 0.75rem;
+			opacity: 0.65;
 		}
 
 		&__icon {
