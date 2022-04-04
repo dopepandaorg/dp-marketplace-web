@@ -103,13 +103,13 @@
 				</div>
 
 				{#if isVoteable}
-					 <div class="asset-tile__action">
-						 {#if walletIsConnected}
-							 <ContestVoteTx {contestId} assetId={id} />
-						 {:else}
-							 <ConnectWallet label="Connect Wallet to Vote" />
-						 {/if}
-					 </div>
+					<div class="asset-tile__action">
+						{#if walletIsConnected}
+							<ContestVoteTx {contestId} assetId={id} />
+						{:else}
+							<ConnectWallet label="Connect Wallet to Vote" />
+						{/if}
+					</div>
 				{/if}
 			</div>
 		</div>
