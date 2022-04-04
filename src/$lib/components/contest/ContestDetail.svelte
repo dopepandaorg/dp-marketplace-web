@@ -10,6 +10,7 @@
 	import ContestAssetTile from '../common/ContestAssetTile.svelte'
 	import ContestTabs from './ContestTabs.svelte'
 	import dayjs from 'dayjs'
+import EmptyTab from '../common/EmptyTab.svelte';
 	
 	export let contest: ContestRecord
 	
@@ -91,6 +92,9 @@
 					{/if}
 				{/each}
 			</div>
+			{#if contestEntries.length === 0}
+				<EmptyTab title="This contest is open for entries!" description={contest.pending_submission_html && contest.pending_submission_html}/>
+			{/if}
 		{:else if tabIndex === 1}
 			{@html contest.prizes_html}
 		{:else if tabIndex === 2}
