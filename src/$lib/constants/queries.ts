@@ -158,6 +158,7 @@ export const Q_GET_CONTEST_BY_SLUG = gql`
 			description
 			prizes_html
 			rules_html
+			pending_submission_html
 			contest_entries {
 				id
 				title
