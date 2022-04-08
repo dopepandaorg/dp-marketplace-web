@@ -35,7 +35,9 @@
 
 <div
 	class="contest-tile"
-	on:click={() => (status === ContestStatus.ACTIVE || status === ContestStatus.ENDED) && goto(`/contests/${contest.slug}`)}
+	on:click={() =>
+		(status === ContestStatus.ACTIVE || status === ContestStatus.ENDED) &&
+		goto(`/contests/${contest.slug}`)}
 >
 	<div class="contest-tile__image">
 		<div>

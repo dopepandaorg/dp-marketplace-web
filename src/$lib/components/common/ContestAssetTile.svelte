@@ -1,20 +1,24 @@
 <script lang="ts">
 	import { onMount } from 'svelte'
-	import { Button, ImageLoader, SkeletonPlaceholder } from 'carbon-components-svelte'
+	import { Button, ImageLoader, SkeletonPlaceholder, TooltipDefinition } from 'carbon-components-svelte'
 	import { convertIPFSUrl, convertIPFSUrlOnly } from '../../constants/assets'
 	import ProfileAvatar from '../profile/ProfileAvatar.svelte'
 	import IconIPFS from '../../../../static/icons/ipfs.svg'
 	import IconAlgoExplorer from '../../../../static/icons/algoexplorer.svg'
 	import ContestVoteTx from '../../../$lib/components/transactions/ContestVoteTx.svelte'
-	import { getGetOrdinal } from '../../../$lib/helper/stringUtils'
+	import { getGetOrdinal, nWeightFormat } from '../../../$lib/helper/stringUtils'
 	import { wallet } from '../../../stores/wallet'
 	import ConnectWallet from './ConnectWallet.svelte'
+	import ContestVoteCountdown from '../contest/ContestVoteCountdown.svelte'
+	import { VotingStatus } from '../../../$lib/constants/enums'
 
 	export let id
 	export let contestId
 	export let votes: number = null
 	export let rank: number = null
-	export let isVoteable: boolean = false
+	export let weight: number = null
+	export let votingStatus: VotingStatus
+	export let votingStartTime = null
 
 	let asset
 	let isLoading = false
@@ -46,7 +50,7 @@
 	{#if isLoading}
 		<div class="asset-tile__inner">
 			<div class="asset-tile__image">
-				<SkeletonPlaceholder style="width: 100%; height: 300%" />
+				<SkeletonPlaceholder style="width: 100%; height: 300%;" />
 			</div>
 		</div>
 	{:else if !!asset}
@@ -102,14 +106,16 @@
 					</div>
 				</div>
 
-				{#if isVoteable}
-					 <div class="asset-tile__action">
-						 {#if walletIsConnected}
-							 <ContestVoteTx {contestId} assetId={id} />
-						 {:else}
-							 <ConnectWallet label="Connect Wallet to Vote" />
-						 {/if}
-					 </div>
+				{#if votingStatus === VotingStatus.ACTIVE}
+					<div class="asset-tile__action">
+						{#if walletIsConnected}
+							<ContestVoteTx {contestId} assetId={id} />
+						{:else}
+							<ConnectWallet label="Connect Wallet to Vote" />
+						{/if}
+					</div>
+				{:else if votingStatus === VotingStatus.PENDING && votingStartTime}
+					<ContestVoteCountdown end={new Date(votingStartTime).getTime()}/>
 				{/if}
 			</div>
 		</div>
@@ -137,7 +143,7 @@
 			width: 100%;
 			border-radius: 5px 5px 0 0;
 			overflow: hidden;
-			padding-top: 125%;
+			padding-top: 100%;
 
 			:global(img) {
 				position: absolute;
@@ -148,7 +154,7 @@
 
 				max-width: 100%;
 				height: 100%;
-				object-fit: cover;
+				object-fit: contain;
 				object-position: center;
 
 				transition: transform 0.3s;
@@ -250,7 +256,18 @@
 			&__value {
 				font-size: 1rem;
 				font-weight: 500;
+
+				display: flex;
+				align-items: center;
+				
+				img {
+					width: 1.125rem;
+					height: auto;
+					float: left;
+					margin-left: 0.25rem;
+				}
 			}
+
 		}
 
 		&__action {

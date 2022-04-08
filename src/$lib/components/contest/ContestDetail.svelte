@@ -1,27 +1,36 @@
 <script lang="ts">
 	import { operationStore, subscription } from '@urql/svelte'
+	import { MasonryInfiniteGrid } from '@egjs/svelte-infinitegrid'
 
 	import { ImageLoader } from 'carbon-components-svelte'
 	import { Q_SUB_CONTEST_ENTRY_LEADERBOARD } from '../../../$lib/constants/queries'
 	import { convertIPFSUrl } from '../../../$lib/constants/assets'
 
 	import type { ContestRecord } from '../../../$lib/interfaces/contest'
-	import { ContestStatus } from '../../../$lib/constants/enums';
+	import { ContestStatus, VotingStatus } from '../../../$lib/constants/enums'
 	import ContestAssetTile from '../common/ContestAssetTile.svelte'
 	import ContestTabs from './ContestTabs.svelte'
 	import dayjs from 'dayjs'
-import EmptyTab from '../common/EmptyTab.svelte';
-	
+	import EmptyTab from '../common/EmptyTab.svelte'
+
 	export let contest: ContestRecord
-	
+
 	let tabIndex = 0
 	let contestEntries = contest.contest_entries
 	let status = ContestStatus.UPCOMING
+	let votingStatus = VotingStatus.NONE
 
 	if (dayjs(contest.start_at) <= dayjs() && dayjs(contest.end_at) > dayjs()) {
 		status = ContestStatus.ACTIVE
+
+		if (dayjs(contest.voting_start_at) > dayjs()) {
+			votingStatus = VotingStatus.PENDING
+		} else if (dayjs(contest.start_at) <= dayjs()) {
+			votingStatus = VotingStatus.PENDING
+		}	
 	} else if (dayjs(contest.start_at) <= dayjs() && dayjs(contest.end_at) <= dayjs()) {
 		status = ContestStatus.ENDED
+		votingStatus = VotingStatus.ENDED
 	}
 
 	const contestVotes = operationStore(Q_SUB_CONTEST_ENTRY_LEADERBOARD, {
@@ -34,10 +43,12 @@ import EmptyTab from '../common/EmptyTab.svelte';
 
 			cv.data.contest_entries_votes.map((cev) => {
 				const v = cev.contest_entry.contest_entries_votes_aggregate.aggregate.count
+				const w = cev.contest_entry.contest_entries_votes_aggregate.aggregate.sum.weight_dpanda
 				const i = Number(cev.asset_id)
 
 				let index = contestEntries.findIndex((ce) => Number(ce.asset_id) === i)
 				contestEntries[index].votes = v
+				contestEntries[index].weight = w
 			})
 
 			const cloneArray = [...contestEntries]
@@ -45,7 +56,7 @@ import EmptyTab from '../common/EmptyTab.svelte';
 
 			contestEntries = contestEntries.map((ce) => {
 				const rank = cloneArray.findIndex((ca) => ca.asset_id === ce.asset_id)
-				return { ...ce, rank: rank + 1, votes: ce.votes || 0 }
+				return { ...ce, rank: rank + 1, votes: ce.votes || 0, weight: ce.weight || 0 }
 			})
 		}
 	})
@@ -83,17 +94,22 @@ import EmptyTab from '../common/EmptyTab.svelte';
 				{#each [...contestEntries] as entry}
 					{#if entry.asset_id}
 						<ContestAssetTile
-							isVoteable={status === ContestStatus.ACTIVE}
 							contestId={contest.id}
 							id={Number(entry.asset_id)}
 							votes={entry.votes}
+							weight={entry.weight}
 							rank={entry.rank}
+							{votingStatus}
+							votingStartTime={contest.voting_start_at}
 						/>
 					{/if}
 				{/each}
 			</div>
 			{#if contestEntries.length === 0}
-				<EmptyTab title="This contest is open for entries!" description={contest.pending_submission_html && contest.pending_submission_html}/>
+				<EmptyTab
+					title="This contest is open for entries!"
+					description={contest.pending_submission_html && contest.pending_submission_html}
+				/>
 			{/if}
 		{:else if tabIndex === 1}
 			{@html contest.prizes_html}

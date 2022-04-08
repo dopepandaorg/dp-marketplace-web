@@ -41,7 +41,7 @@ export const checkWallet = () => {
  * Myalgo
  */
 export const onConnnectMyalgo = () => {
-	const myAlgoWallet = new MyAlgoConnect({ bridgeUrl: getMyAlgoBridge() })
+	const myAlgoWallet = new MyAlgoConnect({ bridgeUrl: getMyAlgoBridge(), disableLedgerNano: false })
 
 	myAlgoWallet
 		.connect({ shouldSelectOneAccount: true })
