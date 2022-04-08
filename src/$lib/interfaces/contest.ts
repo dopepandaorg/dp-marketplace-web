@@ -5,6 +5,7 @@ export interface ContestRecord {
 	image_cid: string
 	description: string
 	start_at: string
+	voting_start_at: string
 	end_at: string
 	contest_entries: ContestEntryRecord[]
 
@@ -32,4 +33,5 @@ export interface ContestEntryRecord {
 	asset_id: string
 	votes?: number
 	rank?: number
+	weight?: number
 }
