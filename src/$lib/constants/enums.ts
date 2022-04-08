@@ -25,3 +25,10 @@ export enum ContestStatus {
 	UPCOMING = 'upcoming',
 	ENDED = 'ended'
 }
+
+export enum VotingStatus {
+	NONE = 'none',
+	PENDING = 'pending',
+	ACTIVE = 'active',
+	ENDED = 'ended'
+}
