@@ -27,7 +27,7 @@
 		if (dayjs(contest.voting_start_at) > dayjs()) {
 			votingStatus = VotingStatus.PENDING
 		} else if (dayjs(contest.start_at) <= dayjs()) {
-			votingStatus = VotingStatus.PENDING
+			votingStatus = VotingStatus.ACTIVE
 		}
 	} else if (dayjs(contest.start_at) <= dayjs() && dayjs(contest.end_at) <= dayjs()) {
 		status = ContestStatus.ENDED
