@@ -40,7 +40,7 @@
 
 	subscription(contestVotes).subscribe((cv) => {
 		if (cv.data && cv.data.contest_entries_votes) {
-			contestEntries = contestEntries.map((ce) => ({ ...ce, votes: 0 }))
+			contestEntries = contestEntries.map((ce) => ({ ...ce, votes: 0, weight: 0 }))
 
 			cv.data.contest_entries_votes.map((cev) => {
 				const v = cev.contest_entry.contest_entries_votes_aggregate.aggregate.count
