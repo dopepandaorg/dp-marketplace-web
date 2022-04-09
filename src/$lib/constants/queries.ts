@@ -46,6 +46,7 @@ export const Q_GET_CONTESTS = gql`
 			title
 			start_at
 			voting_start_at
+			voting_type
 			end_at
 			image_cid
 			description
@@ -102,7 +103,7 @@ export const Q_SUB_CONTEST_ENTRY_VOTES = gql`
 `
 export const Q_SUB_CONTEST_ENTRY_LEADERBOARD = gql`
 	subscription SubContestEntryLeaderboard($contest_id: uuid!) {
-		contest_entries_votes(distinct_on: asset_id, where: {contest_id: {_eq: $contest_id}}) {
+		contest_entries_votes(distinct_on: asset_id, where: { contest_id: { _eq: $contest_id } }) {
 			asset_id
 			contest_entry {
 				contest_entries_votes_aggregate {
@@ -119,7 +120,7 @@ export const Q_SUB_CONTEST_ENTRY_LEADERBOARD = gql`
 `
 export const Q_SUB_CONTEST_ENTRY_LEADERBOARD_VOTERS = gql`
 	subscription SubContestEntryLeaderboard($contest_id: uuid!) {
-		contest_entries_votes(distinct_on: asset_id, where: {contest_id: {_eq: $contest_id}}) {
+		contest_entries_votes(distinct_on: asset_id, where: { contest_id: { _eq: $contest_id } }) {
 			asset_id
 			contest_entry {
 				contest_entries_votes {
@@ -152,6 +153,7 @@ export const Q_GET_CONTEST = (id: string) => gql`
 			slug
 			start_at
 			voting_start_at
+			voting_type
 			end_at
 			image_cid
 			description
@@ -171,6 +173,7 @@ export const Q_GET_CONTEST_BY_SLUG = gql`
 			slug
 			start_at
 			voting_start_at
+			voting_type
 			end_at
 			image_cid
 			description
