@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { operationStore, subscription } from '@urql/svelte'
-	import { MasonryInfiniteGrid } from '@egjs/svelte-infinitegrid'
 
 	import { ImageLoader } from 'carbon-components-svelte'
 	import { Q_SUB_CONTEST_ENTRY_LEADERBOARD } from '../../../$lib/constants/queries'
@@ -12,6 +11,7 @@
 	import ContestTabs from './ContestTabs.svelte'
 	import dayjs from 'dayjs'
 	import EmptyTab from '../common/EmptyTab.svelte'
+	import { parseAmount } from '../../../$lib/helper/utils'
 
 	export let contest: ContestRecord
 
@@ -19,6 +19,7 @@
 	let contestEntries = contest.contest_entries
 	let status = ContestStatus.UPCOMING
 	let votingStatus = VotingStatus.NONE
+	let isWeightedVoting = contest.voting_type === 1
 
 	if (dayjs(contest.start_at) <= dayjs() && dayjs(contest.end_at) > dayjs()) {
 		status = ContestStatus.ACTIVE
@@ -27,7 +28,7 @@
 			votingStatus = VotingStatus.PENDING
 		} else if (dayjs(contest.start_at) <= dayjs()) {
 			votingStatus = VotingStatus.PENDING
-		}	
+		}
 	} else if (dayjs(contest.start_at) <= dayjs() && dayjs(contest.end_at) <= dayjs()) {
 		status = ContestStatus.ENDED
 		votingStatus = VotingStatus.ENDED
@@ -43,7 +44,9 @@
 
 			cv.data.contest_entries_votes.map((cev) => {
 				const v = cev.contest_entry.contest_entries_votes_aggregate.aggregate.count
-				const w = cev.contest_entry.contest_entries_votes_aggregate.aggregate.sum.weight_dpanda
+				const w = parseAmount(
+					cev.contest_entry.contest_entries_votes_aggregate.aggregate.sum.weight_dpanda
+				)
 				const i = Number(cev.asset_id)
 
 				let index = contestEntries.findIndex((ce) => Number(ce.asset_id) === i)
@@ -52,7 +55,12 @@
 			})
 
 			const cloneArray = [...contestEntries]
-			cloneArray.sort((a, b) => b.votes - a.votes)
+
+			if (isWeightedVoting) {
+				cloneArray.sort((a, b) => b.weight - a.weight)
+			} else {
+				cloneArray.sort((a, b) => b.votes - a.votes)
+			}
 
 			contestEntries = contestEntries.map((ce) => {
 				const rank = cloneArray.findIndex((ca) => ca.asset_id === ce.asset_id)
@@ -101,6 +109,7 @@
 							rank={entry.rank}
 							{votingStatus}
 							votingStartTime={contest.voting_start_at}
+							{isWeightedVoting}
 						/>
 					{/if}
 				{/each}

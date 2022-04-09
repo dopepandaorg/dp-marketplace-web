@@ -4,7 +4,6 @@
 	import { assetImageUrl, formatAmount } from '../../../$lib/helper/utils'
 	import { DPANDA_ASSET_ID, getNativeASAs } from '../../../$lib/constants/assets'
 	import { Button, SkeletonPlaceholder } from 'carbon-components-svelte'
-	import { goto } from '$app/navigation'
 
 	export let unit: string
 	const nativeAssets = getNativeASAs()
