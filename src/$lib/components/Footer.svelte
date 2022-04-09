@@ -1,8 +1,5 @@
 <script>
 	import { ImageLoader } from 'carbon-components-svelte'
-	import RedditIcon from '../../../static/icons/reddit.svg'
-	import TelegramIcon from '../../../static/icons/telegram.svg'
-
 	import { LogoTwitter32, LogoDiscord32, MailAll32 } from 'carbon-icons-svelte'
 	import ToastNotifications from './common/ToastNotifications.svelte'
 </script>

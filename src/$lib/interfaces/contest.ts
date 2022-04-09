@@ -6,6 +6,7 @@ export interface ContestRecord {
 	description: string
 	start_at: string
 	voting_start_at: string
+	voting_type: number
 	end_at: string
 	contest_entries: ContestEntryRecord[]
 

@@ -1,6 +1,11 @@
 <script lang="ts">
 	import { onMount } from 'svelte'
-	import { Button, ImageLoader, SkeletonPlaceholder, TooltipDefinition } from 'carbon-components-svelte'
+	import {
+		Button,
+		ImageLoader,
+		SkeletonPlaceholder,
+		TooltipDefinition
+	} from 'carbon-components-svelte'
 	import { convertIPFSUrl, convertIPFSUrlOnly } from '../../constants/assets'
 	import ProfileAvatar from '../profile/ProfileAvatar.svelte'
 	import IconIPFS from '../../../../static/icons/ipfs.svg'
@@ -19,6 +24,7 @@
 	export let weight: number = null
 	export let votingStatus: VotingStatus
 	export let votingStartTime = null
+	export let isWeightedVoting = false
 
 	let asset
 	let isLoading = false
@@ -50,7 +56,7 @@
 	{#if isLoading}
 		<div class="asset-tile__inner">
 			<div class="asset-tile__image">
-				<SkeletonPlaceholder style="width: 100%; height: 300%;" />
+				<SkeletonPlaceholder style="position: absolute; top: 0; width: 100%; height: 100%;" />
 			</div>
 		</div>
 	{:else if !!asset}
@@ -104,6 +110,21 @@
 							{/if}
 						</div>
 					</div>
+					<div class="asset-tile__meta-item">
+						<div class="asset-tile__meta-item__label">Weight</div>
+						<div class="asset-tile__meta-item__value">
+							{#if !isWeightedVoting}
+								N/A
+							{:else if weight === null}
+								<SkeletonPlaceholder style="width: 3rem; height: 1rem" />
+							{:else}
+								<TooltipDefinition tooltipText={weight.toLocaleString()}>
+									{nWeightFormat(weight, 3)}
+								</TooltipDefinition>
+								<img src="/images/dpanda-logo.png" alt="" />
+							{/if}
+						</div>
+					</div>
 				</div>
 
 				{#if votingStatus === VotingStatus.ACTIVE}
@@ -115,7 +136,7 @@
 						{/if}
 					</div>
 				{:else if votingStatus === VotingStatus.PENDING && votingStartTime}
-					<ContestVoteCountdown end={new Date(votingStartTime).getTime()}/>
+					<ContestVoteCountdown end={new Date(votingStartTime).getTime()} />
 				{/if}
 			</div>
 		</div>
@@ -202,6 +223,7 @@
 			white-space: nowrap;
 			overflow: hidden;
 			text-overflow: ellipsis;
+			max-width: 100%;
 		}
 
 		&__links {
@@ -234,7 +256,7 @@
 			margin-top: 1.25rem;
 
 			display: grid;
-			grid-template-columns: 1fr 1fr;
+			grid-template-columns: 1fr 1fr 1fr;
 			gap: 2rem;
 		}
 
@@ -259,7 +281,7 @@
 
 				display: flex;
 				align-items: center;
-				
+
 				img {
 					width: 1.125rem;
 					height: auto;
@@ -267,7 +289,6 @@
 					margin-left: 0.25rem;
 				}
 			}
-
 		}
 
 		&__action {
