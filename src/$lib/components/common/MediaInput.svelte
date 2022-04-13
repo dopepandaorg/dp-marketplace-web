@@ -8,7 +8,7 @@
 	} from 'carbon-components-svelte'
 	import AssetCIDInput from './AssetCIDInput.svelte'
 	import { upload } from '../../../$lib/helper/web3StorageClient'
-	import { Close16, SwitchLayer_216, TrashCan16 } from 'carbon-icons-svelte'
+	import { Close, SwitchLayer_2, TrashCan } from 'carbon-icons-svelte'
 
 	export let label = 'Media'
 	export let value
@@ -117,14 +117,14 @@
 
 				<div class="media-input__action">
 					{#if isFileUploading}
-						<Button size="small" kind="danger" icon={Close16} on:click={cancelFileUpload}
+						<Button size="small" kind="danger" icon={Close} on:click={cancelFileUpload}
 							>Cancel</Button
 						>
 					{:else if !isFileUploading && fileCID}
-						<Button size="small" kind="secondary" icon={SwitchLayer_216} on:click={changeFileUpload}
+						<Button size="small" kind="secondary" icon={SwitchLayer_2} on:click={changeFileUpload}
 							>Change</Button
 						>
-						<Button size="small" kind="danger-tertiary" icon={TrashCan16} on:click={clearFileUpload}
+						<Button size="small" kind="danger-tertiary" icon={TrashCan} on:click={clearFileUpload}
 							>Clear</Button
 						>
 					{/if}

@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { Button, InlineLoading, Modal } from 'carbon-components-svelte'
-	import { ArrowRight16 } from 'carbon-icons-svelte'
+	import { ArrowRight } from 'carbon-icons-svelte'
 	import { buildTransactionCreateASA } from '../../../$lib/transaction-builder/createAsset'
 	import { signTransaction, submitTransaction } from '../../../$lib/transaction-builder/common'
 
@@ -104,7 +104,7 @@
 		on:click={confirmModal}
 		type="button"
 		disabled={!isValid || open}
-		icon={isSubmitting ? InlineLoading : ArrowRight16}>Create</Button
+		icon={isSubmitting ? InlineLoading : ArrowRight}>Create</Button
 	>
 
 	<Modal

@@ -9,7 +9,7 @@
 
 	import { Modal } from 'carbon-components-svelte'
 	import { Button } from 'carbon-components-svelte'
-	import { Wallet16 } from 'carbon-icons-svelte'
+	import { Wallet } from 'carbon-icons-svelte'
 	import { formatWallet } from '../../../$lib/helper/utils'
 
 	export let label = 'Connect'
@@ -36,7 +36,7 @@
 			<img src="/icons/algo.svg" alt="Algo" />
 		</div>
 	{:else}
-		<Button kind="tertiary" icon={Wallet16} on:click={() => (open = true)}>{label}</Button>
+		<Button kind="tertiary" icon={Wallet} on:click={() => (open = true)}>{label}</Button>
 	{/if}
 </div>
 

@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { Button, OverflowMenu, OverflowMenuItem } from 'carbon-components-svelte'
-	import { ArrowLeft16, Edit16, Share16 } from 'carbon-icons-svelte'
+	import { ArrowLeft, Edit, Share } from 'carbon-icons-svelte'
 	import ProfileAvatar from './ProfileAvatar.svelte'
 	import ProfileAccountName from './ProfileAccountName.svelte'
 	import { goto } from '$app/navigation'
@@ -35,18 +35,18 @@
 		{#if !isEditProfile}
 			<div class="profile-meta__action">
 				{#if isSelf}
-					<Button size="field" kind="secondary" on:click={editProfile} icon={Edit16}
+					<Button size="field" kind="secondary" on:click={editProfile} icon={Edit}
 						>Edit Profile</Button
 					>
 				{/if}
-				<Button size="field" kind="secondary" icon={Share16} iconDescription="Share Profile" />
+				<Button size="field" kind="secondary" icon={Share} iconDescription="Share Profile" />
 				<OverflowMenu kind="secondary" flipped>
 					<OverflowMenuItem danger text="Report User" />
 				</OverflowMenu>
 			</div>
 		{:else}
 			<div class="profile-meta__action">
-				<Button size="field" kind="secondary" on:click={backToProfile} icon={ArrowLeft16}
+				<Button size="field" kind="secondary" on:click={backToProfile} icon={ArrowLeft}
 					>Back to Profile</Button
 				>
 			</div>

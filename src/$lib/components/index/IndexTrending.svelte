@@ -1,7 +1,7 @@
 <script>
 	import { goto } from '$app/navigation'
 	import { Button } from 'carbon-components-svelte'
-	import { ArrowRight16 } from 'carbon-icons-svelte'
+	import { ArrowRight } from 'carbon-icons-svelte'
 	import TrendingItem from '../common/TrendingItem.svelte'
 </script>
 
@@ -9,7 +9,7 @@
 	<div class="container">
 		<div class="section__header">
 			<h3>Trending</h3>
-			<Button kind="tertiary" icon={ArrowRight16} on:click={() => goto('/trending')}
+			<Button kind="tertiary" icon={ArrowRight} on:click={() => goto('/trending')}
 				>See all in Trending</Button
 			>
 		</div>
