@@ -11,7 +11,7 @@
 	import ConnectWallet from '../common/ConnectWallet.svelte'
 	import HeaderWallet from './HeaderWallet.svelte'
 	import HeaderNavItem from './HeaderNavItem.svelte'
-	import { UserProfile16, ShowDataCards16, Settings16, Logout16 } from 'carbon-icons-svelte'
+	import { UserProfile, ShowDataCards, Settings, Logout } from 'carbon-icons-svelte'
 
 	let isConnected = false
 	let account = ''
@@ -62,18 +62,18 @@
 
 				<div class="header-nav">
 					<HeaderNavItem
-						icon={UserProfile16}
+						icon={UserProfile}
 						label="My Profile"
 						action={() => navigate('/profile')}
 					/>
 					<HeaderNavItem
-						icon={ShowDataCards16}
+						icon={ShowDataCards}
 						label="My Collections"
 						action={() => navigate('/profile/collections')}
 					/>
 					<hr />
-					<HeaderNavItem icon={Settings16} label="Settings" action={() => navigate('/settings')} />
-					<HeaderNavItem icon={Logout16} label="Disconnect" action={walletDisconnect} />
+					<HeaderNavItem icon={Settings} label="Settings" action={() => navigate('/settings')} />
+					<HeaderNavItem icon={Logout} label="Disconnect" action={walletDisconnect} />
 				</div>
 			</div>
 		</div>

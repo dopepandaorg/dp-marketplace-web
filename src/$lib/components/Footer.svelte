@@ -1,6 +1,6 @@
 <script>
 	import { ImageLoader } from 'carbon-components-svelte'
-	import { LogoTwitter32, LogoDiscord32, MailAll32 } from 'carbon-icons-svelte'
+	import { LogoTwitter, LogoDiscord, MailAll } from 'carbon-icons-svelte'
 	import ToastNotifications from './common/ToastNotifications.svelte'
 </script>
 
@@ -39,16 +39,16 @@
 						<ul>
 							<li>
 								<a href="https://twitter.com/DopePandaOrg" target="_blank" rel="nofollow"
-									><LogoTwitter32 /></a
+									><LogoTwitter /></a
 								>
 							</li>
 							<li>
 								<a href="https://discord.gg/KMsyYaQC" target="_blank" rel="nofollow"
-									><LogoDiscord32 /></a
+									><LogoDiscord /></a
 								>
 							</li>
 							<li>
-								<a href="mailto:team@dopepanda.org" target="_blank" rel="nofollow"><MailAll32 /></a>
+								<a href="mailto:team@dopepanda.org" target="_blank" rel="nofollow"><MailAll /></a>
 							</li>
 						</ul>
 					</div>

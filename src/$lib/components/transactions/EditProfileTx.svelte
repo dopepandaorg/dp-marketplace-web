@@ -6,7 +6,7 @@
 	import { signTransaction, submitTransaction } from '../../../$lib/transaction-builder/common'
 	import { onClearPera } from '../../../$lib/helper/walletConnect'
 	import { buildTransactionProfileEdit } from '../../../$lib/transaction-builder/profile'
-	import { UpdateNow16 } from 'carbon-icons-svelte'
+	import { UpdateNow } from 'carbon-icons-svelte'
 	import { mutation } from '@urql/svelte'
 	import { Q_SYNC_PROFILE } from '../../../$lib/constants/queries'
 
@@ -113,7 +113,7 @@
 			on:click={confirmModal}
 			type="button"
 			disabled={open}
-			icon={isSubmitting ? InlineLoading : UpdateNow16}>Update Profile</Button
+			icon={isSubmitting ? InlineLoading : UpdateNow}>Update Profile</Button
 		>
 	</div>
 

@@ -4,7 +4,7 @@
 	import { explorerAddressUrl } from '../../../$lib/helper/utils'
 
 	import { formatWallet } from '../../../$lib/helper/utils'
-	import { Launch16 } from 'carbon-icons-svelte'
+	import { Launch } from 'carbon-icons-svelte'
 	import { Button } from 'carbon-components-svelte'
 	import { goto } from '$app/navigation'
 	import HeaderWalletAsset from './HeaderWalletAsset.svelte'
@@ -35,7 +35,7 @@
 			<img src="/icons/algo.svg" alt="Algo" />
 			{formatWallet(account, 6)}
 		</div>
-		<Launch16 />
+		<Launch />
 	</div>
 
 	<div class="header-wallet__assets">
