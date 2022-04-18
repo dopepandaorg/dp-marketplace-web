@@ -10,12 +10,12 @@
 	import ProfileAvatar from '../profile/ProfileAvatar.svelte'
 	import IconIPFS from '../../../../static/icons/ipfs.svg'
 	import IconAlgoExplorer from '../../../../static/icons/algoexplorer.svg'
-	import ContestVoteTx from '../../../$lib/components/transactions/ContestVoteTx.svelte'
-	import { getGetOrdinal, nWeightFormat } from '../../../$lib/helper/stringUtils'
+	import ContestVoteTx from '$lib/components/transactions/ContestVoteTx.svelte'
+	import { getGetOrdinal, nWeightFormat } from '$lib/helper/stringUtils'
 	import { wallet } from '../../../stores/wallet'
 	import ConnectWallet from './ConnectWallet.svelte'
 	import ContestVoteCountdown from '../contest/ContestVoteCountdown.svelte'
-	import { VotingStatus } from '../../../$lib/constants/enums'
+	import { VotingStatus } from '$lib/constants/enums'
 
 	export let id
 	export let contestId

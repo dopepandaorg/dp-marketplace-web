@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { InlineLoading } from 'carbon-components-svelte'
-	import { LoadingStatus } from '../../../$lib/constants/enums'
+	import { LoadingStatus } from '$lib/constants/enums'
 
 	export let stepCount
 	export let status: LoadingStatus = LoadingStatus.NONE

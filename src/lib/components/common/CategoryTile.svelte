@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { ImageLoader } from 'carbon-components-svelte'
-	import { CategoryTileTheme } from '../../../$lib/constants/enums'
+	import { CategoryTileTheme } from '$lib/constants/enums'
 
 	export let title: string
 	export let imageUrl: string

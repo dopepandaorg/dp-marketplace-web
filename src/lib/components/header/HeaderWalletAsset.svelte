@@ -1,8 +1,8 @@
 <script lang="ts">
 	import { wallet } from '../../../stores/wallet'
 	import { onDestroy } from 'svelte'
-	import { assetImageUrl, formatAmount } from '../../../$lib/helper/utils'
-	import { DPANDA_ASSET_ID, getNativeASAs } from '../../../$lib/constants/assets'
+	import { assetImageUrl, formatAmount } from '$lib/helper/utils'
+	import { DPANDA_ASSET_ID, getNativeASAs } from '$lib/constants/assets'
 	import { Button, SkeletonPlaceholder } from 'carbon-components-svelte'
 
 	export let unit: string

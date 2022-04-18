@@ -2,14 +2,14 @@
 	import { Button, InlineLoading, Modal } from 'carbon-components-svelte'
 	import { wallet } from '../../../stores/wallet'
 	import type { Transaction } from 'algosdk'
-	import { SignedTxn, WalletType } from '../../../$lib/interfaces/wallet'
-	import { signTransaction, submitTransaction } from '../../../$lib/transaction-builder/common'
-	import { onClearPera } from '../../../$lib/helper/walletConnect'
-	import { buildTransactionContestVote } from '../../../$lib/transaction-builder/contest'
+	import { SignedTxn, WalletType } from '$lib/interfaces/wallet'
+	import { signTransaction, submitTransaction } from '$lib/transaction-builder/common'
+	import { onClearPera } from '$lib/helper/walletConnect'
+	import { buildTransactionContestVote } from '$lib/transaction-builder/contest'
 	import { mutation, operationStore, subscription } from '@urql/svelte'
-	import { Q_CAST_VOTE, Q_SUB_DID_CONTEST_ENTRY_VOTE } from '../../../$lib/constants/queries'
+	import { Q_CAST_VOTE, Q_SUB_DID_CONTEST_ENTRY_VOTE } from '$lib/constants/queries'
 	import TxStep from './TxStep.svelte'
-	import { LoadingStatus } from '../../../$lib/constants/enums'
+	import { LoadingStatus } from '$lib/constants/enums'
 
 	const updateDBMutation = mutation({ query: Q_CAST_VOTE })
 

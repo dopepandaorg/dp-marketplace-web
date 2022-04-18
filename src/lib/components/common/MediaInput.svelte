@@ -7,7 +7,7 @@
 		Switch
 	} from 'carbon-components-svelte'
 	import AssetCIDInput from './AssetCIDInput.svelte'
-	import { upload } from '../../../$lib/helper/web3StorageClient'
+	import { upload } from '$lib/helper/web3StorageClient'
 	import { Close, SwitchLayer_2, TrashCan } from 'carbon-icons-svelte'
 
 	export let label = 'Media'

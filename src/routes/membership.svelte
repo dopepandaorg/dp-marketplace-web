@@ -1,7 +1,7 @@
 <script>
-	import PageHeader from '../$lib/components/common/PageHeader.svelte'
+	import PageHeader from '$lib/components/common/PageHeader.svelte'
 
-	import EmptyTab from '../$lib/components/common/EmptyTab.svelte'
+	import EmptyTab from '$lib/components/common/EmptyTab.svelte'
 </script>
 
 <svelte:head>

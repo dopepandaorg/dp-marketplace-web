@@ -1,5 +1,5 @@
 <script>
-	import EmptyTab from '../../$lib/components/common/EmptyTab.svelte'
+	import EmptyTab from '$lib/components/common/EmptyTab.svelte'
 </script>
 
 <EmptyTab

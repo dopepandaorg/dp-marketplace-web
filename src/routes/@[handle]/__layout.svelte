@@ -1,12 +1,12 @@
 <script>
 	import { page } from '$app/stores'
 	import { operationStore, query } from '@urql/svelte'
-	import { Q_GET_PROFILE, Q_GET_PROFILE_BY_HANDLE } from '../../$lib/constants/queries'
-	import ProfileBanner from '../../$lib/components/profile/ProfileBanner.svelte'
-	import ProfileBannerSkeleton from '../../$lib/components/profile/ProfileBannerSkeleton.svelte'
-	import ProfileNavigation from '../../$lib/components/profile/ProfileNavigation.svelte'
-	import ProfileContentSkeleton from '../../$lib/components/profile/ProfileContentSkeleton.svelte'
-	import { isValidAlgoAddress } from '../../$lib/helper/algoClient'
+	import { Q_GET_PROFILE, Q_GET_PROFILE_BY_HANDLE } from '$lib/constants/queries'
+	import ProfileBanner from '$lib/components/profile/ProfileBanner.svelte'
+	import ProfileBannerSkeleton from '$lib/components/profile/ProfileBannerSkeleton.svelte'
+	import ProfileNavigation from '$lib/components/profile/ProfileNavigation.svelte'
+	import ProfileContentSkeleton from '$lib/components/profile/ProfileContentSkeleton.svelte'
+	import { isValidAlgoAddress } from '$lib/helper/algoClient'
 
 	let isLoading = true
 	let userProfile

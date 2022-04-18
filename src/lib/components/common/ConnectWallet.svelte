@@ -10,7 +10,7 @@
 	import { Modal } from 'carbon-components-svelte'
 	import { Button } from 'carbon-components-svelte'
 	import { Wallet } from 'carbon-icons-svelte'
-	import { formatWallet } from '../../../$lib/helper/utils'
+	import { formatWallet } from '$lib/helper/utils'
 
 	export let label = 'Connect'
 	let open = false

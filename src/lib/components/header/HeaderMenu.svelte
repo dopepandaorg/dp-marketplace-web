@@ -7,7 +7,7 @@
 	import { goto } from '$app/navigation'
 	import { wallet } from '../../../stores/wallet'
 	import { onDisconnect } from '../../helper/walletConnect'
-	import { formatWallet } from '../../../$lib/helper/utils'
+	import { formatWallet } from '$lib/helper/utils'
 	import ConnectWallet from '../common/ConnectWallet.svelte'
 	import HeaderWallet from './HeaderWallet.svelte'
 	import HeaderNavItem from './HeaderNavItem.svelte'

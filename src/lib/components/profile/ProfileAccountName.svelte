@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { CopyButton } from 'carbon-components-svelte'
-	import { formatWallet } from '../../../$lib/helper/utils'
+	import { formatWallet } from '$lib/helper/utils'
 
 	export let name: string
 	export let handle: string

@@ -1,5 +1,5 @@
 import { writable } from 'svelte/store'
-import type { ToastRecord } from '../$lib/interfaces/toast'
+import type { ToastRecord } from '$lib/interfaces/toast'
 
 const defaultRecord = {
 	kind: 'info',

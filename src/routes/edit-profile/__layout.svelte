@@ -1,6 +1,6 @@
 <script lang="ts" context="module">
 	export const ssr = false
-	import { authGuard } from '../../$lib/guards/auth'
+	import { authGuard } from '$lib/guards/auth'
 
 	export async function load({ url }) {
 		return authGuard({ url })
@@ -9,8 +9,8 @@
 
 <script>
 	import { wallet } from '../../stores/wallet'
-	import ProfileBanner from '../../$lib/components/profile/ProfileBanner.svelte'
-	import ProfileBannerSkeleton from '../../$lib/components/profile/ProfileBannerSkeleton.svelte'
+	import ProfileBanner from '$lib/components/profile/ProfileBanner.svelte'
+	import ProfileBannerSkeleton from '$lib/components/profile/ProfileBannerSkeleton.svelte'
 	import { fetchProfile, profile } from '../../stores/profile'
 
 	let userProfile

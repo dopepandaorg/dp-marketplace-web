@@ -1,15 +1,15 @@
 <script lang="ts">
 	import { ImageLoader, SkeletonPlaceholder } from 'carbon-components-svelte'
-	import { convertIPFSUrl } from '../../../$lib/constants/assets'
+	import { convertIPFSUrl } from '$lib/constants/assets'
 	import { goto } from '$app/navigation'
-	import { ContestStatus } from '../../../$lib/constants/enums'
-	import type { ContestRecord } from '../../../$lib/interfaces/contest'
+	import { ContestStatus } from '$lib/constants/enums'
+	import type { ContestRecord } from '$lib/interfaces/contest'
 
 	import dayjs from 'dayjs'
 	import relativeTime from 'dayjs/plugin/relativeTime'
 	import { operationStore, query } from '@urql/svelte'
-	import { Q_GET_CONTEST_VOTES } from '../../../$lib/constants/queries'
-	import { contestTypes, getOptionValue } from '../../../$lib/constants/options'
+	import { Q_GET_CONTEST_VOTES } from '$lib/constants/queries'
+	import { contestTypes, getOptionValue } from '$lib/constants/options'
 
 	dayjs.extend(relativeTime)
 

@@ -1,6 +1,6 @@
 import { operationStore, query } from '@urql/svelte'
 import { get } from 'svelte/store'
-import { Q_GET_PROFILE } from '../$lib/constants/queries'
+import { Q_GET_PROFILE } from '$lib/constants/queries'
 
 /**
  * Initialize the wallet store

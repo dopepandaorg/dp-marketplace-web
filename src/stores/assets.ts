@@ -1,6 +1,6 @@
 import { wallet } from './wallet'
 import { writable, get } from 'svelte/store'
-import { LoadingStatus } from '../$lib/constants/enums'
+import { LoadingStatus } from '$lib/constants/enums'
 
 /**
  * Initialize the wallet store

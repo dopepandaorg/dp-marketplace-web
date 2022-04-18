@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { TextInput } from 'carbon-components-svelte'
-	import { E_CID_INPUT_INCORRECT } from '../../../$lib/constants/strings'
+	import { E_CID_INPUT_INCORRECT } from '$lib/constants/strings'
 	export let value: string
 	export let isValid = true
 

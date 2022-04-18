@@ -1,6 +1,6 @@
 <script lang="ts" context="module">
 	export const ssr = false
-	import { authGuard } from '../../$lib/guards/auth'
+	import { authGuard } from '$lib/guards/auth'
 
 	export async function load({ url }) {
 		return authGuard({ url })
@@ -10,11 +10,11 @@
 <script>
 	import { operationStore, query } from '@urql/svelte'
 	import { wallet } from '../../stores/wallet'
-	import { Q_GET_PROFILE } from '../../$lib/constants/queries'
-	import ProfileBanner from '../../$lib/components/profile/ProfileBanner.svelte'
-	import ProfileNavigation from '../../$lib/components/profile/ProfileNavigation.svelte'
-	import ProfileBannerSkeleton from '../../$lib/components/profile/ProfileBannerSkeleton.svelte'
-	import ProfileContentSkeleton from '../../$lib/components/profile/ProfileContentSkeleton.svelte'
+	import { Q_GET_PROFILE } from '$lib/constants/queries'
+	import ProfileBanner from '$lib/components/profile/ProfileBanner.svelte'
+	import ProfileNavigation from '$lib/components/profile/ProfileNavigation.svelte'
+	import ProfileBannerSkeleton from '$lib/components/profile/ProfileBannerSkeleton.svelte'
+	import ProfileContentSkeleton from '$lib/components/profile/ProfileContentSkeleton.svelte'
 
 	let isLoading = true
 	let userProfile

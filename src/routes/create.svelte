@@ -3,9 +3,9 @@
 </script>
 
 <script>
-	import CreateForm from '../$lib/components/create/CreateForm.svelte'
-	import PageHeader from '../$lib/components/common/PageHeader.svelte'
-	import WalletNotConnected from '../$lib/components/common/WalletNotConnected.svelte'
+	import CreateForm from '$lib/components/create/CreateForm.svelte'
+	import PageHeader from '$lib/components/common/PageHeader.svelte'
+	import WalletNotConnected from '$lib/components/common/WalletNotConnected.svelte'
 	import { wallet } from '../stores/wallet'
 
 	let isConnected

@@ -1,7 +1,7 @@
 import type { RequestHandler } from '@sveltejs/kit'
-import type { AssetHoldingRecord, AssetRecord } from '../../../../$lib/interfaces/asset'
-import { API_WALLET } from '../../../../$lib/constants/api'
-import { indexerApi } from '../../../../$lib/helper/http'
+import type { AssetHoldingRecord, AssetRecord } from '$lib/interfaces/asset'
+import { API_WALLET } from '$lib/constants/api'
+import { indexerApi } from '$lib/helper/http'
 
 interface FetchResponse {
 	account: { assets: AssetHoldingRecord[]; 'created-assets': AssetRecord[] }

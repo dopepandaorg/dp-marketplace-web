@@ -1,30 +1,31 @@
 <script>
 	import { TextInput } from 'carbon-components-svelte'
-	import { E_UNIT_INPUT_CHAR_LEN, E_UNIT_INPUT_CHAR_TYPE } from '../../../$lib/constants/strings'
+	import { E_HANDLE_INPUT_INVALID } from '$lib/constants/strings'
 	export let value
 	export let isValid = false
 
+	export let label
+	export let placeholder
 	let invalidText
 
 	const validate = () => {
-		if (value.length > 0 && value.length > 8) {
+		if (value.length > 0 && !value.match(/^[a-zA-Z0-9_.-]+$/)) {
 			isValid = false
-			invalidText = E_UNIT_INPUT_CHAR_LEN
-		} else if (!value.match(/^[a-zA-Z0-9_.-]*$/)) {
-			isValid = false
-			invalidText = E_UNIT_INPUT_CHAR_TYPE
+			invalidText = E_HANDLE_INPUT_INVALID
 		} else {
 			isValid = true
 			invalidText = null
 		}
 	}
+
+	validate()
 </script>
 
 <TextInput
 	size="xl"
 	required
-	labelText="Unit Name*"
-	placeholder="Enter a unique code for your Asset"
+	labelText={label}
+	{placeholder}
 	invalid={value.length > 0 && !isValid}
 	{invalidText}
 	on:input={validate}

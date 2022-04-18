@@ -1,4 +1,4 @@
-import type { WalletType } from '../$lib/interfaces/wallet'
+import type { WalletType } from '$lib/interfaces/wallet'
 import { writable, get } from 'svelte/store'
 import { browser } from '$app/env'
 

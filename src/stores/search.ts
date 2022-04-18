@@ -1,5 +1,5 @@
-import { LoadingStatus } from '../$lib/constants/enums'
-import type { SearchResponse } from '../$lib/interfaces/search'
+import { LoadingStatus } from '$lib/constants/enums'
+import type { SearchResponse } from '$lib/interfaces/search'
 import { get, writable } from 'svelte/store'
 
 /**

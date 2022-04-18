@@ -2,16 +2,16 @@
 	import { operationStore, subscription } from '@urql/svelte'
 
 	import { ImageLoader } from 'carbon-components-svelte'
-	import { Q_SUB_CONTEST_ENTRY_LEADERBOARD } from '../../../$lib/constants/queries'
-	import { convertIPFSUrl } from '../../../$lib/constants/assets'
+	import { Q_SUB_CONTEST_ENTRY_LEADERBOARD } from '$lib/constants/queries'
+	import { convertIPFSUrl } from '$lib/constants/assets'
 
-	import type { ContestRecord } from '../../../$lib/interfaces/contest'
-	import { ContestStatus, VotingStatus } from '../../../$lib/constants/enums'
+	import type { ContestRecord } from '$lib/interfaces/contest'
+	import { ContestStatus, VotingStatus } from '$lib/constants/enums'
 	import ContestAssetTile from '../common/ContestAssetTile.svelte'
 	import ContestTabs from './ContestTabs.svelte'
 	import dayjs from 'dayjs'
 	import EmptyTab from '../common/EmptyTab.svelte'
-	import { parseAmount } from '../../../$lib/helper/utils'
+	import { parseAmount } from '$lib/helper/utils'
 
 	export let contest: ContestRecord
 

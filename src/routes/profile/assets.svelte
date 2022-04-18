@@ -1,10 +1,10 @@
 <script lang="ts">
 	import { assets, syncWalletAssets } from '../../stores/assets'
 	import { onDestroy, onMount } from 'svelte'
-	import EmptyTab from '../../$lib/components/common/EmptyTab.svelte'
-	import ProfileContentSkeleton from '../../$lib/components/profile/ProfileContentSkeleton.svelte'
-	import { LoadingStatus } from '../../$lib/constants/enums'
-	import EmptyPage from '../../$lib/components/common/EmptyPage.svelte'
+	import EmptyTab from '$lib/components/common/EmptyTab.svelte'
+	import ProfileContentSkeleton from '$lib/components/profile/ProfileContentSkeleton.svelte'
+	import { LoadingStatus } from '$lib/constants/enums'
+	import EmptyPage from '$lib/components/common/EmptyPage.svelte'
 
 	let walletAssets = []
 	let status = LoadingStatus.IN_PROGRESS

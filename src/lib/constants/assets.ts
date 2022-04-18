@@ -1,6 +1,6 @@
 import { NETWORK_ENV } from '../variables'
 import { NetworkEnv } from './enums'
-import nativeASAs from '../../$lib/data/nativeASA.json'
+import nativeASAs from '$lib/data/nativeASA.json'
 import { attachImgixProxy } from '../helper/imgixClient'
 
 export const getWalletConnectBridge = (env?: NetworkEnv) =>

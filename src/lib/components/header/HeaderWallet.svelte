@@ -1,9 +1,9 @@
 <script>
 	import { onDestroy, onMount } from 'svelte'
 	import { syncWalletAssets, wallet } from '../../../stores/wallet'
-	import { explorerAddressUrl } from '../../../$lib/helper/utils'
+	import { explorerAddressUrl } from '$lib/helper/utils'
 
-	import { formatWallet } from '../../../$lib/helper/utils'
+	import { formatWallet } from '$lib/helper/utils'
 	import { Launch } from 'carbon-icons-svelte'
 	import { Button } from 'carbon-components-svelte'
 	import { goto } from '$app/navigation'
