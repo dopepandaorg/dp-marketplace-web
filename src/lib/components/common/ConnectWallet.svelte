@@ -1,32 +1,34 @@
-<script context="module" lang="ts">
-	export const ssr = false
-</script>
-
 <script lang="ts">
 	import { onDestroy, onMount } from 'svelte'
 	import { wallet } from '../../../stores/wallet'
-	import { checkWallet, onConnnectMyalgo, onConnectPera } from '../../helper/walletConnect'
+	import { onConnnectMyalgo, onConnectPera } from '../../helper/walletConnect'
 
 	import { Modal } from 'carbon-components-svelte'
 	import { Button } from 'carbon-components-svelte'
 	import { Wallet } from 'carbon-icons-svelte'
 	import { formatWallet } from '$lib/helper/utils'
+	import { mutation } from '@urql/svelte'
+	import { Q_CONNECT_PROFILE } from '$lib/constants/queries'
 
 	export let label = 'Connect'
 	let open = false
 	let isConnected = false
 	let account = ''
 
+	const connectWalletMutation = mutation({ query: Q_CONNECT_PROFILE })
+
 	const walletSub = wallet.subscribe((wallet) => {
 		isConnected = wallet.isConnected
-		open = false
 		account = formatWallet(wallet.account)
+
+		if (open) {
+			connectWalletMutation({ wallet: wallet.account })
+		}
+
+		open = false
 	})
 
 	onDestroy(walletSub)
-	onMount(() => {
-		checkWallet()
-	})
 </script>
 
 <div class="connect-wallet">

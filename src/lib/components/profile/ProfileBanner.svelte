@@ -4,10 +4,13 @@
 	import ProfileAvatar from './ProfileAvatar.svelte'
 	import ProfileAccountName from './ProfileAccountName.svelte'
 	import { goto } from '$app/navigation'
+	import { convertIPFSCIDToUrl } from '$lib/constants/assets'
 
 	export let name
 	export let handle
 	export let wallet
+	export let avatar_cid
+	export let banner_cid
 	export let isSelf = false
 	export let isEditProfile = false
 
@@ -21,9 +24,12 @@
 </script>
 
 <div class="profile-banner__wrap">
-	<div class="profile-banner">
+	<div
+		class="profile-banner"
+		style={banner_cid && `background-image: url(${convertIPFSCIDToUrl(banner_cid)})`}
+	>
 		<div class="profile-banner__avatar">
-			<ProfileAvatar identifier={wallet} />
+			<ProfileAvatar {avatar_cid} identifier={wallet} />
 		</div>
 	</div>
 
@@ -117,6 +123,8 @@
 		padding: 1rem;
 
 		background: radial-gradient(50% 442.86% at 50% 100%, #420023 9.86%, #ff0089 92.25%);
+		background-position: center;
+		background-size: cover;
 
 		@media screen and (min-width: 768px) {
 			height: 150px;

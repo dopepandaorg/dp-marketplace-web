@@ -108,10 +108,6 @@
 
 	const close = () => {
 		clear()
-
-		if (walletType === WalletType.PERA) {
-			onClearPera()
-		}
 	}
 
 	const contestVote = operationStore(Q_SUB_DID_CONTEST_ENTRY_VOTE, {

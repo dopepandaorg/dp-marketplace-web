@@ -15,12 +15,17 @@
 	import ProfileNavigation from '$lib/components/profile/ProfileNavigation.svelte'
 	import ProfileBannerSkeleton from '$lib/components/profile/ProfileBannerSkeleton.svelte'
 	import ProfileContentSkeleton from '$lib/components/profile/ProfileContentSkeleton.svelte'
+	import { onMount } from 'svelte'
 
 	let isLoading = true
 	let userProfile
 
 	const profile = operationStore(Q_GET_PROFILE, { wallet: $wallet.account })
 	query(profile)
+
+	onMount(() => {
+		profile.reexecute({ requestPolicy: 'network-only' })
+	})
 
 	profile.subscribe((p) => {
 		isLoading = p.fetching
@@ -31,7 +36,9 @@
 			userProfile = {
 				display_name: '',
 				handle: '',
-				wallet: $wallet.account
+				wallet: $wallet.account,
+				banner_cid: null,
+				avatar_cid: null
 			}
 		}
 	})
@@ -49,6 +56,8 @@
 				name={userProfile.display_name}
 				handle={userProfile.handle}
 				wallet={userProfile.wallet}
+				avatar_cid={userProfile.avatar_cid}
+				banner_cid={userProfile.banner_cid}
 			/>
 			<ProfileNavigation />
 

@@ -17,27 +17,6 @@ let walletConnectConnector: WalletConnect = new WalletConnect({
 })
 
 /**
- * A slient check for a pre connected wallet
- *
- */
-export const checkWallet = () => {
-	// walletConnectConnector = new WalletConnect({
-	// 	bridge: getWalletConnectBridge(),
-	// 	qrcodeModal: QRCodeModal,
-	// 	clientMeta: {
-	// 		name: 'DopePanda Marketplace',
-	// 		description: 'A next-gen creator ecosystem.',
-	// 		url: 'https://dopepanda.app',
-	// 		icons: ['https://dopepanda.app/favicon-96x96.png']
-	// 	}
-	// })
-	// const hasWalletConnect = localStorage.getItem('walletconnect')
-	// if (hasWalletConnect) {
-	// 	onConnectPera(true)
-	// }
-}
-
-/**
  * Myalgo
  */
 export const onConnnectMyalgo = () => {

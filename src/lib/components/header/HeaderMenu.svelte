@@ -12,6 +12,7 @@
 	import HeaderWallet from './HeaderWallet.svelte'
 	import HeaderNavItem from './HeaderNavItem.svelte'
 	import { UserProfile, ShowDataCards, Settings, Logout } from 'carbon-icons-svelte'
+	import HeaderSubscription from './HeaderSubscription.svelte'
 
 	let isConnected = false
 	let account = ''
@@ -59,7 +60,7 @@
 		<div class="header-auth__dropdown">
 			<div class="header-auth__dropdown__inner">
 				<div><HeaderWallet /></div>
-
+				<div><HeaderSubscription /></div>
 				<div class="header-nav">
 					<HeaderNavItem
 						icon={UserProfile}

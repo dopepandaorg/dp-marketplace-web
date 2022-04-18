@@ -3,11 +3,17 @@ import { Transaction, makePaymentTxnWithSuggestedParamsFromObject } from 'algosd
 import { getAlgoClient } from '../helper/algoClient'
 import { addToast } from '../../stores/toast'
 import { N_ERROR_CREATE_TXN } from '../constants/notifications'
+import type { ProfileRecord } from '$lib/interfaces/profile'
 
 export const buildTransactionProfileEdit = async (
 	walletAddress: string,
 	displayName: string,
-	bio: string
+	bio: string,
+	avatar_cid: string,
+	banner_cid: string,
+	social_twitter: string,
+	social_instagram: string,
+	social_website: string
 ): Promise<Transaction> => {
 	let txn: Transaction
 
@@ -16,7 +22,18 @@ export const buildTransactionProfileEdit = async (
 		const algodClient = getAlgoClient()
 		const params = await algodClient.getTransactionParams().do()
 
-		const note = `dp.profile({"display_name":"${displayName}","bio":"${bio}"})`
+		const attributes = {
+			display_name: displayName,
+			bio,
+			social_twitter,
+			social_instagram,
+			social_website
+		} as ProfileRecord
+
+		if (avatar_cid) attributes.avatar_cid = avatar_cid
+		if (banner_cid) attributes.banner_cid = banner_cid
+
+		const note = `dp.profile(${JSON.stringify(attributes)})`
 
 		txn = makePaymentTxnWithSuggestedParamsFromObject({
 			suggestedParams: { ...params },

@@ -11,7 +11,7 @@
 <PageHeader
 	title="DopePanda Membership"
 	subtitle="Create and mint your digital art on Algorand"
-	size="sm"
+	size="lg"
 />
 
 <section class="section">

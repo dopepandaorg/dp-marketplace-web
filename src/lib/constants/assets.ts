@@ -21,6 +21,9 @@ export const getNativeASAs = (env?: NetworkEnv) =>
 		? (nativeASAs as any).mainnet
 		: (nativeASAs as any).testnet
 
+export const convertIPFSCIDToUrl = (url: string): string => {
+	return (url && attachImgixProxy('https://cloudflare-ipfs.com/ipfs/' + url)) || ''
+}
 export const convertIPFSUrl = (url: string): string => {
 	return (
 		(url && attachImgixProxy(url.replace('ipfs://', 'https://cloudflare-ipfs.com/ipfs/'))) || ''
