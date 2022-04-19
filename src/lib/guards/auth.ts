@@ -1,5 +1,5 @@
 import { get } from 'svelte/store'
-import { wallet } from '../../stores/wallet'
+import { wallet } from '$lib/stores/wallet'
 
 const isClient = typeof window !== 'undefined'
 const protectedRoutes = ['/profile']

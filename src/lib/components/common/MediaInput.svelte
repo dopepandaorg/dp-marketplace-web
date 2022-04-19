@@ -230,11 +230,20 @@
 				.media-input__upload-preview {
 					img {
 						width: 100%;
-						height: 200px;
-						min-height: 200px;
+						height: 180px;
+						min-height: 180px;
 						object-fit: cover;
 					}
 				}
+			}
+		}
+
+		@media screen and (max-width: 767px) {
+			flex-direction: column;
+
+			.media-input__upload {
+				margin-left: 0;
+				margin-top: 1.5rem;
 			}
 		}
 	}

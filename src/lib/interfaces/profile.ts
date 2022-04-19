@@ -1,6 +1,6 @@
 export interface ProfileRecord {
 	wallet: string
-	display_name: string
+	display_name?: string
 	handle: string
 	bio?: string
 	avatar_cid?: string
@@ -8,4 +8,5 @@ export interface ProfileRecord {
 	social_twitter?: string
 	social_instagram?: string
 	social_website?: string
+	created_at?: string
 }

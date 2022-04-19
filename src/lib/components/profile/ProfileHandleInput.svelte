@@ -30,4 +30,6 @@
 	{invalidText}
 	on:input={validate}
 	bind:value
+	disabled={true}
+	helperText="Subscribe to a DopePanda membership and reserve your url handle"
 />

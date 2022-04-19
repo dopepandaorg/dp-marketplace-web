@@ -1,12 +1,8 @@
-<script context="module">
-	export const ssr = false
-</script>
-
 <script>
+	import { wallet } from '$lib/stores/wallet'
 	import CreateForm from '$lib/components/create/CreateForm.svelte'
 	import PageHeader from '$lib/components/common/PageHeader.svelte'
 	import WalletNotConnected from '$lib/components/common/WalletNotConnected.svelte'
-	import { wallet } from '../stores/wallet'
 
 	let isConnected
 	wallet.subscribe((w) => (isConnected = w.isConnected))

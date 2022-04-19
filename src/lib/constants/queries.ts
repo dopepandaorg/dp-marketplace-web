@@ -15,6 +15,7 @@ export const Q_GET_PROFILE_BY_HANDLE = gql`
 			social_instagram
 			social_twitter
 			social_website
+			created_at
 		}
 	}
 `
@@ -30,6 +31,7 @@ export const Q_GET_PROFILE = gql`
 			social_instagram
 			social_twitter
 			social_website
+			created_at
 		}
 	}
 `

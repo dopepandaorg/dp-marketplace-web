@@ -5,11 +5,12 @@ import QRCodeModal from 'algorand-walletconnect-qrcode-modal'
 import MyAlgoConnect from '@randlabs/myalgo-connect'
 import { Buffer } from 'buffer'
 
-import { SignedTxn, WalletType } from '../interfaces/wallet'
-import { setWalletData, clearWalletData } from '../../stores/wallet'
-import { addToast } from '../../stores/toast'
-import { N_WALLET_DISCONNECT } from '../constants/notifications'
-import { getWalletConnectBridge, getMyAlgoBridge } from '../constants/assets'
+import type { SignedTxn } from '$lib/interfaces/wallet'
+import { WalletType } from '$lib/interfaces/wallet'
+import { setWalletData, clearWalletData } from '$lib/stores/wallet'
+import { addToast } from '$lib/stores/toast'
+import { N_WALLET_DISCONNECT } from '$lib/constants/notifications'
+import { getWalletConnectBridge, getMyAlgoBridge } from '$lib/constants/assets'
 
 let walletConnectConnector: WalletConnect = new WalletConnect({
 	bridge: getWalletConnectBridge(),

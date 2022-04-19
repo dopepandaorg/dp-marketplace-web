@@ -5,6 +5,7 @@
 	import EditProfileTx from '../transactions/EditProfileTx.svelte'
 	import type { ProfileRecord } from '$lib/interfaces/profile'
 	import { goto } from '$app/navigation'
+	import { Erase } from 'carbon-icons-svelte'
 
 	export let profileData: ProfileRecord
 
@@ -51,13 +52,13 @@
 			size="xl"
 			required
 			labelText="Display Name"
-			placeholder="Enter a name for your Profile"
+			placeholder="Enter a name for your profile"
 			bind:value={name}
 		/>
 
 		<ProfileHandleInput
-			label="Handle"
-			placeholder="Enter a name for your Profile"
+			label="URL Handle"
+			placeholder="Enter a URL handle for your profile"
 			bind:value={handle}
 			bind:isValid={isHandleValid}
 		/>
@@ -95,23 +96,20 @@
 	<FormGroup>
 		<TextInput
 			size="xl"
-			required
 			labelText="Twitter"
-			placeholder="Enter a name for your Profile"
+			placeholder="Enter your twitter handle"
 			bind:value={twitter}
 		/>
 		<TextInput
 			size="xl"
-			required
 			labelText="Instagram"
-			placeholder="Enter a name for your Profile"
+			placeholder="Enter your instagram handle"
 			bind:value={instagram}
 		/>
 		<TextInput
 			size="xl"
-			required
 			labelText="Website"
-			placeholder="Enter a name for your Profile"
+			placeholder="Enter your website URL"
 			bind:value={website}
 		/>
 	</FormGroup>
@@ -119,7 +117,8 @@
 	<hr />
 
 	<div class="form-submit">
-		<Button kind="secondary" on:click={clearForm} disabled={isSubmitting}>Clear</Button>
+		<Button kind="secondary" on:click={clearForm} disabled={isSubmitting} icon={Erase}>Clear</Button
+		>
 		<EditProfileTx
 			{name}
 			{bio}

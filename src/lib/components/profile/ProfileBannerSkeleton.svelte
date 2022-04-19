@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Button, IconSkeleton } from 'carbon-components-svelte'
+	import { Button } from 'carbon-components-svelte'
 	import ProfileAvatar from './ProfileAvatar.svelte'
 	import ProfileAccountNameSkeleton from './ProfileAccountNameSkeleton.svelte'
 </script>
@@ -18,8 +18,8 @@
 
 		<div class="profile-meta__action">
 			<Button size="field" kind="secondary" skeleton={true} />
-			<Button size="field" kind="secondary" icon={IconSkeleton} skeleton={true} />
-			<Button size="field" kind="secondary" icon={IconSkeleton} skeleton={true} />
+			<Button size="field" kind="secondary" skeleton={true} />
+			<Button size="field" kind="secondary" skeleton={true} />
 		</div>
 	</div>
 </div>

@@ -1,9 +1,9 @@
 import type { Transaction } from 'algosdk'
-import { algoSubmitTransaction } from '../helper/algoClient'
-import { SignedTxn, WalletType } from '../interfaces/wallet'
-import { addToast } from '../../stores/toast'
-import { N_ERROR_CREATE_TXN } from '../constants/notifications'
-import { onMyalgoSignTx, onPeraSignTx } from '../helper/walletConnect'
+import { algoSubmitTransaction } from '$lib/helper/algoClient'
+import { SignedTxn, WalletType } from '$lib/interfaces/wallet'
+import { addToast } from '$lib/stores/toast'
+import { N_ERROR_CREATE_TXN } from '$lib/constants/notifications'
+import { onMyalgoSignTx, onPeraSignTx } from '$lib/helper/walletConnect'
 
 export const signTransaction = async (
 	walletType: WalletType,

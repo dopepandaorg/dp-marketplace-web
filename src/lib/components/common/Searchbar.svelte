@@ -2,7 +2,7 @@
 	import { goto } from '$app/navigation'
 	import { page } from '$app/stores'
 	import { Search } from 'carbon-components-svelte'
-	import { doSearch } from '../../../stores/search'
+	import { doSearch } from '$lib/stores/search'
 
 	const params = $page.params
 

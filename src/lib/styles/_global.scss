@@ -1,3 +1,7 @@
+* {
+	box-sizing: border-box;
+}
+
 #svelte {
 	display: flex;
 	flex-direction: column;
@@ -72,4 +76,9 @@ button {
 
 .bx--toast-notification--low-contrast {
 	background-color: var(--dp--black-02) !important;
+}
+
+.bx--toast-notification__subtitle {
+	margin-top: 0.75rem !important;
+	margin-bottom: 0.75rem;
 }

@@ -1,6 +1,6 @@
 <script>
 	import CategoryTile from '../common/CategoryTile.svelte'
-	import { CategoryTileTheme } from '../../constants/enums'
+	import { CategoryTileTheme } from '$lib/constants/enums'
 </script>
 
 <section class="section">

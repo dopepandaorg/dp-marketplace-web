@@ -2,7 +2,7 @@
 	import EditProfileForm from '$lib/components/profile/EditProfileForm.svelte'
 	import { Q_GET_PROFILE } from '$lib/constants/queries'
 	import { operationStore, query } from '@urql/svelte'
-	import { wallet } from '../../stores/wallet'
+	import { wallet } from '$lib/stores/wallet'
 
 	export const profile = operationStore(Q_GET_PROFILE, { wallet: $wallet.account })
 	query(profile)
@@ -20,7 +20,7 @@
 		<h2>Edit Profile</h2>
 
 		{#if $profile.fetching}
-			Loading ...
+			Loading profile ...
 		{:else if profileData}
 			<EditProfileForm {profileData} />
 		{/if}

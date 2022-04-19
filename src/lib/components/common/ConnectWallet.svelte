@@ -1,7 +1,7 @@
 <script lang="ts">
-	import { onDestroy, onMount } from 'svelte'
-	import { wallet } from '../../../stores/wallet'
-	import { onConnnectMyalgo, onConnectPera } from '../../helper/walletConnect'
+	import { onDestroy } from 'svelte'
+	import { wallet } from '$lib/stores/wallet'
+	import { onConnnectMyalgo, onConnectPera } from '$lib/helper/walletConnect'
 
 	import { Modal } from 'carbon-components-svelte'
 	import { Button } from 'carbon-components-svelte'

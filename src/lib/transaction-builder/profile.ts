@@ -1,8 +1,8 @@
 import { Buffer } from 'buffer'
 import { Transaction, makePaymentTxnWithSuggestedParamsFromObject } from 'algosdk'
-import { getAlgoClient } from '../helper/algoClient'
-import { addToast } from '../../stores/toast'
-import { N_ERROR_CREATE_TXN } from '../constants/notifications'
+import { getAlgoClient } from '$lib/helper/algoClient'
+import { addToast } from '$lib/stores/toast'
+import { N_ERROR_CREATE_TXN } from '$lib/constants/notifications'
 import type { ProfileRecord } from '$lib/interfaces/profile'
 
 export const buildTransactionProfileEdit = async (

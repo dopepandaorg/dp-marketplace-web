@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { Button, InlineLoading, Modal } from 'carbon-components-svelte'
-	import { wallet } from '../../../stores/wallet'
+	import { UpdateNow } from 'carbon-icons-svelte'
+	import { wallet } from '$lib/stores/wallet'
 	import type { Transaction } from 'algosdk'
 	import { SignedTxn, WalletType } from '$lib/interfaces/wallet'
 	import { signTransaction, submitTransaction } from '$lib/transaction-builder/common'
@@ -140,7 +141,7 @@
 			on:click={confirmModal}
 			type="button"
 			disabled={!isValid || open}
-			icon={isSubmitting && InlineLoading}>Update Profile</Button
+			icon={isSubmitting ? InlineLoading : UpdateNow}>Update Profile</Button
 		>
 	</div>
 
@@ -206,7 +207,7 @@
 				/>
 			</div>
 			<div class="tx-modal__graphic">
-				<img src="/images/vote-graphic.svg" alt="" />
+				<img src="/images/edit-profile-graphic.svg" alt="" />
 			</div>
 		</div>
 	</Modal>
@@ -218,7 +219,6 @@
 			:global(.bx--btn) {
 				width: 100%;
 				max-width: none;
-				justify-content: center;
 				padding: 1rem;
 			}
 		}

@@ -1,4 +1,4 @@
-import type { ToastRecord } from '../interfaces/toast'
+import type { ToastRecord } from '$lib/interfaces/toast'
 
 export const N_WALLET_DISCONNECT: ToastRecord = {
 	kind: 'info',
