@@ -1,10 +1,10 @@
 <script lang="ts">
 	import { operationStore, query } from '@urql/svelte'
-	import { Q_GET_CONTEST_BY_SLUG } from '../../$lib/constants/queries'
+	import { Q_GET_CONTEST_BY_SLUG } from '$lib/constants/queries'
 	import { page } from '$app/stores'
 	import { InlineNotification } from 'carbon-components-svelte'
-	import ContestDetailPlaceholder from '../../$lib/components/contest/ContestDetailPlaceholder.svelte'
-	import ContestDetail from '../../$lib/components/contest/ContestDetail.svelte'
+	import ContestDetailPlaceholder from '$lib/components/contest/ContestDetailPlaceholder.svelte'
+	import ContestDetail from '$lib/components/contest/ContestDetail.svelte'
 
 	const slug = $page.params.slug
 

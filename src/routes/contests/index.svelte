@@ -1,10 +1,10 @@
 <script lang="ts">
 	import { operationStore, query } from '@urql/svelte'
-	import { Q_GET_CONTESTS } from '../../$lib/constants/queries'
+	import { Q_GET_CONTESTS } from '$lib/constants/queries'
 
-	import PageHeader from '../../$lib/components/common/PageHeader.svelte'
-	import ContestTile from '../../$lib/components/contest/ContestTile.svelte'
-	import ContestTilePlaceholder from '../../$lib/components/contest/ContestTilePlaceholder.svelte'
+	import PageHeader from '$lib/components/common/PageHeader.svelte'
+	import ContestTile from '$lib/components/contest/ContestTile.svelte'
+	import ContestTilePlaceholder from '$lib/components/contest/ContestTilePlaceholder.svelte'
 	import { InlineNotification } from 'carbon-components-svelte'
 
 	const contests = operationStore<any>(Q_GET_CONTESTS)
