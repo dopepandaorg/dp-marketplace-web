@@ -18,6 +18,7 @@
 		joinedAt = pd.created_at
 	})
 </script>
+
 {#if isLoading}
 	<div>
 		<div class="profile-bio">
@@ -30,8 +31,12 @@
 
 		<div class="profile-meta">
 			<div class="profile-meta__item">
-				<div class="profile-meta__item__label"><SkeletonPlaceholder style="width: 120px; height: 1.5rem;" /></div>
-				<div class="profile-meta__item__value"><SkeletonPlaceholder style="width: 240px; height: 1.5rem;" /></div>
+				<div class="profile-meta__item__label">
+					<SkeletonPlaceholder style="width: 120px; height: 1.5rem;" />
+				</div>
+				<div class="profile-meta__item__value">
+					<SkeletonPlaceholder style="width: 240px; height: 1.5rem;" />
+				</div>
 			</div>
 		</div>
 	</div>

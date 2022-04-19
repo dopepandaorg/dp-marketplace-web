@@ -338,12 +338,12 @@
   dependencies:
     esbuild "^0.13.15"
 
-"@sveltejs/adapter-vercel@next":
-  version "1.0.0-next.40"
-  resolved "https://registry.yarnpkg.com/@sveltejs/adapter-vercel/-/adapter-vercel-1.0.0-next.40.tgz#b6180adb396c96f6b4cca3d7eaf628020818765f"
-  integrity sha512-HJkfjP+tN0r+3tQZofSN6tCE/60fiIDg5dA7+SD4tNio1DADE1W5YhUZGvMQkjOe8kTSKE8/BdgLbwrqeLmDKg==
+"@sveltejs/adapter-vercel@1.0.0-next.47":
+  version "1.0.0-next.47"
+  resolved "https://registry.yarnpkg.com/@sveltejs/adapter-vercel/-/adapter-vercel-1.0.0-next.47.tgz#892af109f0eb60dd7cd4884d0aacb484af852a12"
+  integrity sha512-VV3vP8KqL9XOc7xfQLVhXTM5jrTme+r1qJy98u5/dhAhkdjqrGDwAKo/s7MoB3rTYxLb2b8I4QxAaoz2Y2aIBg==
   dependencies:
-    esbuild "^0.13.15"
+    esbuild "^0.14.21"
 
 "@sveltejs/kit@1.0.0-next.314":
   version "1.0.0-next.314"
@@ -1670,7 +1670,7 @@ esbuild@^0.13.15:
     esbuild-windows-64 "0.13.15"
     esbuild-windows-arm64 "0.13.15"
 
-esbuild@^0.14.27:
+esbuild@^0.14.21, esbuild@^0.14.27:
   version "0.14.36"
   resolved "https://registry.yarnpkg.com/esbuild/-/esbuild-0.14.36.tgz#0023a73eab57886ac5605df16ee421e471a971b3"
   integrity sha512-HhFHPiRXGYOCRlrhpiVDYKcFJRdO0sBElZ668M4lh2ER0YgnkLxECuFe7uWCf23FrcLc59Pqr7dHkTqmRPDHmw==
