@@ -1,5 +1,5 @@
 import { Web3Storage } from 'web3.storage'
-import { WEB3_STORAGE_TOKEN } from '../variables'
+import { WEB3_STORAGE_TOKEN } from '$lib/variables'
 
 /**
  * Helper function to upload an image to IPFS

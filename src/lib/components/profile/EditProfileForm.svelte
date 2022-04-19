@@ -1,23 +1,24 @@
 <script lang="ts">
 	import { Form, FormGroup, Button, TextInput, TextArea } from 'carbon-components-svelte'
-
 	import MediaInput from '../common/MediaInput.svelte'
-	import { getProfile } from '../../../stores/profile'
 	import ProfileHandleInput from './ProfileHandleInput.svelte'
 	import EditProfileTx from '../transactions/EditProfileTx.svelte'
+	import type { ProfileRecord } from '$lib/interfaces/profile'
+	import { goto } from '$app/navigation'
+	import { Erase } from 'carbon-icons-svelte'
 
-	let profileData = getProfile()
+	export let profileData: ProfileRecord
 
 	let name = profileData.display_name
-	let handle = profileData.handle
+	let handle = profileData.handle || ''
 	let isHandleValid = false
-	let bio = profileData.bio
-	let twitter = profileData.twitter
-	let instagram = profileData.instagram
-	let website = profileData.website
-	let avatarIpfsCID = profileData.avatar
+	let bio = profileData.bio || ''
+	let twitter = profileData.social_twitter || ''
+	let instagram = profileData.social_instagram || ''
+	let website = profileData.social_website || ''
+	let avatarIpfsCID = profileData.avatar_cid || ''
 	let isAvatarIpfsCIDValid = false
-	let bannerIpfsCID = profileData.banner
+	let bannerIpfsCID = profileData.banner_cid || ''
 	let isBannerIpfsCIDValid = false
 
 	let isValid = true
@@ -36,10 +37,6 @@
 		isValid = false
 	}
 
-	const onUpdate = () => {
-		profileData = getProfile()
-	}
-
 	$: {
 		// Validate form with default conditions
 		const isNameValid = !!name
@@ -55,13 +52,13 @@
 			size="xl"
 			required
 			labelText="Display Name"
-			placeholder="Enter a name for your Profile"
+			placeholder="Enter a name for your profile"
 			bind:value={name}
 		/>
 
 		<ProfileHandleInput
-			label="Handle"
-			placeholder="Enter a name for your Profile"
+			label="URL Handle"
+			placeholder="Enter a URL handle for your profile"
 			bind:value={handle}
 			bind:isValid={isHandleValid}
 		/>
@@ -88,6 +85,7 @@
 	<FormGroup>
 		<MediaInput
 			label="Profile Banner"
+			aspectRatio="16x9"
 			bind:value={bannerIpfsCID}
 			bind:isValid={isBannerIpfsCIDValid}
 		/>
@@ -98,23 +96,20 @@
 	<FormGroup>
 		<TextInput
 			size="xl"
-			required
 			labelText="Twitter"
-			placeholder="Enter a name for your Profile"
+			placeholder="Enter your twitter handle"
 			bind:value={twitter}
 		/>
 		<TextInput
 			size="xl"
-			required
 			labelText="Instagram"
-			placeholder="Enter a name for your Profile"
+			placeholder="Enter your instagram handle"
 			bind:value={instagram}
 		/>
 		<TextInput
 			size="xl"
-			required
 			labelText="Website"
-			placeholder="Enter a name for your Profile"
+			placeholder="Enter your website URL"
 			bind:value={website}
 		/>
 	</FormGroup>
@@ -122,9 +117,9 @@
 	<hr />
 
 	<div class="form-submit">
-		<Button kind="secondary" on:click={clearForm} disabled={isSubmitting}>Clear</Button>
+		<Button kind="secondary" on:click={clearForm} disabled={isSubmitting} icon={Erase}>Clear</Button
+		>
 		<EditProfileTx
-			{isValid}
 			{name}
 			{bio}
 			{twitter}
@@ -132,39 +127,21 @@
 			{website}
 			{avatarIpfsCID}
 			{bannerIpfsCID}
-			onSubmit={onUpdate}
+			{isValid}
+			bind:isSubmitting
+			on:complete={() => goto('/profile')}
 		/>
-
-		<!-- <div>
-			{#if isSubmitting}
-				<InlineLoading status="active" description="Submitting ..." />
-			{:else}
-				<Button type="submit" disabled={!isValid} icon={UpdateNow16}>Update Profile</Button>
-			{/if}
-		</div> -->
 	</div>
 </Form>
 
 <style lang="scss">
 	.form-submit {
-		display: flex;
+		display: grid;
 		justify-content: space-between;
+		grid-template-columns: 1fr 1fr;
+		gap: 4rem;
 
-		> div:first-child {
-			flex: 1;
-			margin-right: 2rem;
-		}
-
-		> div:last-child {
-			flex: 1;
-			margin-left: 2rem;
-
-			display: flex;
-			align-items: center;
-			justify-content: center;
-		}
-
-		:global(button) {
+		:global(.bx--btn) {
 			width: 100%;
 			min-height: 3.5rem;
 		}

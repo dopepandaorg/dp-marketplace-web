@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { ToastNotification } from 'carbon-components-svelte'
-	import { toasts } from '../../../stores/toast'
+	import { toasts } from '$lib/stores/toast'
 
 	let toastList = []
 	toasts.subscribe((t) => {

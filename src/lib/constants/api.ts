@@ -1,4 +1,4 @@
-import { NETWORK_ENV } from '../variables'
+import { NETWORK_ENV } from '$lib/variables'
 import { NetworkEnv } from './enums'
 
 export const ALGO_PS2_API_ENV = (env?: NetworkEnv) =>

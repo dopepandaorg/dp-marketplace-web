@@ -9,27 +9,30 @@
 	import AssetCIDInput from './AssetCIDInput.svelte'
 	import { upload } from '$lib/helper/web3StorageClient'
 	import { Close, SwitchLayer_2, TrashCan } from 'carbon-icons-svelte'
+	import { convertIPFSCIDToUrl } from '$lib/constants/assets'
 
 	export let label = 'Media'
 	export let value
 	export let isValid = false
+	export let acceptedFormats: string[] = ['.jpg', '.jpeg']
+	export let aspectRatio: '1x1' | '16x9' = '1x1'
 
 	let selectedTypeIndex = 0
 	let fileUploader
 
-	let fileSourceUrl = null
-	let fileCID = null
+	let fileSourceUrl: string = value ? convertIPFSCIDToUrl(value) : null
+	let fileCID = value ? value : null
 	let isFileCIDValid = false
 	let isFileUploading = false
 
-	let inputCID = ''
+	let inputCID = value ? `ifps://${value}` : null
 	let isInputCIDValid = false
 
 	const selectFile = (files: File[]) => {
 		if (FileReader && files && files.length) {
 			var fr = new FileReader()
 			fr.onload = function () {
-				fileSourceUrl = fr.result
+				fileSourceUrl = fr.result as string
 			}
 			fr.readAsDataURL(files[0])
 
@@ -85,15 +88,17 @@
 <div class="media-input bx--form-item">
 	<label for="">{label}*</label>
 
-	<div class="media-input-wrapper type--{selectedTypeIndex}">
+	<div class="media-input-wrapper type--{selectedTypeIndex} ratio--{aspectRatio}">
 		<div class="media-input__switch">
-			<ContentSwitcher bind:selectedIndex={selectedTypeIndex}>
-				<Switch text="Upload Media" />
-				<Switch text="Enter IPFS CID" />
-			</ContentSwitcher>
+			<div>
+				<ContentSwitcher bind:selectedIndex={selectedTypeIndex}>
+					<Switch text="Upload Media" />
+					<Switch text="Enter IPFS CID" />
+				</ContentSwitcher>
 
-			<div class="media-input__instructions">
-				Supported Formats: <br />JPG, PNG, GIF, BMP, MP4
+				<div class="media-input__instructions">
+					Supported Formats: <br />{acceptedFormats.join(', ')}
+				</div>
 			</div>
 
 			{#if selectedTypeIndex === 0}
@@ -147,7 +152,7 @@
 				<FileUploaderDropContainer
 					bind:ref={fileUploader}
 					labelText={!fileSourceUrl ? 'Select File' : ''}
-					accept={['.jpg', '.jpeg']}
+					accept={acceptedFormats}
 					on:change={(e) => {
 						selectFile(e.detail)
 					}}
@@ -161,10 +166,6 @@
 	.media-input-wrapper {
 		display: flex;
 		width: 100%;
-
-		&.type--1 {
-			flex-direction: column;
-		}
 
 		.media-input__instructions {
 			margin-top: 1.5rem;
@@ -211,6 +212,39 @@
 			display: grid;
 			grid-template-columns: 1fr 1fr;
 			gap: 2rem;
+		}
+
+		&.type--1 {
+			flex-direction: column;
+		}
+
+		&.ratio--16x9 {
+			flex-direction: column;
+
+			.media-input__upload {
+				min-height: 200px;
+				max-height: 200px;
+				margin-left: 0;
+				margin-top: 1.5rem;
+
+				.media-input__upload-preview {
+					img {
+						width: 100%;
+						height: 180px;
+						min-height: 180px;
+						object-fit: cover;
+					}
+				}
+			}
+		}
+
+		@media screen and (max-width: 767px) {
+			flex-direction: column;
+
+			.media-input__upload {
+				margin-left: 0;
+				margin-top: 1.5rem;
+			}
 		}
 	}
 

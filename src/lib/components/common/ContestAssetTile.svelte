@@ -6,13 +6,13 @@
 		SkeletonPlaceholder,
 		TooltipDefinition
 	} from 'carbon-components-svelte'
-	import { convertIPFSUrl, convertIPFSUrlOnly } from '../../constants/assets'
+	import { convertIPFSUrl, convertIPFSUrlOnly } from '$lib/constants/assets'
 	import ProfileAvatar from '../profile/ProfileAvatar.svelte'
 	import IconIPFS from '../../../../static/icons/ipfs.svg'
 	import IconAlgoExplorer from '../../../../static/icons/algoexplorer.svg'
 	import ContestVoteTx from '$lib/components/transactions/ContestVoteTx.svelte'
 	import { getGetOrdinal, nWeightFormat } from '$lib/helper/stringUtils'
-	import { wallet } from '../../../stores/wallet'
+	import { wallet } from '$lib/stores/wallet'
 	import ConnectWallet from './ConnectWallet.svelte'
 	import ContestVoteCountdown from '../contest/ContestVoteCountdown.svelte'
 	import { VotingStatus } from '$lib/constants/enums'

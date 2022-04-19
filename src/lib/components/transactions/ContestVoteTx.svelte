@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { Button, InlineLoading, Modal } from 'carbon-components-svelte'
-	import { wallet } from '../../../stores/wallet'
+	import { wallet } from '$lib/stores/wallet'
 	import type { Transaction } from 'algosdk'
 	import { SignedTxn, WalletType } from '$lib/interfaces/wallet'
 	import { signTransaction, submitTransaction } from '$lib/transaction-builder/common'
@@ -108,10 +108,6 @@
 
 	const close = () => {
 		clear()
-
-		if (walletType === WalletType.PERA) {
-			onClearPera()
-		}
 	}
 
 	const contestVote = operationStore(Q_SUB_DID_CONTEST_ENTRY_VOTE, {

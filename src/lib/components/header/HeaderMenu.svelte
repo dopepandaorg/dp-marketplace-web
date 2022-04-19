@@ -5,13 +5,14 @@
 <script lang="ts">
 	import { onDestroy } from 'svelte'
 	import { goto } from '$app/navigation'
-	import { wallet } from '../../../stores/wallet'
-	import { onDisconnect } from '../../helper/walletConnect'
+	import { wallet } from '$lib/stores/wallet'
+	import { onDisconnect } from '$lib/helper/walletConnect'
 	import { formatWallet } from '$lib/helper/utils'
 	import ConnectWallet from '../common/ConnectWallet.svelte'
 	import HeaderWallet from './HeaderWallet.svelte'
 	import HeaderNavItem from './HeaderNavItem.svelte'
 	import { UserProfile, ShowDataCards, Settings, Logout } from 'carbon-icons-svelte'
+	import HeaderSubscription from './HeaderSubscription.svelte'
 
 	let isConnected = false
 	let account = ''
@@ -59,7 +60,7 @@
 		<div class="header-auth__dropdown">
 			<div class="header-auth__dropdown__inner">
 				<div><HeaderWallet /></div>
-
+				<!-- <div><HeaderSubscription /></div> -->
 				<div class="header-nav">
 					<HeaderNavItem
 						icon={UserProfile}

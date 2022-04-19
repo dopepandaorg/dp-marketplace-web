@@ -1,15 +1,29 @@
 <script lang="ts">
+	import { getContext } from 'svelte'
+	import type { Writable } from 'svelte/store'
+	import { goto } from '$app/navigation'
+	import { convertIPFSCIDToUrl } from '$lib/constants/assets'
+	import type { ProfileRecord } from '$lib/interfaces/profile'
 	import { Button, OverflowMenu, OverflowMenuItem } from 'carbon-components-svelte'
 	import { ArrowLeft, Edit, Share } from 'carbon-icons-svelte'
 	import ProfileAvatar from './ProfileAvatar.svelte'
 	import ProfileAccountName from './ProfileAccountName.svelte'
-	import { goto } from '$app/navigation'
+	import ProfileBannerSkeleton from './ProfileBannerSkeleton.svelte'
+	import { addToast } from '$lib/stores/toast'
+	import ShareTwitter from '../common/ShareTwitter.svelte'
 
-	export let name
-	export let handle
-	export let wallet
 	export let isSelf = false
 	export let isEditProfile = false
+
+	let wallet
+	let name
+	let handle
+	let avatar_cid
+	let banner_cid
+
+	const getProfileLink = () => {
+		return window.location.protocol + '//' + window.location.host + '/@' + (handle || wallet)
+	}
 
 	const editProfile = () => {
 		goto('/edit-profile')
@@ -18,41 +32,84 @@
 	const backToProfile = () => {
 		goto('/profile')
 	}
+
+	const copyToClipboard = () => {
+		const profileLink = getProfileLink()
+
+		navigator.clipboard.writeText(profileLink).then(() => {
+			addToast({
+				kind: 'info',
+				title: 'Copied!',
+				subtitle: 'Link has been copied to the clipboard.'
+			})
+		})
+	}
+
+	const profileData = getContext<Writable<ProfileRecord>>('profile-data')
+	profileData.subscribe((pd) => {
+		wallet = pd.wallet
+		name = pd.display_name
+		handle = pd.handle
+		avatar_cid = pd.avatar_cid
+		banner_cid = pd.banner_cid
+	})
 </script>
 
-<div class="profile-banner__wrap">
-	<div class="profile-banner">
-		<div class="profile-banner__avatar">
-			<ProfileAvatar identifier={wallet} />
+{#if !wallet}
+	<ProfileBannerSkeleton />
+{:else}
+	<div class="profile-banner__wrap">
+		<div
+			class="profile-banner"
+			style={banner_cid && `background-image: url(${convertIPFSCIDToUrl(banner_cid)})`}
+		>
+			<div class="profile-banner__avatar">
+				<ProfileAvatar {avatar_cid} identifier={wallet} />
+			</div>
 		</div>
-	</div>
 
-	<div class="profile-meta">
-		<div class="profile-meta__account">
-			<ProfileAccountName {name} {handle} account={wallet} />
-		</div>
+		<div class="profile-meta">
+			<div class="profile-meta__account">
+				<ProfileAccountName {name} {handle} account={wallet} />
+			</div>
 
-		{#if !isEditProfile}
-			<div class="profile-meta__action">
-				{#if isSelf}
-					<Button size="field" kind="secondary" on:click={editProfile} icon={Edit}
-						>Edit Profile</Button
+			{#if !isEditProfile}
+				<div class="profile-meta__action">
+					{#if isSelf}
+						<Button size="field" kind="secondary" on:click={editProfile} icon={Edit}
+							>Edit Profile</Button
+						>
+					{/if}
+
+					<OverflowMenu kind="secondary" icon={Share} flipped>
+						<OverflowMenuItem text="Copy Link" on:click={copyToClipboard} />
+						<OverflowMenuItem>
+							<ShareTwitter
+								text="Check out this amazing profile!"
+								url={getProfileLink()}
+								hashtags="dopepanda"
+								via={null}
+								related={null}>Share on Twitter</ShareTwitter
+							>
+						</OverflowMenuItem>
+					</OverflowMenu>
+
+					{#if !isSelf}
+						<OverflowMenu kind="secondary" flipped>
+							<OverflowMenuItem danger text="Report User" />
+						</OverflowMenu>
+					{/if}
+				</div>
+			{:else}
+				<div class="profile-meta__action">
+					<Button size="field" kind="secondary" on:click={backToProfile} icon={ArrowLeft}
+						>Back to Profile</Button
 					>
-				{/if}
-				<Button size="field" kind="secondary" icon={Share} iconDescription="Share Profile" />
-				<OverflowMenu kind="secondary" flipped>
-					<OverflowMenuItem danger text="Report User" />
-				</OverflowMenu>
-			</div>
-		{:else}
-			<div class="profile-meta__action">
-				<Button size="field" kind="secondary" on:click={backToProfile} icon={ArrowLeft}
-					>Back to Profile</Button
-				>
-			</div>
-		{/if}
+				</div>
+			{/if}
+		</div>
 	</div>
-</div>
+{/if}
 
 <style lang="scss">
 	.profile-banner__wrap {
@@ -117,6 +174,8 @@
 		padding: 1rem;
 
 		background: radial-gradient(50% 442.86% at 50% 100%, #420023 9.86%, #ff0089 92.25%);
+		background-position: center;
+		background-size: cover;
 
 		@media screen and (min-width: 768px) {
 			height: 150px;

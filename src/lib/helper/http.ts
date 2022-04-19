@@ -1,4 +1,4 @@
-import { ALGO_EXPLORER_FETCH_OPTIONS } from '../constants/api'
+import { ALGO_EXPLORER_FETCH_OPTIONS } from '$lib/constants/api'
 
 /**
  * Helper function to parse and typecast API functions

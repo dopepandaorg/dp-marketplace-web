@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte'
 	import { ImageLoader, SkeletonPlaceholder } from 'carbon-components-svelte'
-	import { convertIPFSUrl } from '../../constants/assets'
+	import { convertIPFSUrl } from '$lib/constants/assets'
 	import ProfileAvatar from '../profile/ProfileAvatar.svelte'
 
 	export let id

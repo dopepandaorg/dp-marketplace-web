@@ -1,6 +1,6 @@
 <script>
 	import { onDestroy, onMount } from 'svelte'
-	import { syncWalletAssets, wallet } from '../../../stores/wallet'
+	import { syncWalletAssets, wallet } from '$lib/stores/wallet'
 	import { explorerAddressUrl } from '$lib/helper/utils'
 
 	import { formatWallet } from '$lib/helper/utils'

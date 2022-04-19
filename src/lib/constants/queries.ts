@@ -10,6 +10,12 @@ export const Q_GET_PROFILE_BY_HANDLE = gql`
 			handle
 			wallet
 			bio
+			avatar_cid
+			banner_cid
+			social_instagram
+			social_twitter
+			social_website
+			created_at
 		}
 	}
 `
@@ -20,6 +26,12 @@ export const Q_GET_PROFILE = gql`
 			handle
 			wallet
 			bio
+			avatar_cid
+			banner_cid
+			social_instagram
+			social_twitter
+			social_website
+			created_at
 		}
 	}
 `
@@ -30,6 +42,18 @@ export const Q_SYNC_PROFILE = gql`
 			handle
 			wallet
 			bio
+			avatar_cid
+			banner_cid
+			social_instagram
+			social_twitter
+			social_website
+		}
+	}
+`
+export const Q_CONNECT_PROFILE = gql`
+	mutation ConnectProfile($wallet: String!) {
+		ConnectProfile(wallet: $wallet) {
+			wallet
 		}
 	}
 `

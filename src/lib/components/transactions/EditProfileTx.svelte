@@ -1,28 +1,31 @@
 <script lang="ts">
 	import { Button, InlineLoading, Modal } from 'carbon-components-svelte'
-	import { wallet } from '../../../stores/wallet'
+	import { UpdateNow } from 'carbon-icons-svelte'
+	import { wallet } from '$lib/stores/wallet'
 	import type { Transaction } from 'algosdk'
 	import { SignedTxn, WalletType } from '$lib/interfaces/wallet'
 	import { signTransaction, submitTransaction } from '$lib/transaction-builder/common'
 	import { onClearPera } from '$lib/helper/walletConnect'
 	import { buildTransactionProfileEdit } from '$lib/transaction-builder/profile'
-	import { UpdateNow } from 'carbon-icons-svelte'
 	import { mutation } from '@urql/svelte'
 	import { Q_SYNC_PROFILE } from '$lib/constants/queries'
+	import TxStep from './TxStep.svelte'
+	import { LoadingStatus } from '$lib/constants/enums'
+	import { createEventDispatcher } from 'svelte'
 
 	const updateDBMutation = mutation({ query: Q_SYNC_PROFILE })
+	let dispatch = createEventDispatcher()
 
-	export let isValid
 	export let name
 	export let bio
-	export const twitter = ''
-	export const instagam = ''
-	export const website = ''
-	export const avatarIpfsCID = ''
-	export const bannerIpfsCID = ''
+	export let twitter = ''
+	export let instagram = ''
+	export let website = ''
+	export let avatarIpfsCID = ''
+	export let bannerIpfsCID = ''
+	export let isValid = false
 	export let isComplete = false
 	export let isSubmitting = false
-	export let onSubmit: () => void
 
 	let open = false
 	let walletType = $wallet.type
@@ -44,7 +47,16 @@
 		isTxnLoading = true
 		walletType = $wallet.type
 
-		buildTransactionProfileEdit(walletAccount, name, bio)
+		buildTransactionProfileEdit(
+			walletAccount,
+			name,
+			bio,
+			avatarIpfsCID,
+			bannerIpfsCID,
+			twitter,
+			instagram,
+			website
+		)
 			.then((response) => (txn = response))
 			.catch(() => (txn = null))
 			.finally(() => (isTxnLoading = false))
@@ -87,32 +99,48 @@
 			updateDBMutation({ txId, wallet: walletAccount })
 				.then(() => {
 					isComplete = true
-					onSubmit()
-					close()
+					clear()
+
+					setTimeout(() => {
+						complete()
+					}, 100)
 				})
 				.finally(() => (isUpdateDBLoading = false))
 		}
 	}
 
-	const close = () => {
+	const complete = () => {
+		dispatch('complete')
+	}
+
+	const clear = () => {
 		open = false
+		txn = null
+		signedTxn = null
+		txId = null
+		confirmedRound = null
+		isUpdateDBLoading = false
+		isSubmitting = false
+		isTxnLoading = false
+		isSignedTxnLoading = false
 		isSubmitting = false
 
 		if (walletType === WalletType.PERA) {
-			isTxnLoading = false
-			isSignedTxnLoading = false
-			isSubmitting = false
 			onClearPera()
 		}
 	}
+
+	const close = () => {
+		clear()
+	}
 </script>
 
-<div class="tx-modal tx-modal--contest-vote">
+<div class="tx-modal tx-modal--edit-profile">
 	<div class="tx-modal__action">
 		<Button
 			on:click={confirmModal}
 			type="button"
-			disabled={open}
+			disabled={!isValid || open}
 			icon={isSubmitting ? InlineLoading : UpdateNow}>Update Profile</Button
 		>
 	</div>
@@ -120,7 +148,7 @@
 	<Modal
 		bind:open
 		preventCloseOnClickOutside
-		modalHeading="Sign Transaction"
+		modalHeading="Edit Profile"
 		modalLabel={walletType && walletType.toUpperCase()}
 		primaryButtonText="Sign Transaction"
 		secondaryButtonText="Cancel"
@@ -131,45 +159,66 @@
 		on:close={close}
 		on:submit={sign}
 	>
-		{#if isTxnLoading}
-			<InlineLoading status="active" description="Creating Transaction ..." />
-		{:else if txn}
-			<InlineLoading status="finished" description="Transaction Ready" />
-		{/if}
-
-		{#if isSignedTxnLoading}
-			<InlineLoading status="active" description="Waiting for Signature ..." />
-		{:else if signedTxn}
-			<InlineLoading status="finished" description="Signature Complete" />
-		{/if}
-
-		{#if isSubmitting}
-			<InlineLoading status="active" description="Submitting Transaction ..." />
-		{:else if txId && confirmedRound}
-			<InlineLoading status="finished" description="Transaction Submitted" />
-
-			<div>
-				TxID: {txId}
-				<br />
-				Current Round: {confirmedRound}
+		<div class="tx-modal__inner">
+			<div class="tx-modal__steps">
+				<TxStep
+					stepCount={1}
+					status={isTxnLoading
+						? LoadingStatus.IN_PROGRESS
+						: txn
+						? LoadingStatus.SUCCESS
+						: LoadingStatus.NONE}
+					label="Build Transaction"
+					descriptionPending="Building your transaction ..."
+					descriptionSuccess="Transaction ready, sign with your wallet."
+				/>
+				<TxStep
+					stepCount={2}
+					label="Sign transaction"
+					status={isSignedTxnLoading
+						? LoadingStatus.IN_PROGRESS
+						: signedTxn
+						? LoadingStatus.SUCCESS
+						: LoadingStatus.NONE}
+					descriptionPending="Waiting for signature ..."
+					descriptionSuccess="Signature complete"
+				/>
+				<TxStep
+					stepCount={3}
+					status={isSubmitting
+						? LoadingStatus.IN_PROGRESS
+						: txId && confirmedRound
+						? LoadingStatus.SUCCESS
+						: LoadingStatus.NONE}
+					label="Submit transaction"
+					descriptionPending="Submitting transaction on Algorand ..."
+					descriptionSuccess="Transaction submitted"
+				/>
+				<TxStep
+					stepCount={4}
+					status={isUpdateDBLoading
+						? LoadingStatus.IN_PROGRESS
+						: txId && confirmedRound
+						? LoadingStatus.SUCCESS
+						: LoadingStatus.NONE}
+					label="Update Index"
+					descriptionPending="Updating indexes ..."
+					descriptionSuccess="Complete"
+				/>
 			</div>
-		{/if}
-
-		{#if isUpdateDBLoading}
-			<InlineLoading status="active" description="Updating indexes ..." />
-		{:else if txId && confirmedRound && isComplete}
-			<InlineLoading status="finished" description="Index Updated" />
-		{/if}
+			<div class="tx-modal__graphic">
+				<img src="/images/edit-profile-graphic.svg" alt="" />
+			</div>
+		</div>
 	</Modal>
 </div>
 
 <style lang="scss">
-	.tx-modal--contest-vote {
+	.tx-modal--edit-profile {
 		.tx-modal__action {
 			:global(.bx--btn) {
 				width: 100%;
 				max-width: none;
-				justify-content: center;
 				padding: 1rem;
 			}
 		}
@@ -180,6 +229,42 @@
 
 		:global(.bx--modal button) {
 			border-radius: 0;
+		}
+	}
+
+	.tx-modal__inner {
+		display: flex;
+		align-items: center;
+		flex-direction: column-reverse;
+		width: 100%;
+
+		@media screen and (min-width: 768px) {
+			flex-direction: row;
+		}
+	}
+
+	.tx-modal__steps {
+		flex: 1;
+		margin-top: 2rem;
+		width: 100%;
+	}
+
+	.tx-modal__graphic {
+		img {
+			width: 120px;
+			height: 120px;
+		}
+
+		@media screen and (min-width: 768px) {
+			flex: 1;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+
+			img {
+				width: 200px;
+				height: 200px;
+			}
 		}
 	}
 </style>

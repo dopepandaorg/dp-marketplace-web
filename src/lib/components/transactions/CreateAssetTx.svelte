@@ -5,7 +5,7 @@
 	import { signTransaction, submitTransaction } from '$lib/transaction-builder/common'
 
 	import type { AssetMetadata } from '$lib/interfaces/asset'
-	import { wallet } from '../../../stores/wallet'
+	import { wallet } from '$lib/stores/wallet'
 	import type { Transaction } from 'algosdk'
 	import { SignedTxn, WalletType } from '$lib/interfaces/wallet'
 	import { onClearPera } from '$lib/helper/walletConnect'

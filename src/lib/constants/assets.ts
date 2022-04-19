@@ -1,7 +1,7 @@
-import { NETWORK_ENV } from '../variables'
+import { NETWORK_ENV } from '$lib/variables'
 import { NetworkEnv } from './enums'
 import nativeASAs from '$lib/data/nativeASA.json'
-import { attachImgixProxy } from '../helper/imgixClient'
+import { attachImgixProxy } from '$lib/helper/imgixClient'
 
 export const getWalletConnectBridge = (env?: NetworkEnv) =>
 	(env || NETWORK_ENV) === NetworkEnv.MAINNET
@@ -21,6 +21,9 @@ export const getNativeASAs = (env?: NetworkEnv) =>
 		? (nativeASAs as any).mainnet
 		: (nativeASAs as any).testnet
 
+export const convertIPFSCIDToUrl = (url: string): string => {
+	return (url && attachImgixProxy('https://cloudflare-ipfs.com/ipfs/' + url)) || ''
+}
 export const convertIPFSUrl = (url: string): string => {
 	return (
 		(url && attachImgixProxy(url.replace('ipfs://', 'https://cloudflare-ipfs.com/ipfs/'))) || ''

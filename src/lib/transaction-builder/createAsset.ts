@@ -1,8 +1,8 @@
 import { Transaction, makeAssetCreateTxnWithSuggestedParamsFromObject } from 'algosdk'
-import { getAlgoClient } from '../helper/algoClient'
-import { addToast } from '../../stores/toast'
-import { N_ERROR_CREATE_TXN } from '../constants/notifications'
-import type { AssetMetadata } from '../interfaces/asset'
+import { getAlgoClient } from '$lib/helper/algoClient'
+import { addToast } from '$lib/stores/toast'
+import { N_ERROR_CREATE_TXN } from '$lib/constants/notifications'
+import type { AssetMetadata } from '$lib/interfaces/asset'
 
 export const buildTransactionCreateASA = async (
 	walletAddress: string,

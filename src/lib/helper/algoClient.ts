@@ -1,7 +1,7 @@
 import algosdk from 'algosdk'
-import { ALGO_PS2_API_ENV } from '../constants/api'
-import type { SignedTxn } from '../interfaces/wallet'
-import { PURESTAKE_API_KEY } from '../variables'
+import { ALGO_PS2_API_ENV } from '$lib/constants/api'
+import type { SignedTxn } from '$lib/interfaces/wallet'
+import { PURESTAKE_API_KEY } from '$lib/variables'
 
 const baseServer = ALGO_PS2_API_ENV()
 const port = ''

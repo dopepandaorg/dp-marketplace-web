@@ -5,37 +5,17 @@ import QRCodeModal from 'algorand-walletconnect-qrcode-modal'
 import MyAlgoConnect from '@randlabs/myalgo-connect'
 import { Buffer } from 'buffer'
 
-import { SignedTxn, WalletType } from '../interfaces/wallet'
-import { setWalletData, clearWalletData } from '../../stores/wallet'
-import { addToast } from '../../stores/toast'
-import { N_WALLET_DISCONNECT } from '../constants/notifications'
-import { getWalletConnectBridge, getMyAlgoBridge } from '../constants/assets'
+import type { SignedTxn } from '$lib/interfaces/wallet'
+import { WalletType } from '$lib/interfaces/wallet'
+import { setWalletData, clearWalletData } from '$lib/stores/wallet'
+import { addToast } from '$lib/stores/toast'
+import { N_WALLET_DISCONNECT } from '$lib/constants/notifications'
+import { getWalletConnectBridge, getMyAlgoBridge } from '$lib/constants/assets'
 
 let walletConnectConnector: WalletConnect = new WalletConnect({
 	bridge: getWalletConnectBridge(),
 	qrcodeModal: QRCodeModal
 })
-
-/**
- * A slient check for a pre connected wallet
- *
- */
-export const checkWallet = () => {
-	// walletConnectConnector = new WalletConnect({
-	// 	bridge: getWalletConnectBridge(),
-	// 	qrcodeModal: QRCodeModal,
-	// 	clientMeta: {
-	// 		name: 'DopePanda Marketplace',
-	// 		description: 'A next-gen creator ecosystem.',
-	// 		url: 'https://dopepanda.app',
-	// 		icons: ['https://dopepanda.app/favicon-96x96.png']
-	// 	}
-	// })
-	// const hasWalletConnect = localStorage.getItem('walletconnect')
-	// if (hasWalletConnect) {
-	// 	onConnectPera(true)
-	// }
-}
 
 /**
  * Myalgo
