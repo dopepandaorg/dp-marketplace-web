@@ -25,7 +25,7 @@
 	let isFileCIDValid = false
 	let isFileUploading = false
 
-	let inputCID = value ? `ifps://${value}` : null
+	let inputCID = value ? `ifps://${value}` : ''
 	let isInputCIDValid = false
 
 	const selectFile = (files: File[]) => {
