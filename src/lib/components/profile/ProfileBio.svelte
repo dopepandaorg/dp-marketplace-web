@@ -5,7 +5,6 @@
 
 	import { getContext } from 'svelte'
 	import type { Writable } from 'svelte/store'
-import ConnectWallet from '../common/ConnectWallet.svelte';
 
 	let bio
 	let joinedAt

@@ -8,8 +8,9 @@
 	import { Button } from 'carbon-components-svelte'
 	import { goto } from '$app/navigation'
 	import HeaderWalletAsset from './HeaderWalletAsset.svelte'
-import { mutation } from '@urql/svelte';
-import { Q_CONNECT_PROFILE } from '$lib/constants/queries';
+	import { mutation } from '@urql/svelte'
+	import { Q_CONNECT_PROFILE } from '$lib/constants/queries'
+	import { headerMenuExit } from '$lib/stores/header'
 
 	let account = ''
 
@@ -19,6 +20,7 @@ import { Q_CONNECT_PROFILE } from '$lib/constants/queries';
 
 	const openPortfolio = () => {
 		goto('/profile/assets')
+		headerMenuExit()
 	}
 
 	const connectWalletMutation = mutation({ query: Q_CONNECT_PROFILE })

@@ -29,7 +29,12 @@
 	query(profileQuery)
 
 	profileQuery.subscribe((p) => {
-		if (p.data && p.data.profiles_by_pk) {
+		if (p.data && p.data.profiles && Array.isArray(p.data.profiles) && p.data.profiles.length > 0) {
+			const userProfile = p.data.profiles[0]
+
+			$profileWallet = userProfile.wallet
+			profileData.set(userProfile)
+		} else if (p.data && p.data.profiles_by_pk) {
 			const userProfile = p.data.profiles_by_pk
 
 			$profileWallet = userProfile.wallet
