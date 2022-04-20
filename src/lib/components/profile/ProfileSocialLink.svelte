@@ -10,10 +10,12 @@
 	if (text) {
 		switch (type) {
 			case 'twitter':
+				text = text.replaceAll('@', '')
 				link = `https://twitter.com/${text}`
 				prefix = '@'
 				break
 			case 'instagram':
+				text = text.replaceAll('@', '')
 				link = `https://instagram.com/${text}`
 				prefix = '@'
 				break
@@ -58,6 +60,7 @@
 		padding: 0.625rem 1rem;
 		border-radius: 4px;
 		transition: background-color 0.125s;
+		min-width: 0;
 
 		&__icon {
 			margin-right: 1.25rem;
@@ -70,7 +73,16 @@
 		}
 
 		&__text {
+			line-height: 1.4;
+
 			flex: 1;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+		}
+
+		&__action {
+			margin-left: 0.5rem;
 		}
 
 		&.empty {
