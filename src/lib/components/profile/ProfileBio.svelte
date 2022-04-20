@@ -5,6 +5,7 @@
 
 	import { getContext } from 'svelte'
 	import type { Writable } from 'svelte/store'
+import ConnectWallet from '../common/ConnectWallet.svelte';
 
 	let bio
 	let joinedAt
@@ -50,7 +51,7 @@
 					lowContrast
 					hideCloseButton
 					title="Unclaimed Profile"
-					subtitle="This user profile has not been claimed, if you"
+					subtitle="This user profile has not been claimed. If you are the owner of this wallet, edit your profile to claim it."
 				/>
 			{/if}
 		</div>
@@ -90,7 +91,11 @@
 	}
 
 	.profile-meta {
-		margin-top: 4rem;
+		margin-top: 1rem;
+
+		@media screen and (min-width: 768px) {
+			margin-top: 4rem;
+		}
 	}
 
 	.profile-meta__item {
