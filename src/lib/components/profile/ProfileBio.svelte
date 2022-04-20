@@ -79,6 +79,8 @@ import ConnectWallet from '../common/ConnectWallet.svelte';
 		}
 
 		&__content {
+			font-size: 1rem;
+			line-height: 1.4;
 			margin-top: 1rem;
 
 			&.empty {
