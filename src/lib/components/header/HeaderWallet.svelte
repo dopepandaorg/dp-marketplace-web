@@ -8,6 +8,8 @@
 	import { Button } from 'carbon-components-svelte'
 	import { goto } from '$app/navigation'
 	import HeaderWalletAsset from './HeaderWalletAsset.svelte'
+import { mutation } from '@urql/svelte';
+import { Q_CONNECT_PROFILE } from '$lib/constants/queries';
 
 	let account = ''
 
@@ -19,12 +21,14 @@
 		goto('/profile/assets')
 	}
 
+	const connectWalletMutation = mutation({ query: Q_CONNECT_PROFILE })
 	const walletSub = wallet.subscribe((wallet) => {
 		account = wallet.account
 	})
 
 	onDestroy(walletSub)
 	onMount(() => {
+		connectWalletMutation({ wallet: $wallet.account })
 		syncWalletAssets()
 	})
 </script>
