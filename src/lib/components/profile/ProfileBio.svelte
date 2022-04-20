@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { ProfileRecord } from '$lib/interfaces/profile'
-	import { InlineNotification, SkeletonPlaceholder } from 'carbon-components-svelte'
+	import { SkeletonPlaceholder } from 'carbon-components-svelte'
 	import dayjs from 'dayjs'
 
 	import { getContext } from 'svelte'
@@ -45,13 +45,11 @@
 					{bio}
 				</div>
 			{:else}
-				<InlineNotification
-					kind="info"
-					lowContrast
-					hideCloseButton
-					title="Unclaimed Profile"
-					subtitle="This user profile has not been claimed. If you are the owner of this wallet, edit your profile to claim it."
-				/>
+				<div class="profile-bio__content empty">
+					User bio not set.
+					<br/>
+					If you are the owner of this wallet, edit your profile to set a bio.
+				</div>
 			{/if}
 		</div>
 
@@ -78,16 +76,9 @@
 			margin-top: 1rem;
 
 			&.empty {
-				opacity: 0.5;
+				font-style: italic;
+				opacity: 0.375;
 			}
-		}
-
-		:global(.bx--inline-notification__text-wrapper) {
-			flex-direction: column;
-		}
-
-		:global(.bx--inline-notification__subtitle) {
-			margin-top: 1rem;
 		}
 	}
 
