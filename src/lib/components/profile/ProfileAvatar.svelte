@@ -37,10 +37,11 @@
 
 <style lang="scss">
 	.profile-avatar {
-		background: linear-gradient(109.08deg, #fd9d5d 0%, #fd2ca0 49.53%, #3397ff 104.51%);
 		border-radius: 50%;
 		width: 140px;
 		height: 140px;
+		box-shadow: 0 0 25px #2e2e2e;
+		background: linear-gradient(109.08deg, #fd9d5d 0%, #fd2ca0 49.53%, #3397ff 104.51%);
 
 		:global(svg) {
 			width: 100%;
@@ -50,11 +51,12 @@
 		}
 
 		:global(img) {
-			max-width: 100%;
-			width: 100%;
-			height: auto;
-			border-radius: 50%;
 			float: left;
+			width: 100%;
+			height: 100%;
+			max-width: 100%;
+			border-radius: 50%;
+			object-fit: cover;
 		}
 	}
 </style>
