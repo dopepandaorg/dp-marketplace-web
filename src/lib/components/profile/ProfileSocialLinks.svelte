@@ -63,35 +63,4 @@
 			grid-template-columns: repeat(2, 1fr);
 		}
 	}
-
-	.social-link {
-		display: flex;
-		align-items: center;
-		background-color: var(--dp--black-02);
-		padding: 0.625rem 1rem;
-		border-radius: 4px;
-		transition: background-color 0.125s;
-
-		&:hover {
-			cursor: pointer;
-			background-color: var(--dp--black-03);
-		}
-
-		&__icon {
-			margin-right: 1.25rem;
-
-			:global(svg) {
-				width: 2.25rem;
-				height: 2.25rem;
-				float: left;
-			}
-		}
-
-		&__text {
-			flex: 1;
-		}
-
-		&__action {
-		}
-	}
 </style>

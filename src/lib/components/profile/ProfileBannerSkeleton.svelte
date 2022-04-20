@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Button } from 'carbon-components-svelte'
+	import { Button, SkeletonPlaceholder } from 'carbon-components-svelte'
 	import ProfileAvatar from './ProfileAvatar.svelte'
 	import ProfileAccountNameSkeleton from './ProfileAccountNameSkeleton.svelte'
 </script>
@@ -17,9 +17,9 @@
 		</div>
 
 		<div class="profile-meta__action">
-			<Button size="field" kind="secondary" skeleton={true} />
-			<Button size="field" kind="secondary" skeleton={true} />
-			<Button size="field" kind="secondary" skeleton={true} />
+			<SkeletonPlaceholder style="width: 128px; height: 48px;" />
+			<SkeletonPlaceholder style="width: 48px; height: 48px;" />
+			<SkeletonPlaceholder style="width: 48px; height: 48px;" />
 		</div>
 	</div>
 </div>
@@ -50,24 +50,11 @@
 				margin-top: 0;
 			}
 
-			> :global(.bx--btn) {
+			> :global(.bx--skeleton__placeholder) {
 				margin-left: 1rem;
-				min-width: 3rem;
-				min-height: 3rem;
-				align-self: center;
-				justify-content: center;
 
 				&:first-child {
 					margin-left: 0;
-				}
-			}
-
-			:global(.bx--btn) {
-				background-color: var(--dp--black-04);
-				border-radius: 5px;
-
-				&:hover {
-					background-color: var(--dp--black-05);
 				}
 			}
 		}
