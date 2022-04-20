@@ -11,9 +11,13 @@
 <style lang="scss">
 	.profile-overview {
 		display: grid;
-		grid-template-columns: 1fr 1fr;
+		grid-template-columns: 1fr;
 		gap: 4rem;
 
-		min-height: 300px;
+		@media screen and (min-width: 768px) {
+			grid-template-columns: 1fr 1fr;
+			min-height: 300px;
+			gap: 4rem;
+		}
 	}
 </style>
