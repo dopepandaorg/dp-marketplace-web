@@ -1,6 +1,6 @@
 <script>
-	import PageHeader from '../$lib/components/common/PageHeader.svelte'
-	import EmptyPage from '../$lib/components/common/EmptyPage.svelte'
+	import PageHeader from '$lib/components/common/PageHeader.svelte'
+	import EmptyPage from '$lib/components/common/EmptyPage.svelte'
 </script>
 
 <svelte:head>

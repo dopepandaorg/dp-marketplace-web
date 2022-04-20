@@ -1,7 +1,7 @@
 import type { RequestHandler } from '@sveltejs/kit'
-import { parseAmount } from '../../../../$lib/helper/utils'
-import { ALGO_EXPLORER_FETCH_OPTIONS, API_WALLET } from '../../../../$lib/constants/api'
-import { DPANDA_ASSET_ID, getNativeASAs } from '../../../../$lib/constants/assets'
+import { parseAmount } from '$lib/helper/utils'
+import { ALGO_EXPLORER_FETCH_OPTIONS, API_WALLET } from '$lib/constants/api'
+import { DPANDA_ASSET_ID, getNativeASAs } from '$lib/constants/assets'
 
 export const get: RequestHandler = async ({ params }) => {
 	const { wallet } = params

@@ -1,14 +1,14 @@
 <script lang="ts">
-	import '../$lib/styles/main.scss'
+	import '$lib/styles/main.scss'
 	import 'nprogress/nprogress.css'
 	import NProgress from 'nprogress'
 	import { createClient as createWSClient } from 'graphql-ws'
 	import { defaultExchanges, initClient, subscriptionExchange } from '@urql/svelte'
 	import { navigating } from '$app/stores'
-	import { HASURA_CLIENT_URI, HASURA_WS_CLIENT_URI } from '../$lib/variables'
+	import { HASURA_CLIENT_URI, HASURA_WS_CLIENT_URI } from '$lib/variables'
 
-	import Footer from '../$lib/components/Footer.svelte'
-	import Header from '../$lib/components/Header.svelte'
+	import Footer from '$lib/components/Footer.svelte'
+	import Header from '$lib/components/Header.svelte'
 
 	// Initialize Hasura Client
 	const wsClient = createWSClient({
