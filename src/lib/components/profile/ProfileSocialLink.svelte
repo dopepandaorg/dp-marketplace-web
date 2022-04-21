@@ -11,11 +11,13 @@
 		switch (type) {
 			case 'twitter':
 				text = text.replaceAll('@', '')
+				text = text.replace(/(http(s?)):\/\/twitter\.com\//, '')
 				link = `https://twitter.com/${text}`
 				prefix = '@'
 				break
 			case 'instagram':
 				text = text.replaceAll('@', '')
+				text = text.replace(/(http(s?)):\/\/instagram\.com\//, '')
 				link = `https://instagram.com/${text}`
 				prefix = '@'
 				break
