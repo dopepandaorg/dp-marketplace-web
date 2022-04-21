@@ -1,9 +1,11 @@
 <script lang="ts">
 	import { goto } from '$app/navigation'
+	import { headerMenuExit } from '$lib/stores/header'
 	import { Button } from 'carbon-components-svelte'
 
 	const goToMembership = () => {
 		goto('/membership')
+		headerMenuExit()
 	}
 </script>
 
