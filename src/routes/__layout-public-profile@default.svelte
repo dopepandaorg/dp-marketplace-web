@@ -7,7 +7,7 @@
 	import { Q_GET_PROFILE, Q_GET_PROFILE_BY_HANDLE } from '$lib/constants/queries'
 	import { page } from '$app/stores'
 	import { isValidAlgoAddress } from '$lib/helper/algoClient'
-import { InlineNotification } from 'carbon-components-svelte';
+	import { InlineNotification } from 'carbon-components-svelte'
 
 	const handle = $page.params.handle
 	const isValidAddress = isValidAlgoAddress(handle)
@@ -25,7 +25,7 @@ import { InlineNotification } from 'carbon-components-svelte';
 		banner_cid: null
 	})
 
-	let isClaimed = false
+	let isClaimed = true
 
 	setContext('profile-wallet', profileWallet)
 	setContext('profile-data', profileData)
@@ -51,6 +51,8 @@ import { InlineNotification } from 'carbon-components-svelte';
 				...$profileData,
 				wallet: handle
 			})
+
+			isClaimed = false
 		} else if (!p.fetching) {
 			console.log('404 not found')
 		}
@@ -84,11 +86,9 @@ import { InlineNotification } from 'carbon-components-svelte';
 	</div>
 </div>
 
-
 <style lang="scss">
 	.profile-section__alert {
 		margin-bottom: 4rem;
-
 
 		:global(.bx--inline-notification) {
 			max-width: none;
