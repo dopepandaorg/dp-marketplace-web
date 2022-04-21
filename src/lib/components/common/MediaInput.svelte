@@ -14,7 +14,7 @@
 	export let label = 'Media'
 	export let value
 	export let isValid = false
-	export let acceptedFormats: string[] = ['.jpg', '.jpeg']
+	export let acceptedFormats: string[] = ['.jpg', '.jpeg', '.png', '.gif']
 	export let aspectRatio: '1x1' | '16x9' = '1x1'
 
 	let selectedTypeIndex = 0
@@ -25,7 +25,7 @@
 	let isFileCIDValid = false
 	let isFileUploading = false
 
-	let inputCID = value ? `ifps://${value}` : null
+	let inputCID = value ? `ifps://${value}` : ''
 	let isInputCIDValid = false
 
 	const selectFile = (files: File[]) => {
