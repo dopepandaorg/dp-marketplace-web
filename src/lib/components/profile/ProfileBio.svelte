@@ -52,7 +52,7 @@
 			{:else}
 				<div class="profile-bio__content empty">
 					User bio not set.
-					<br/>
+					<br />
 					If you are the owner of this wallet, edit your profile to set a bio.
 				</div>
 			{/if}
