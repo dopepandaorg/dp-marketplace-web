@@ -109,14 +109,10 @@
 	<hr />
 
 	<div class="form-submit">
-		<Button
-			kind="secondary"
-			on:click={clearForm}
-			disabled={isSubmitting}
-			icon={Erase}>
+		<Button kind="secondary" on:click={clearForm} disabled={isSubmitting} icon={Erase}>
 			Reset
 		</Button>
-		
+
 		<EditProfileTx
 			{name}
 			{bio}
