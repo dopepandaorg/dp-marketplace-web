@@ -22,3 +22,7 @@ export const explorerAddressUrl = (chain: 'algo', account: string): string => {
 	const isTestnet = localStorage.getItem('dp_algo-network-testnet') == 'true'
 	return `https://${isTestnet ? 'testnet.' : ''}algoexplorer.io/address/${account}`
 }
+
+export const isTouchDevice = () => {
+	return 'ontouchstart' in window || navigator.maxTouchPoints > 0
+}

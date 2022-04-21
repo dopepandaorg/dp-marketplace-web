@@ -7,35 +7,41 @@
 	import { goto } from '$app/navigation'
 	import { wallet } from '$lib/stores/wallet'
 	import { onDisconnect } from '$lib/helper/walletConnect'
-	import { formatWallet } from '$lib/helper/utils'
+	import { formatWallet, isTouchDevice } from '$lib/helper/utils'
 	import ConnectWallet from '../common/ConnectWallet.svelte'
 	import HeaderWallet from './HeaderWallet.svelte'
 	import HeaderNavItem from './HeaderNavItem.svelte'
 	import { UserProfile, ShowDataCards, Settings, Logout } from 'carbon-icons-svelte'
 	import HeaderSubscription from './HeaderSubscription.svelte'
+	import { headerMenuEnter, headerMenuExit, isHeaderOpen } from '$lib/stores/header'
 
 	let isConnected = false
 	let account = ''
-	let isOpen = false
 
 	const hoverMenuEnter = () => {
-		isOpen = true
+		headerMenuEnter()
 	}
+
 	const hoverMenuExit = () => {
-		isOpen = false
+		headerMenuExit()
 	}
+
 	const hoverMenuToggle = () => {
-		isOpen = !isOpen
+		if ($isHeaderOpen) {
+			headerMenuExit()
+		} else {
+			headerMenuEnter()
+		}
 	}
 
 	const walletDisconnect = () => {
-		hoverMenuExit()
+		headerMenuExit()
 		setTimeout(() => onDisconnect(), 300)
 	}
 
 	const navigate = (path: string) => {
 		goto(path)
-		hoverMenuExit()
+		setTimeout(() => headerMenuExit(), 100)
 	}
 
 	const walletSub = wallet.subscribe((wallet) => {
@@ -47,12 +53,11 @@
 </script>
 
 <div
-	class="header-auth {isOpen ? 'open' : ''}"
+	class="header-auth {$isHeaderOpen ? 'open' : ''}"
 	on:mouseenter={hoverMenuEnter}
 	on:mouseleave={hoverMenuExit}
-	on:click={hoverMenuToggle}
 >
-	<div class="header-auth__action">
+	<div class="header-auth__action" on:click={hoverMenuToggle}>
 		<ConnectWallet />
 	</div>
 

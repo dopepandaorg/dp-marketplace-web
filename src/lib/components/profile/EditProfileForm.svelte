@@ -21,28 +21,20 @@
 	let bannerIpfsCID = profileData.banner_cid || ''
 	let isBannerIpfsCIDValid = false
 
-	let isValid = true
 	let isSubmitting = false
+	let isPristine = false
 
 	const clearForm = () => {
-		name = ''
-		handle = ''
-		isHandleValid = false
-		bio = ''
-		avatarIpfsCID = ''
+		name = profileData.display_name
+		handle = profileData.handle || ''
+		bio = profileData.bio || ''
+		twitter = profileData.social_twitter || ''
+		instagram = profileData.social_instagram || ''
+		website = profileData.social_website || ''
+		avatarIpfsCID = profileData.avatar_cid || ''
+		bannerIpfsCID = profileData.banner_cid || ''
 		isAvatarIpfsCIDValid = false
-		bannerIpfsCID = ''
 		isBannerIpfsCIDValid = false
-
-		isValid = false
-	}
-
-	$: {
-		// Validate form with default conditions
-		const isNameValid = !!name
-
-		// Combine all individual validations
-		isValid = isNameValid
 	}
 </script>
 
@@ -117,8 +109,14 @@
 	<hr />
 
 	<div class="form-submit">
-		<Button kind="secondary" on:click={clearForm} disabled={isSubmitting} icon={Erase}>Clear</Button
-		>
+		<Button
+			kind="secondary"
+			on:click={clearForm}
+			disabled={isSubmitting}
+			icon={Erase}>
+			Reset
+		</Button>
+		
 		<EditProfileTx
 			{name}
 			{bio}
@@ -127,7 +125,7 @@
 			{website}
 			{avatarIpfsCID}
 			{bannerIpfsCID}
-			{isValid}
+			isValid={!isPristine}
 			bind:isSubmitting
 			on:complete={() => goto('/profile')}
 		/>
