@@ -25,7 +25,7 @@
 						{feature.text}
 
 						{#if feature.tooltip}
-							<TooltipIcon tooltipText={feature.tooltip} icon={Information} />
+							<TooltipIcon tooltipText={feature.tooltip} align="end" icon={Information} />
 						{/if}
 					</div>
 				</div>
