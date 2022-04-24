@@ -5,14 +5,36 @@
 			"name": "Algorand",
 			"unit": "ALGO",
 			"total": 10000000000000000,
-			"decimals": 6
+			"decimals": 6,
+			"isVisibleHeader": true
 		},
 		{
 			"id": 391379500,
 			"name": "Dope Panda",
 			"unit": "DPANDA",
 			"total": 1000000000000000,
-			"decimals": 6
+			"decimals": 6,
+			"isVisibleHeader": true
+		},
+		{
+			"id": 552661375,
+			"name": "ALGO/DPANDA LP",
+			"unit": "ALGO_DPANDA_TM11POOL",
+			"total": 1000000000000000,
+			"decimals": 6,
+			"isPool": true,
+			"isVisibleHeader": false,
+			"iconUrl": "/icons/algo-dpanda-lp.png"
+		},
+		{
+			"id": 611568181,
+			"name": "YLDY/DPANDA LP",
+			"unit": "YLDY_DPANDA_TM11POOL",
+			"total": 1000000000000000,
+			"decimals": 6,
+			"isPool": true,
+			"isVisibleHeader": false,
+			"iconUrl": "/icons/yldy-dpanda-lp.png"
 		}
 	],
 	"testnet": [
@@ -24,11 +46,12 @@
 			"decimals": 6
 		},
 		{
-			"id": 62484045,
+			"id": 85326355,
 			"name": "Dope Panda",
 			"unit": "DPANDA",
 			"total": 1000000000000000,
-			"decimals": 6
+			"decimals": 6,
+			"iconUrl": "https://asa-list.tinyman.org/assets/391379500/icon.svg"
 		}
 	]
 }

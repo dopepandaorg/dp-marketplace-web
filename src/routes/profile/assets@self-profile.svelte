@@ -5,7 +5,6 @@
 	import ProfileContentSkeleton from '$lib/components/profile/ProfileContentSkeleton.svelte'
 	import { LoadingStatus } from '$lib/constants/enums'
 	import EmptyPage from '$lib/components/common/EmptyPage.svelte'
-	import AssetTile from '$lib/components/common/AssetTile.svelte'
 
 	let walletAssets = []
 	let status = LoadingStatus.IN_PROGRESS
