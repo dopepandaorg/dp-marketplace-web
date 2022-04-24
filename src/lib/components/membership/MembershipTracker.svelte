@@ -27,7 +27,7 @@
 			<WalletNotConnected />
 		{:else}
 			<div class="section__header">
-				<h3>Your total DPANDA balance {$wallet.status}</h3>
+				<h3>Your total DPANDA balance</h3>
 			</div>
 
 			<div class="section__inner">
