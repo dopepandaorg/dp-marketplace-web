@@ -1,11 +1,15 @@
 <script lang="ts">
 	import { wallet } from '$lib/stores/wallet'
 	import { onDestroy } from 'svelte'
-	import { assetImageUrl, formatAmount } from '$lib/helper/utils'
+	import { assetImageUrl, formatAmount, parseAmount } from '$lib/helper/utils'
 	import { DPANDA_ASSET_ID, getNativeASAs } from '$lib/constants/assets'
 	import { Button, SkeletonPlaceholder } from 'carbon-components-svelte'
+	import { nWeightFormat } from '$lib/helper/stringUtils'
 
 	export let unit: string
+	export let isCompiledLP = false
+	export let calculationFactor: number = null
+	export let overrideUnitName: string = null
 	const nativeAssets = getNativeASAs()
 	const asset = nativeAssets.find((asa) => asa.unit === unit)
 	let isLoading = true
@@ -27,19 +31,25 @@
 
 <div class="header-wallet-asset">
 	<div class="header-wallet-asset__logo">
-		<img src={assetImageUrl('algo', asset.id)} alt="" />
+		<img src={assetImageUrl('algo', asset.id, asset.iconUrl)} alt="" />
 	</div>
 
 	<div class="header-wallet-asset__details">
 		<div class="header-wallet-asset__name">{asset.name}</div>
-		<div class="header-wallet-asset__symbol">{unit.toUpperCase()}</div>
+		<div class="header-wallet-asset__symbol">
+			{overrideUnitName ? overrideUnitName : unit.toUpperCase()}
+		</div>
 	</div>
 
 	{#if isLoading}
 		<SkeletonPlaceholder style="height: 32px;" />
 	{:else if amount !== null}
 		<div class="header-wallet-asset__amount">
-			{formatAmount(amount)}
+			{formatAmount(calculationFactor ? calculationFactor * amount : amount)}
+
+			{#if isCompiledLP && asset.id === DPANDA_ASSET_ID() && $wallet.totalDPANDALp}
+				<span>+ {nWeightFormat(parseAmount($wallet.totalDPANDALp), 2)} in LP</span>
+			{/if}
 		</div>
 	{:else if asset.id === DPANDA_ASSET_ID()}
 		<div class="header-wallet-asset__opt-in">
@@ -73,6 +83,22 @@
 			font-weight: bold;
 			font-size: 0.625rem;
 			margin-top: 0.5rem;
+		}
+
+		&__amount {
+			display: flex;
+			flex-direction: column;
+			justify-content: flex-end;
+			text-align: right;
+
+			span {
+				display: block;
+				font-size: 0.625rem;
+				text-align: right;
+				width: 100%;
+				color: yellow;
+				margin-top: 0.375rem;
+			}
 		}
 
 		&__logo {
