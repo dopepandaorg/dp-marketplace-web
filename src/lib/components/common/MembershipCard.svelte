@@ -177,7 +177,7 @@
 				fill="white"
 				xml:space="preserve"
 				style="white-space: pre"
-				font-family="HK Grotesk Wide"
+				font-family="HK Grotesk"
 				font-size="49.4564"
 				font-weight="bold"
 				letter-spacing="0px"><tspan x="0" y="49.2355">Plum Membership</tspan></text
@@ -187,7 +187,7 @@
 				fill="white"
 				xml:space="preserve"
 				style="white-space: pre"
-				font-family="HK Grotesk Wide"
+				font-family="HK Grotesk"
 				font-size="32"
 				letter-spacing="0px"><tspan x="0" y="32.152">{formatWallet(wallet)}</tspan></text
 			>
@@ -272,7 +272,7 @@
 				fill="white"
 				xml:space="preserve"
 				style="white-space: pre"
-				font-family="HK Grotesk Wide"
+				font-family="HK Grotesk"
 				font-size="49.4564"
 				font-weight="bold"
 				letter-spacing="0px"
@@ -284,7 +284,7 @@
 				fill="white"
 				xml:space="preserve"
 				style="white-space: pre"
-				font-family="HK Grotesk Wide"
+				font-family="HK Grotesk"
 				font-size="32"
 				letter-spacing="0px"><tspan x="0" y="32.152">{formatWallet(wallet)}</tspan></text
 			>
@@ -360,7 +360,7 @@
 				fill="white"
 				xml:space="preserve"
 				style="white-space: pre"
-				font-family="HK Grotesk Wide"
+				font-family="HK Grotesk"
 				font-size="49.4564"
 				font-weight="bold"
 				letter-spacing="0px"><tspan x="0" y="49.2355">Pine Membership</tspan></text
@@ -370,7 +370,7 @@
 				fill="white"
 				xml:space="preserve"
 				style="white-space: pre"
-				font-family="HK Grotesk Wide"
+				font-family="HK Grotesk"
 				font-size="32"
 				letter-spacing="0px"><tspan x="0" y="32.152">{formatWallet(wallet)}</tspan></text
 			>
