@@ -32,3 +32,11 @@ export enum VotingStatus {
 	ACTIVE = 'active',
 	ENDED = 'ended'
 }
+
+export enum DPANDAMembershipTier {
+	T_EMPTY = -1,
+	T_BASE = 0,
+	T1 = 1,
+	T2 = 2,
+	T3 = 3
+}

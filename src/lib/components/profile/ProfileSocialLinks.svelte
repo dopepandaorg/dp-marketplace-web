@@ -1,11 +1,8 @@
 <script lang="ts">
-	import type { ProfileRecord } from '$lib/interfaces/profile'
-	import { SkeletonPlaceholder } from 'carbon-components-svelte'
-	import { Http, Launch, LogoInstagram, LogoTwitter } from 'carbon-icons-svelte'
-
 	import { getContext } from 'svelte'
 	import type { Writable } from 'svelte/store'
-	import ProfileContentSkeleton from './ProfileContentSkeleton.svelte'
+	import type { ProfileRecord } from '$lib/interfaces/profile'
+	import { SkeletonPlaceholder } from 'carbon-components-svelte'
 	import ProfileSocialLink from './ProfileSocialLink.svelte'
 
 	let socialTwitter

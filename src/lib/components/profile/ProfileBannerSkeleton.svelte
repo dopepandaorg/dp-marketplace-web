@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Button, SkeletonPlaceholder } from 'carbon-components-svelte'
+	import { SkeletonPlaceholder } from 'carbon-components-svelte'
 	import ProfileAvatar from './ProfileAvatar.svelte'
 	import ProfileAccountNameSkeleton from './ProfileAccountNameSkeleton.svelte'
 </script>

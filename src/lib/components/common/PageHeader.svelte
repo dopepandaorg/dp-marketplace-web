@@ -56,7 +56,7 @@
 		font-size: 1.75rem;
 		text-align: center;
 
-		@media screen and (min-width: 767px) {
+		@media screen and (min-width: 768px) {
 			font-size: 2.25rem;
 			text-align: left;
 		}
@@ -67,7 +67,7 @@
 		text-align: center;
 		line-height: 1.5;
 
-		@media screen and (min-width: 767px) {
+		@media screen and (min-width: 768px) {
 			font-size: 1.125rem;
 			text-align: left;
 			margin-top: 1rem;

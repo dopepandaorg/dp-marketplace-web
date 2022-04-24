@@ -14,8 +14,8 @@ export const parseAmount = (amount: number) => {
 	return Number(amount / (1000 * 1000))
 }
 
-export const assetImageUrl = (chain: 'algo', assetId: string): string => {
-	return `https://asa-list.tinyman.org/assets/${assetId}/icon.svg`
+export const assetImageUrl = (chain: 'algo', assetId: string, iconUrl?: string): string => {
+	return iconUrl ? iconUrl : `https://asa-list.tinyman.org/assets/${assetId}/icon.svg`
 }
 
 export const explorerAddressUrl = (chain: 'algo', account: string): string => {

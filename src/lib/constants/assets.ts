@@ -16,6 +16,9 @@ export const getMyAlgoBridge = (env?: NetworkEnv) =>
 export const DPANDA_ASSET_ID = (env?: NetworkEnv) =>
 	(env || NETWORK_ENV) === NetworkEnv.MAINNET ? 391379500 : 62484045
 
+export const DPANDA_LP_ASSET_ID = (env?: NetworkEnv) =>
+	(env || NETWORK_ENV) === NetworkEnv.MAINNET ? 552661375 : 552661375
+
 export const getNativeASAs = (env?: NetworkEnv) =>
 	(env || NETWORK_ENV) === NetworkEnv.MAINNET
 		? (nativeASAs as any).mainnet

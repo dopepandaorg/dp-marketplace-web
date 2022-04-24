@@ -1,4 +1,4 @@
-import type { WalletType } from '$lib/interfaces/wallet'
+import { WalletStatus, WalletType } from '$lib/interfaces/wallet'
 import { writable, get } from 'svelte/store'
 import { browser } from '$app/env'
 
@@ -9,8 +9,13 @@ export const wallet = writable({
 	type: ((browser && localStorage.getItem('wallet-type')) || null) as WalletType,
 	account: (browser && localStorage.getItem('wallet-account')) || null,
 	isConnected: browser && !!localStorage.getItem('wallet-account'),
+	status: WalletStatus.NONE as WalletStatus,
 	assets: [],
-	dpandaTier: 0
+	totalAlgo: 0,
+	totalDPANDA: 0,
+	totalDPANDALp: 0,
+	dpandaTier: 0,
+	dpandaLPFactor: 0
 })
 
 /**
@@ -47,9 +52,16 @@ export const setWalletData = (type: WalletType, account: string) => {
 export const clearWalletData = () => {
 	wallet.update((wallet) => ({
 		...wallet,
+		status: WalletStatus.NONE,
 		type: null,
 		isConnected: false,
-		account: null
+		account: null,
+		assets: [],
+		totalAlgo: 0,
+		totalDPANDA: 0,
+		totalDPANDALp: 0,
+		dpandaTier: 0,
+		dpandaLPFactor: 0
 	}))
 
 	browser && localStorage.removeItem('wallet-type')
@@ -63,10 +75,21 @@ export const syncWalletAssets = () => {
 	const $wallet = get(wallet)
 
 	if ($wallet.isConnected) {
+		wallet.update((wallet) => ({
+			...wallet,
+			status: WalletStatus.CONNECTING
+		}))
+
 		fetch(`/api/wallet/${$wallet.account}.json`)
 			.then((response) => response.json())
 			.then((body) =>
-				wallet.update((wallet) => ({ ...wallet, assets: body.assets, dpandaTier: body.dpandaTier }))
+				wallet.update((wallet) => ({
+					...wallet,
+					...body,
+					status: WalletStatus.CONNECTED,
+					assets: body.assets,
+					dpandaTier: body.dpandaTier
+				}))
 			)
 	}
 }
