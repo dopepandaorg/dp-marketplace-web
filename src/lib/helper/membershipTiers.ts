@@ -68,7 +68,7 @@ tiersFeatures[DPANDAMembershipTier.T3] = [
 		text: '1.5% sales fee',
 		icon: PiggyBank,
 		tooltip:
-			'A platform fee for 5% of the sale amount will be charged for Escrow, Auction and Shuffle listings.'
+			'A platform fee for 1.5% of the sale amount will be charged for Escrow, Auction and Shuffle listings.'
 	},
 	{
 		type: 'item',
