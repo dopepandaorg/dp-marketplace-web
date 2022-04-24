@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { Button, InlineLoading, Modal } from 'carbon-components-svelte'
-	import { UpdateNow } from 'carbon-icons-svelte'
+	import UpdateNow from 'carbon-icons-svelte/lib/UpdateNow.svelte'
 	import { wallet } from '$lib/stores/wallet'
 	import type { Transaction } from 'algosdk'
 	import { SignedTxn, WalletType } from '$lib/interfaces/wallet'

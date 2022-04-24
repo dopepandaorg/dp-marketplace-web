@@ -4,7 +4,7 @@
 	import { explorerAddressUrl } from '$lib/helper/utils'
 
 	import { formatWallet } from '$lib/helper/utils'
-	import { Launch } from 'carbon-icons-svelte'
+	import Launch from 'carbon-icons-svelte/lib/Launch.svelte'
 	import { Button } from 'carbon-components-svelte'
 	import { goto } from '$app/navigation'
 	import HeaderWalletAsset from './HeaderWalletAsset.svelte'
