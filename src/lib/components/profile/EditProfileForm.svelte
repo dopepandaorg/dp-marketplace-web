@@ -5,7 +5,7 @@
 	import EditProfileTx from '../transactions/EditProfileTx.svelte'
 	import type { ProfileRecord } from '$lib/interfaces/profile'
 	import { goto } from '$app/navigation'
-	import { Erase } from 'carbon-icons-svelte'
+	import Erase from 'carbon-icons-svelte/lib/Erase.svelte'
 
 	export let profileData: ProfileRecord
 

@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { Button } from 'carbon-components-svelte'
-	import { ArrowUpRight, Launch } from 'carbon-icons-svelte'
+	import ArrowUpRight from 'carbon-icons-svelte/lib/ArrowUpRight.svelte'
+	import Launch from 'carbon-icons-svelte/lib/Launch.svelte'
 
 	export let title: string
 	export let subtitle: string = null

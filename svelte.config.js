@@ -35,7 +35,7 @@ const config = {
 				}
 			},
 			optimizeDeps: {
-				exclude: ['@urql/svelte', 'graphql', 'subscriptions-transport-ws'],
+				exclude: ['subscriptions-transport-ws'],
 				esbuildOptions: {
 					define: {
 						global: 'globalThis'

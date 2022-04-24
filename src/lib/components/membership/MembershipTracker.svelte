@@ -44,11 +44,11 @@
 							overrideUnitName="DPANDA"
 							calculationFactor={dpandaLPFactor}
 						/>
-						<HeaderWalletAsset
+						<!-- <HeaderWalletAsset
 							unit="YLDY_DPANDA_TM11POOL"
 							overrideUnitName="DPANDA"
 							calculationFactor={dpandaLPFactor}
-						/>
+						/> -->
 					</div>
 				</div>
 

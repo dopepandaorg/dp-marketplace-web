@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { Button, InlineLoading, Modal } from 'carbon-components-svelte'
-	import { ArrowRight } from 'carbon-icons-svelte'
+	import ArrowRight from 'carbon-icons-svelte/lib/ArrowRight.svelte'
 	import { buildTransactionCreateASA } from '$lib/transaction-builder/createAsset'
 	import { signTransaction, submitTransaction } from '$lib/transaction-builder/common'
 

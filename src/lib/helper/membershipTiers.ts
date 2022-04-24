@@ -1,5 +1,7 @@
 import { DPANDAMembershipTier } from '$lib/constants/enums'
-import { CheckmarkOutline, CloseOutline, PiggyBank } from 'carbon-icons-svelte'
+import CheckmarkOutline from 'carbon-icons-svelte/lib/CheckmarkOutline.svelte'
+import CloseOutline from 'carbon-icons-svelte/lib/CloseOutline.svelte'
+import PiggyBank from 'carbon-icons-svelte/lib/PiggyBank.svelte'
 
 const tiers = [
 	{ tier: DPANDAMembershipTier.T1, title: 'Plum', minAmount: 1 },
