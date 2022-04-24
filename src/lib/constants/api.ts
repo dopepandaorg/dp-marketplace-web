@@ -14,6 +14,9 @@ export const ALGO_EXPLORER_API_ENV = (env?: NetworkEnv) =>
 export const API_WALLET = (wallet: string, env?: NetworkEnv) =>
 	`${ALGO_EXPLORER_API_ENV(env)}/accounts/${wallet}`
 
+export const TINYMAN_LP_API = () =>
+	`https://mainnet.analytics.tinyman.org/api/v1/pools/PMSLU3PDSQ4RTD7PB3MYXWNQL6INRLBYMNX7JTUWT2QXFKAI66DQQDRNVQ`
+
 export const API_ASSET = (id: number, env?: NetworkEnv) =>
 	`${ALGO_EXPLORER_API_ENV(env)}/assets/${id}?include-all=true`
 
