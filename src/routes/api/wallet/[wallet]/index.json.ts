@@ -60,7 +60,7 @@ export const get: RequestHandler = async ({ params }) => {
 	if (totalDPANDA > 0) {
 		dpandaTier = DPANDAMembershipTier.T_BASE
 
-		if (parseAmount(totalDPANDA) > 1_000) {
+		if (parseAmount(totalDPANDA) > 1) {
 			dpandaTier = DPANDAMembershipTier.T1
 		}
 
