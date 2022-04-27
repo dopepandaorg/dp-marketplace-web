@@ -40,10 +40,16 @@
 	.profile-assets {
 		&__list {
 			display: grid;
-			grid-template-columns: 1fr 1fr 1fr 1fr;
+			grid-template-columns: 1fr;
 			gap: 2rem;
 
-			border-radius: 5px;
+			@media screen and (min-width: 768px) {
+				grid-template-columns: 1fr 1fr;
+			}
+
+			@media screen and (min-width: 992px) {
+				grid-template-columns: 1fr 1fr 1fr 1fr;
+			}
 		}
 	}
 </style>

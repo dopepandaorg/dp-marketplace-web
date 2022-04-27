@@ -49,16 +49,20 @@
 <style lang="scss">
 	.asset-detail-meta {
 		display: grid;
-		grid-template-columns: 1fr 1fr;
+		grid-template-columns: 1fr;
 		gap: 2rem;
+
+		@media screen and (min-width: 768px) {
+			grid-template-columns: 1fr 1fr;
+		}
 
 		&__item {
 			display: flex;
 			flex-direction: column;
-			align-items: center;
-
+			align-items: flex-start;
+			
 			@media screen and (min-width: 768px) {
-				align-items: flex-start;
+				// align-items: center;
 			}
 
 			&__label {

@@ -10,6 +10,10 @@
 
 <style lang="scss">
 	.asset-media {
+	    display: flex;
+		align-items: center;
+		justify-content: center;
+
 		height: 100%;
 		border-radius: 8px;
 	}

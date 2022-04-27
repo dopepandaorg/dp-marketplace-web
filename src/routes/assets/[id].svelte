@@ -130,6 +130,13 @@
 		&__intro {
 			> div {
 				margin-top: 2.5rem;
+
+				&:first-child {
+					margin-top: 0;
+				}
+
+				@media screen and (min-width: 768px) {
+				}
 			}
 
 			h3 {
@@ -144,9 +151,12 @@
 		}
 
 		&__title {
-			flex: 4;
-			font-size: 2.75rem;
 			font-weight: 500;
+			
+			@media screen and (min-width: 768px) {
+				font-size: 2.75rem;
+				flex: 4;
+			}
 		}
 
 		&__title-wrap {

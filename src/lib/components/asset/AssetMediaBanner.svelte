@@ -17,9 +17,14 @@
 		justify-content: center;
 
 		background-color: var(--dp--black-02);
-		height: 55vh;
+		height: 50vh;
+
+		@media screen and (min-width: 768px) {
+			height: 55vh;
+		}
 
 		&__inner {
+			width: 90%;
 			height: 90%;
 		}
 	}
