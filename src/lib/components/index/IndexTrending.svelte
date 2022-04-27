@@ -1,7 +1,7 @@
 <script>
 	import { goto } from '$app/navigation'
 	import { Button } from 'carbon-components-svelte'
-	import { ArrowRight } from 'carbon-icons-svelte'
+	import ArrowRight from 'carbon-icons-svelte/lib/ArrowRight.svelte'
 	import TrendingItem from '../common/TrendingItem.svelte'
 </script>
 

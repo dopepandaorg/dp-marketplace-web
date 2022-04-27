@@ -3,7 +3,7 @@ import { algoSubmitTransaction } from '$lib/helper/algoClient'
 import { SignedTxn, WalletType } from '$lib/interfaces/wallet'
 import { addToast } from '$lib/stores/toast'
 import { N_ERROR_CREATE_TXN } from '$lib/constants/notifications'
-import { onMyalgoSignTx, onPeraSignTx } from '$lib/helper/walletConnect'
+import { onMyalgoSignTx, onMyalgoSignTxMultiple, onPeraSignTx } from '$lib/helper/walletConnect'
 
 export const signTransaction = async (
 	walletType: WalletType,
@@ -16,10 +16,10 @@ export const signTransaction = async (
 		// Build transaction object
 		switch (walletType) {
 			case WalletType.MYALGO:
-				signedTxn = await executeTransactionASAMyAlgo(txn)
+				signedTxn = await onMyalgoSignTx(txn)
 				break
 			case WalletType.PERA:
-				signedTxn = await executeTransactionASAPera(txn, description)
+				signedTxn = await onPeraSignTx(txn, description)
 				break
 		}
 	} catch (error) {
@@ -32,16 +32,45 @@ export const signTransaction = async (
 	return signedTxn
 }
 
+export const signTransactions = async (
+	walletType: WalletType,
+	txns: Transaction[],
+	description: string
+): Promise<SignedTxn[]> => {
+	let signedTxns: SignedTxn[]
+
+	try {
+		// Build transaction object
+		switch (walletType) {
+			case WalletType.MYALGO:
+				signedTxns = await onMyalgoSignTxMultiple(txns)
+				break
+			case WalletType.PERA:
+				// signedTxns = await onPeraSignTxMultiple(txns, description)
+				break
+		}
+	} catch (error) {
+		// Display error notification
+		addToast(N_ERROR_CREATE_TXN)
+		console.error(error)
+		throw new Error(error)
+	}
+
+	return signedTxns
+}
+
 export const submitTransaction = async (
-	signedTxn: SignedTxn
-): Promise<{ txId: string; confirmedRound: number }> => {
+	signedTxn: SignedTxn | SignedTxn[]
+): Promise<{ txId: string; txInfo: any; confirmedRound: number }> => {
 	let txId: string
+	let txInfo: any
 	let confirmedRound: number
 
 	try {
 		const myAlgoTxSubmit = await algoSubmitTransaction(signedTxn)
 		txId = myAlgoTxSubmit.txId
 		confirmedRound = myAlgoTxSubmit.confirmedRound
+		txInfo = myAlgoTxSubmit.txInfo
 
 		if (!txId) {
 			throw new Error('Unable to generate transaction ID')
@@ -53,16 +82,5 @@ export const submitTransaction = async (
 		throw new Error(error)
 	}
 
-	return { txId, confirmedRound }
-}
-
-export const executeTransactionASAMyAlgo = async (txn: Transaction): Promise<SignedTxn> => {
-	return onMyalgoSignTx(txn)
-}
-
-export const executeTransactionASAPera = (
-	txn: Transaction,
-	description: string
-): Promise<SignedTxn> => {
-	return onPeraSignTx(txn, description)
+	return { txId, txInfo, confirmedRound }
 }

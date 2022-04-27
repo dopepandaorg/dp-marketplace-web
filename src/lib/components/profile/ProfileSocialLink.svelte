@@ -1,5 +1,8 @@
 <script lang="ts">
-	import { Http, Launch, LogoInstagram, LogoTwitter } from 'carbon-icons-svelte'
+	import Http from 'carbon-icons-svelte/lib/Http.svelte'
+	import Launch from 'carbon-icons-svelte/lib/Launch.svelte'
+	import LogoInstagram from 'carbon-icons-svelte/lib/LogoInstagram.svelte'
+	import LogoTwitter from 'carbon-icons-svelte/lib/LogoTwitter.svelte'
 
 	export let type: 'twitter' | 'instagram' | 'website'
 	export let text: string
