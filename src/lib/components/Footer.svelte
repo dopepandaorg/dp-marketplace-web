@@ -1,6 +1,8 @@
 <script>
 	import { ImageLoader } from 'carbon-components-svelte'
-	import { LogoTwitter, LogoDiscord, MailAll } from 'carbon-icons-svelte'
+	import LogoTwitter from 'carbon-icons-svelte/lib/LogoTwitter.svelte'
+	import LogoDiscord from 'carbon-icons-svelte/lib/LogoDiscord.svelte'
+	import MailAll from 'carbon-icons-svelte/lib/MailAll.svelte'
 	import ToastNotifications from './common/ToastNotifications.svelte'
 </script>
 

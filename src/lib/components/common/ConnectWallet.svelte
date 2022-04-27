@@ -5,7 +5,7 @@
 
 	import { Modal } from 'carbon-components-svelte'
 	import { Button } from 'carbon-components-svelte'
-	import { Wallet } from 'carbon-icons-svelte'
+	import Wallet from 'carbon-icons-svelte/lib/Wallet.svelte'
 	import { formatWallet } from '$lib/helper/utils'
 	import { mutation } from '@urql/svelte'
 	import { Q_CONNECT_PROFILE } from '$lib/constants/queries'

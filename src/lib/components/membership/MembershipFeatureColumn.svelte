@@ -2,7 +2,7 @@
 	import type { DPANDAMembershipTier } from '$lib/constants/enums'
 	import { getMembershipTierMinAmount, tiersFeatures } from '$lib/helper/membershipTiers'
 	import { TooltipIcon } from 'carbon-components-svelte'
-	import { Information } from 'carbon-icons-svelte'
+	import Information from 'carbon-icons-svelte/lib/Information.svelte'
 
 	export let tier: DPANDAMembershipTier
 	export let title: string

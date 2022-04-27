@@ -15,7 +15,7 @@
 		? operationStore(Q_GET_PROFILE, { wallet: handle })
 		: operationStore(Q_GET_PROFILE_BY_HANDLE, { handle })
 
-	const profileWallet = writable(null)
+	const profileWallet = writable(isValidAddress ? handle : null)
 	const profileData = writable({
 		wallet: null,
 		display_name: null,

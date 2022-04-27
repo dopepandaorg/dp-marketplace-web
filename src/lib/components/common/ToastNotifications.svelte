@@ -31,6 +31,6 @@
 		display: flex;
 		justify-content: center;
 		flex-direction: column;
-		z-index: 1000;
+		z-index: 100000;
 	}
 </style>

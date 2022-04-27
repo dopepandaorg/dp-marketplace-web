@@ -1,29 +1,17 @@
 <script lang="ts">
 	import { Button, InlineLoading, Modal } from 'carbon-components-svelte'
-	import UpdateNow from 'carbon-icons-svelte/lib/UpdateNow.svelte'
 	import { wallet } from '$lib/stores/wallet'
 	import type { Transaction } from 'algosdk'
 	import { SignedTxn, WalletType } from '$lib/interfaces/wallet'
-	import { signTransaction, submitTransaction } from '$lib/transaction-builder/common'
+	import { signTransactions, submitTransaction } from '$lib/transaction-builder/common'
 	import { onClearPera } from '$lib/helper/walletConnect'
-	import { buildTransactionProfileEdit } from '$lib/transaction-builder/profile'
-	import { mutation } from '@urql/svelte'
-	import { Q_SYNC_PROFILE } from '$lib/constants/queries'
+	import { buildTransactionBuyEscrow } from '$lib/transaction-builder/buyEscrow'
 	import TxStep from './TxStep.svelte'
 	import { LoadingStatus } from '$lib/constants/enums'
-	import { createEventDispatcher } from 'svelte'
 
-	const updateDBMutation = mutation({ query: Q_SYNC_PROFILE })
-	let dispatch = createEventDispatcher()
+	// const updateDBMutation = mutation({ query: Q_CAST_VOTE })
 
-	export let name
-	export let bio
-	export let twitter = ''
-	export let instagram = ''
-	export let website = ''
-	export let avatarIpfsCID = ''
-	export let bannerIpfsCID = ''
-	export let isValid = false
+	export let assetId
 	export let isComplete = false
 	export let isSubmitting = false
 
@@ -31,10 +19,10 @@
 	let walletType = $wallet.type
 	let walletAccount = $wallet.account
 
-	let txn: Transaction
+	let txns: Transaction[]
 	let isTxnLoading: boolean
 
-	let signedTxn: SignedTxn
+	let signedTxns: SignedTxn[]
 	let isSignedTxnLoading: boolean
 
 	let txId: string
@@ -47,38 +35,29 @@
 		isTxnLoading = true
 		walletType = $wallet.type
 
-		buildTransactionProfileEdit(
-			walletAccount,
-			name,
-			bio,
-			avatarIpfsCID,
-			bannerIpfsCID,
-			twitter,
-			instagram,
-			website
-		)
-			.then((response) => (txn = response))
-			.catch(() => (txn = null))
+		buildTransactionBuyEscrow(walletAccount, walletAccount, 86243100, assetId, 10, 1)
+			.then((response) => (txns = response))
+			.catch(() => (txns = null))
 			.finally(() => (isTxnLoading = false))
 	}
 
 	const sign = () => {
-		if (txn) {
+		if (txns) {
 			isSignedTxnLoading = true
-			signTransaction(walletType, txn, 'Update profile on DopePanda')
+			signTransactions(walletType, txns, 'Buy Asset')
 				.then((response) => {
-					signedTxn = response
+					signedTxns = response
 					submit()
 				})
-				.catch(() => (signedTxn = null))
+				.catch(() => (signedTxns = null))
 				.finally(() => (isSignedTxnLoading = false))
 		}
 	}
 
 	const submit = () => {
-		if (signedTxn) {
+		if (signedTxns) {
 			isSubmitting = true
-			submitTransaction(signedTxn)
+			submitTransaction(signedTxns)
 				.then((response) => {
 					txId = response.txId
 					confirmedRound = response.confirmedRound
@@ -86,37 +65,33 @@
 
 					updateDB()
 				})
-				.catch(() => {
+				.catch((error) => {
 					txId = null
 					confirmedRound = null
+					console.log('error in submitting transaction', error)
 				})
 				.finally(() => (isSubmitting = false))
 		}
 	}
 
 	const updateDB = () => {
-		if (txId && confirmedRound) {
-			updateDBMutation({ txId, wallet: walletAccount })
-				.then(() => {
-					isComplete = true
-					clear()
+		isComplete = true
+		clear()
 
-					setTimeout(() => {
-						complete()
-					}, 100)
-				})
-				.finally(() => (isUpdateDBLoading = false))
-		}
-	}
-
-	const complete = () => {
-		dispatch('complete')
+		// if (txId && confirmedRound) {
+		// 	updateDBMutation({ txId, wallet: walletAccount, contestId })
+		// 		.then(() => {
+		// 			isComplete = true
+		// 			clear()
+		// 		})
+		// 		.finally(() => (isUpdateDBLoading = false))
+		// }
 	}
 
 	const clear = () => {
 		open = false
-		txn = null
-		signedTxn = null
+		txns = null
+		signedTxns = null
 		txId = null
 		confirmedRound = null
 		isUpdateDBLoading = false
@@ -135,26 +110,26 @@
 	}
 </script>
 
-<div class="tx-modal tx-modal--edit-profile">
+<div class="tx-modal tx-modal--contest-vote">
 	<div class="tx-modal__action">
 		<Button
 			on:click={confirmModal}
 			type="button"
-			disabled={!isValid || open}
-			icon={isSubmitting ? InlineLoading : UpdateNow}>Update Profile</Button
+			disabled={open}
+			icon={isSubmitting && InlineLoading}>Buy</Button
 		>
 	</div>
 
 	<Modal
 		bind:open
 		preventCloseOnClickOutside
-		modalHeading="Edit Profile"
+		modalHeading="Cast Your Vote"
 		modalLabel={walletType && walletType.toUpperCase()}
 		primaryButtonText="Sign Transaction"
 		secondaryButtonText="Cancel"
 		primaryButtonDisabled={isTxnLoading || isSignedTxnLoading}
-		passiveModal={!!signedTxn}
-		on:click:button--secondary={() => close()}
+		passiveModal={!!signedTxns}
+		on:click:button--secondary={() => (open = false)}
 		on:open
 		on:close={close}
 		on:submit={sign}
@@ -165,7 +140,7 @@
 					stepCount={1}
 					status={isTxnLoading
 						? LoadingStatus.IN_PROGRESS
-						: txn
+						: txns
 						? LoadingStatus.SUCCESS
 						: LoadingStatus.NONE}
 					label="Build Transaction"
@@ -177,7 +152,7 @@
 					label="Sign transaction"
 					status={isSignedTxnLoading
 						? LoadingStatus.IN_PROGRESS
-						: signedTxn
+						: signedTxns
 						? LoadingStatus.SUCCESS
 						: LoadingStatus.NONE}
 					descriptionPending="Waiting for signature ..."
@@ -207,19 +182,33 @@
 				/>
 			</div>
 			<div class="tx-modal__graphic">
-				<img src="/images/edit-profile-graphic.svg" alt="" />
+				<img src="/images/vote-graphic.svg" alt="" />
 			</div>
 		</div>
 	</Modal>
 </div>
 
 <style lang="scss">
-	.tx-modal--edit-profile {
+	.tx-modal--contest-vote {
 		.tx-modal__action {
 			:global(.bx--btn) {
 				width: 100%;
 				max-width: none;
+				justify-content: center;
 				padding: 1rem;
+			}
+
+			.voted-success {
+				display: flex;
+				min-height: 52px;
+				align-items: center;
+				justify-content: center;
+				border-radius: 5px;
+				background-color: var(--dp--black-02);
+
+				:global(.bx--inline-loading) {
+					justify-content: center;
+				}
 			}
 		}
 
@@ -266,5 +255,14 @@
 				height: 200px;
 			}
 		}
+	}
+
+	.tier-warn {
+		font-size: 0.75rem;
+		font-style: italic;
+		line-height: 1.5;
+		display: block;
+		padding-top: 1rem;
+		text-align: center;
 	}
 </style>
