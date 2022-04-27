@@ -28,9 +28,10 @@ const config = {
 				}
 			},
 			build: {
-				transformMixedEsModules: true,
 				rollupOptions: {
-					plugins: [inject({ Buffer: ['buffer', 'Buffer'] })]
+					plugins: [
+						inject({ Buffer: ['buffer', 'Buffer'] })
+					]
 				}
 			},
 			optimizeDeps: {
@@ -41,7 +42,10 @@ const config = {
 					}
 				}
 			},
-			plugins: [inject({ Buffer: ['buffer', 'Buffer'] }), svg({})]
+			plugins: [
+				process.env.NODE_ENV === 'development' && inject({ Buffer: ['buffer', 'Buffer'] }),
+				svg({})
+			]
 		}
 	}
 }
