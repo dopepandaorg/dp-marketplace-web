@@ -7,6 +7,6 @@ export const imgixClient = new ImgixClient({
 
 export const attachImgixProxy = (url: string) => {
 	return imgixClient.buildURL(url, {
-		w: 1024
+		// w: 1024
 	})
 }

@@ -16,6 +16,7 @@
 	import ConnectWallet from './ConnectWallet.svelte'
 	import ContestVoteCountdown from '../contest/ContestVoteCountdown.svelte'
 	import { VotingStatus } from '$lib/constants/enums'
+	import { explorerUrl } from '$lib/helper/utils'
 
 	export let id
 	export let contestId
@@ -48,7 +49,7 @@
 	}
 
 	const openAlgoExplorer = () => {
-		window.open(`https://algoexplorer.io/asset/${id}`, '_blank')
+		window.open(explorerUrl('algo', `/asset/${id}`), '_blank')
 	}
 </script>
 
