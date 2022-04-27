@@ -1,16 +1,14 @@
 <script>
 	import { onDestroy, onMount } from 'svelte'
+	import { mutation } from '@urql/svelte'
+	import Launch from 'carbon-icons-svelte/lib/Launch.svelte'
+
 	import { syncWalletAssets, wallet } from '$lib/stores/wallet'
 	import { explorerAddressUrl } from '$lib/helper/utils'
-
 	import { formatWallet } from '$lib/helper/utils'
-	import Launch from 'carbon-icons-svelte/lib/Launch.svelte'
-	import { Button } from 'carbon-components-svelte'
-	import { goto } from '$app/navigation'
-	import HeaderWalletAsset from './HeaderWalletAsset.svelte'
-	import { mutation } from '@urql/svelte'
 	import { Q_CONNECT_PROFILE } from '$lib/constants/queries'
-	import { headerMenuExit } from '$lib/stores/header'
+
+	import HeaderWalletAsset from './HeaderWalletAsset.svelte'
 
 	let account = ''
 
@@ -18,10 +16,10 @@
 		window.open(explorerAddressUrl('algo', account), '_blank')
 	}
 
-	const openPortfolio = () => {
-		goto('/profile/assets')
-		headerMenuExit()
-	}
+	// const openPortfolio = () => {
+	// 	goto('/profile/assets')
+	// 	headerMenuExit()
+	// }
 
 	const connectWalletMutation = mutation({ query: Q_CONNECT_PROFILE })
 	const walletSub = wallet.subscribe((wallet) => {
@@ -84,17 +82,17 @@
 			border-radius: 5px;
 		}
 
-		&__view-all {
-			margin-top: 0.5rem;
+		// &__view-all {
+		// 	margin-top: 0.5rem;
 
-			:global(button) {
-				text-align: center;
-				justify-content: center;
-				padding: 0.5rem 1rem;
-				border-color: rgba(#fff, 0.25);
-				width: 100%;
-				min-height: 2.5rem;
-			}
-		}
+		// 	:global(button) {
+		// 		text-align: center;
+		// 		justify-content: center;
+		// 		padding: 0.5rem 1rem;
+		// 		border-color: rgba(#fff, 0.25);
+		// 		width: 100%;
+		// 		min-height: 2.5rem;
+		// 	}
+		// }
 	}
 </style>

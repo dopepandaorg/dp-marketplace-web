@@ -29,7 +29,7 @@
 			width: 100%;
 			border-radius: 5px;
 			background-color: var(--dp--black-02);
-			min-height: 500px;
+			min-height: 466px;
 		}
 
 		:global(.bx--skeleton__placeholder:before) {

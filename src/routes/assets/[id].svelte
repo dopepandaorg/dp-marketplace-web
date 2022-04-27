@@ -20,7 +20,7 @@
 	import { OverflowMenu, OverflowMenuItem } from 'carbon-components-svelte'
 	import type { AssetMetadataRecord, AssetRecord } from '$lib/interfaces/asset'
 	import AssetMediaBanner from '$lib/components/asset/AssetMediaBanner.svelte'
-	import AssetCollection from '$lib/components/asset/AssetCollection.svelte'
+	import AssetDetailCollection from '$lib/components/asset/AssetDetailCollection.svelte'
 	import AssetDetailMeta from '$lib/components/asset/AssetDetailMeta.svelte'
 	import ShareTwitter from '$lib/components/common/ShareTwitter.svelte'
 	import { addToast } from '$lib/stores/toast'
@@ -86,7 +86,7 @@
 					</div>
 
 					<div class="asset-detail__collection">
-						<AssetCollection id={asset.id} creator={asset.creator} />
+						<AssetDetailCollection id={asset.id} creator={asset.creator} />
 					</div>
 
 					<div class="asset-detail__meta">

@@ -2,7 +2,6 @@ import { Buffer } from 'buffer'
 import {
 	Transaction,
 	assignGroupID,
-	makeApplicationCreateTxnFromObject,
 	getApplicationAddress,
 	makeApplicationCallTxnFromObject,
 	makeAssetTransferTxnWithSuggestedParamsFromObject,

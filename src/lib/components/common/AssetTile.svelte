@@ -183,7 +183,7 @@
 			width: 100%;
 			border-radius: 5px 5px 0 0;
 			overflow: hidden;
-			padding-top: 125%;
+			padding-top: 100%;
 
 			:global(img) {
 				position: absolute;

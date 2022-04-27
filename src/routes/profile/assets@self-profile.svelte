@@ -2,7 +2,6 @@
 	import EmptyTab from '$lib/components/common/EmptyTab.svelte'
 	import ProfileContentSkeleton from '$lib/components/profile/ProfileContentSkeleton.svelte'
 	import { LoadingStatus } from '$lib/constants/enums'
-	import EmptyPage from '$lib/components/common/EmptyPage.svelte'
 	import AssetTile from '$lib/components/common/AssetTile.svelte'
 	import { onMount } from 'svelte'
 	import { wallet } from '$lib/stores/wallet'
