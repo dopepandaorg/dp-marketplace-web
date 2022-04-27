@@ -3,15 +3,22 @@
 	import { wallet } from '$lib/stores/wallet'
 	import type { Transaction } from 'algosdk'
 	import { SignedTxn, WalletType } from '$lib/interfaces/wallet'
-	import { signTransaction, signTransactions, submitTransaction } from '$lib/transaction-builder/common'
+	import {
+		signTransaction,
+		signTransactions,
+		submitTransaction
+	} from '$lib/transaction-builder/common'
 	import { onClearPera } from '$lib/helper/walletConnect'
 	import TxStep from './TxStep.svelte'
 	import { LoadingStatus } from '$lib/constants/enums'
-    import { buildTransactionEscrowListing, createAppEscrowListing } from '$lib/transaction-builder/escrowListing'
+	import {
+		buildTransactionEscrowListing,
+		createAppEscrowListing
+	} from '$lib/transaction-builder/escrowListing'
 
 	export let assetId: number
 	export let isComplete = false
-	
+
 	let isAppSubmitting = false
 	let isSetupAppSubmitting = false
 
@@ -29,11 +36,11 @@
 	let isSignedAppTxnLoading: boolean
 	let isSignedSetupAppTxnLoading: boolean
 
-    let appId: number
+	let appId: number
 	let appCreateTxId: string
 	let appCreateConfirmedRound: number
-    let appSetupTxId: string
-    let appSetupConfirmedRound: number
+	let appSetupTxId: string
+	let appSetupConfirmedRound: number
 
 	let isUpdateDBLoading: boolean
 
@@ -41,17 +48,17 @@
 		open = false
 		isAppSubmitting = false
 		isSetupAppSubmitting = false
-		
+
 		appTxn = null
 		setupAppTxn = null
 		signedAppTxn = null
 		signedSetupAppTxn = null
-		
+
 		isAppTxnLoading = false
 		isSetupAppTxnLoading = false
 		isSignedAppTxnLoading = false
 		isSignedSetupAppTxnLoading = false
-		
+
 		appId = null
 		appCreateTxId = null
 		appCreateConfirmedRound = null
@@ -66,34 +73,34 @@
 	}
 
 	const close = () => clear()
-	
+
 	/**
 	 * Load up the transaction modal
-	 * 
-	 * 
+	 *
+	 *
 	 */
 	const confirmModal = () => {
 		open = true
 		isAppTxnLoading = true
 		walletType = $wallet.type
 
-        createAppTransaction()
+		createAppTransaction()
 	}
 
 	/**
 	 * Step 1. Create the Application and wait for user's signature
-	 * 
+	 *
 	 */
-    const createAppTransaction = () => {
-        createAppEscrowListing(walletAccount, assetId)
-            .then((response) => (appTxn = response))
+	const createAppTransaction = () => {
+		createAppEscrowListing(walletAccount, assetId)
+			.then((response) => (appTxn = response))
 			.catch(() => (appTxn = null))
 			.finally(() => (isAppTxnLoading = false))
-    }
+	}
 
 	/**
 	 * Step 2. User requests the signature to create the Application
-	 * 
+	 *
 	 */
 	const signAppTx = () => {
 		if (appTxn) {
@@ -110,7 +117,7 @@
 
 	/**
 	 * Step 3. Create Application is submitted on the blockchain
-	 *  
+	 *
 	 */
 	const submitAppTx = () => {
 		if (signedAppTxn) {
@@ -123,10 +130,10 @@
 
 					appCreateTxId = txId
 					appCreateConfirmedRound = confirmedRound
-					
-                    setupAppTransaction()
-                    
-                    // isUpdateDBLoading = true
+
+					setupAppTransaction()
+
+					// isUpdateDBLoading = true
 					// updateDB()
 				})
 				.catch((error) => {
@@ -140,21 +147,21 @@
 
 	/**
 	 * Step 4. Application setup transaction is created
-	 * 
+	 *
 	 */
-    const setupAppTransaction = () => {
+	const setupAppTransaction = () => {
 		console.log('setting app tx', appId)
-        if (appId) {
-            buildTransactionEscrowListing(walletAccount, appId, assetId, 10, 1)
-                .then((response) => (setupAppTxn = response))
-                .catch(() => (setupAppTxn = null))
-                .finally(() => (isSetupAppTxnLoading = false))
-        }
-    }
+		if (appId) {
+			buildTransactionEscrowListing(walletAccount, appId, assetId, 10, 1)
+				.then((response) => (setupAppTxn = response))
+				.catch(() => (setupAppTxn = null))
+				.finally(() => (isSetupAppTxnLoading = false))
+		}
+	}
 
 	/**
-	 * Step 5. User requests the signing of application setup transaction 
-	 * 
+	 * Step 5. User requests the signing of application setup transaction
+	 *
 	 */
 	const signSetupAppTx = () => {
 		if (setupAppTxn) {
@@ -171,7 +178,7 @@
 
 	/**
 	 * Step 6. Setup application transaction is submitted on the blockchain
-	 * 
+	 *
 	 */
 	const submitSetupAppTx = () => {
 		if (signedSetupAppTxn) {
@@ -183,7 +190,7 @@
 
 					console.log('app setup tx!', appSetupTxId, appSetupConfirmedRound)
 
-                    isUpdateDBLoading = true
+					isUpdateDBLoading = true
 					updateDB()
 				})
 				.catch((error) => {
@@ -197,19 +204,19 @@
 
 	/**
 	 * Step 7. Listing with the transaction is updated on Hasura
-	 * 
+	 *
 	 */
 	const updateDB = () => {
 		console.log('updating listing in hasura')
 		isComplete = true
 
 		// if (txId && confirmedRound) {
-			// updateDBMutation({ txId, wallet: walletAccount })
-			// 	.then(() => {
-			// 		isComplete = true
-			// 		clear()
-			// 	})
-			// 	.finally(() => (isUpdateDBLoading = false))
+		// updateDBMutation({ txId, wallet: walletAccount })
+		// 	.then(() => {
+		// 		isComplete = true
+		// 		clear()
+		// 	})
+		// 	.finally(() => (isUpdateDBLoading = false))
 		// }
 	}
 </script>
@@ -217,11 +224,11 @@
 <div class="tx-modal tx-modal--contest-vote">
 	<div class="tx-modal__action">
 		<Button
-            on:click={confirmModal}
-            type="button"
-            disabled={open}
-            icon={(isAppSubmitting || isSetupAppSubmitting) && InlineLoading}>Create Listing</Button
-        >
+			on:click={confirmModal}
+			type="button"
+			disabled={open}
+			icon={(isAppSubmitting || isSetupAppSubmitting) && InlineLoading}>Create Listing</Button
+		>
 	</div>
 
 	<Modal
@@ -232,7 +239,10 @@
 		primaryButtonText="Sign Transaction"
 		secondaryButtonText="Cancel"
 		primaryButtonDisabled={!(!!(!appId && appTxn) || !!(appId && setupAppTxn))}
-		passiveModal={isAppTxnLoading || isSetupAppTxnLoading || isAppSubmitting || isSetupAppSubmitting}
+		passiveModal={isAppTxnLoading ||
+			isSetupAppTxnLoading ||
+			isAppSubmitting ||
+			isSetupAppSubmitting}
 		on:click:button--secondary={() => (open = false)}
 		on:open
 		on:close={close}
@@ -240,7 +250,6 @@
 	>
 		<div class="tx-modal__inner">
 			<div class="tx-modal__steps">
-
 				<!-- Create Escrow Application -->
 				{#if isAppSubmitting || (appCreateTxId && appCreateConfirmedRound)}
 					<TxStep
@@ -254,7 +263,7 @@
 						descriptionPending="Submitting transaction on Algorand ..."
 						descriptionSuccess={`Application created with ID: ${appId}`}
 					/>
-				{:else if (isSignedAppTxnLoading || signedAppTxn)}
+				{:else if isSignedAppTxnLoading || signedAppTxn}
 					<TxStep
 						stepCount={1}
 						label="Create Escrow Application"
@@ -281,7 +290,7 @@
 				{/if}
 
 				<!-- Submit Transaction -->
-				{#if (isSignedSetupAppTxnLoading || signedSetupAppTxn)}
+				{#if isSignedSetupAppTxnLoading || signedSetupAppTxn}
 					<TxStep
 						stepCount={2}
 						label="Setup Escrow Application"
@@ -306,7 +315,7 @@
 						descriptionSuccess="Transaction ready, sign with your wallet."
 					/>
 				{/if}
-				
+
 				<TxStep
 					stepCount={3}
 					status={isSetupAppSubmitting

@@ -61,7 +61,7 @@ export const signTransactions = async (
 
 export const submitTransaction = async (
 	signedTxn: SignedTxn | SignedTxn[]
-): Promise<{ txId: string; txInfo: any, confirmedRound: number }> => {
+): Promise<{ txId: string; txInfo: any; confirmedRound: number }> => {
 	let txId: string
 	let txInfo: any
 	let confirmedRound: number

@@ -54,7 +54,10 @@ export const get: RequestHandler = async ({ params }) => {
 			response.isNFT = true
 		}
 	} catch (error) {
-		console.error(error)
+		return {
+			status: 404,
+			error: new Error(`Asset Not found: /assets/${id}`)
+		}
 	}
 
 	return {

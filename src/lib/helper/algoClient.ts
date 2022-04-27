@@ -37,7 +37,7 @@ export const isValidAlgoAddress = (address: string) => {
 export async function algoSubmitTransaction(
 	signedTxn: SignedTxn | SignedTxn[]
 ): Promise<{ txId: string; txInfo: any; confirmedRound: number }> {
-	const txns = Array.isArray(signedTxn) ? signedTxn.map(s => s.blob) : signedTxn.blob
+	const txns = Array.isArray(signedTxn) ? signedTxn.map((s) => s.blob) : signedTxn.blob
 	const { txId } = await getAlgoClient().sendRawTransaction(txns).do()
 	const { confirmedRound, txInfo } = await waitForTransaction(txId)
 
@@ -62,7 +62,7 @@ export async function algoSubmitTransactions(
 	}
 }
 
-async function waitForTransaction(txId: string): Promise<{ confirmedRound: number, txInfo: any }> {
+async function waitForTransaction(txId: string): Promise<{ confirmedRound: number; txInfo: any }> {
 	const client = getAlgoClient()
 
 	let lastStatus = await client.status().do()

@@ -4,7 +4,7 @@
 	import { goto } from '$app/navigation'
 	import { convertIPFSUrl, convertIPFSUrlOnly } from '$lib/constants/assets'
 	import ProfileAvatar from '../profile/ProfileAvatar.svelte'
-	import { formatWallet } from '$lib/helper/utils'
+	import { explorerUrl, formatWallet } from '$lib/helper/utils'
 
 	import IconIPFS from '../../../../static/icons/ipfs.svg'
 	import IconAlgoExplorer from '../../../../static/icons/algoexplorer.svg'
@@ -33,7 +33,7 @@
 
 	const openAlgoExplorer = (e: Event) => {
 		e.stopPropagation()
-		window.open(`https://algoexplorer.io/asset/${id}`, '_blank')
+		window.open(explorerUrl('algo', `/asset/${id}`), '_blank')
 	}
 
 	const loadData = () => {
@@ -56,6 +56,42 @@
 		<div class="asset-tile__inner">
 			<div class="asset-tile__image">
 				<SkeletonPlaceholder style="position: absolute; top: 0; width: 100%; height: 100%;" />
+			</div>
+			<div class="asset-tile__content">
+				<div class="asset-tile__title-wrap">
+					<div class="asset-tile__creator-avatar" style="border-radius: 50%; overflow: hidden;">
+						<SkeletonPlaceholder style="width: 40px; height: 40px;" />
+					</div>
+
+					<div class="asset-tile__title">
+						<SkeletonPlaceholder style="width: 120px; height: 2rem" />
+					</div>
+				</div>
+
+				<div class="asset-tile__meta">
+					<div class="asset-tile__meta-item">
+						<div class="asset-tile__meta-item__label">Unit</div>
+						<div class="asset-tile__meta-item__value">
+							<SkeletonPlaceholder style="width: 60px; height: 1rem" />
+						</div>
+					</div>
+					{#if amount !== null}
+						<div class="asset-tile__meta-item">
+							<div class="asset-tile__meta-item__label">Qty</div>
+							<div class="asset-tile__meta-item__value">
+								<SkeletonPlaceholder style="width: 60px; height: 1rem" />
+							</div>
+						</div>
+					{/if}
+					{#if showListing}
+						<div class="asset-tile__meta-item">
+							<div class="asset-tile__meta-item__label">Listing</div>
+							<div class="asset-tile__meta-item__value">
+								<SkeletonPlaceholder style="width: 60px; height: 1rem" />
+							</div>
+						</div>
+					{/if}
+				</div>
 			</div>
 		</div>
 	</div>
@@ -117,18 +153,10 @@
 					{#if showListing}
 						<div class="asset-tile__meta-item">
 							<div class="asset-tile__meta-item__label">Listing</div>
-							<div class="asset-tile__meta-item__value">
-								Unlisted
-							</div>
+							<div class="asset-tile__meta-item__value">Unlisted</div>
 						</div>
 					{/if}
 				</div>
-
-				{#if showListing}
-					<div class="asset-tile__action">
-						<Button>Buy Now</Button>
-					</div>
-				{/if}
 			</div>
 		</div>
 	</div>

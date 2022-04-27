@@ -25,7 +25,7 @@
 	{:else if status === LoadingStatus.SUCCESS && walletAssets.length > 0}
 		<div class="profile-assets__list">
 			{#each walletAssets as asset}
-				<AssetTile id={asset.index} showListing={true}/>
+				<AssetTile id={asset.index} showListing={true} />
 			{/each}
 		</div>
 	{:else}

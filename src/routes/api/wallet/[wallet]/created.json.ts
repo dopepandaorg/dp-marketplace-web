@@ -14,8 +14,12 @@ export const get: RequestHandler = async ({ params }) => {
 
 	try {
 		const walletResponse = await indexerApi<FetchResponse>(API_WALLET_CREATED_ASSETS(wallet))
-
 		assets = walletResponse.assets
+
+		// Sort by latest first
+		assets.sort((a, b) => {
+			return b['created-at-round'] - a['created-at-round']
+		})
 	} catch (error) {
 		console.log('error', error)
 	}

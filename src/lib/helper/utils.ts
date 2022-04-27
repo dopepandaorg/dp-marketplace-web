@@ -20,6 +20,11 @@ export const assetImageUrl = (chain: 'algo', assetId: string, iconUrl?: string):
 	return iconUrl ? iconUrl : `https://asa-list.tinyman.org/assets/${assetId}/icon.svg`
 }
 
+export const explorerUrl = (chain: 'algo', path?: string) => {
+	const isTestnet = localStorage.getItem('dp_algo-network-testnet') == 'true'
+	return `https://${isTestnet ? 'testnet.' : ''}algoexplorer.io${path}`
+}
+
 export const explorerAddressUrl = (chain: 'algo', account: string): string => {
 	const isTestnet = localStorage.getItem('dp_algo-network-testnet') == 'true'
 	return `https://${isTestnet ? 'testnet.' : ''}algoexplorer.io/address/${account}`

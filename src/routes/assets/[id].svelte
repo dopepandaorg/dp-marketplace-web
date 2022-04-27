@@ -16,12 +16,14 @@
 <script lang="ts">
 	import { onMount } from 'svelte'
 	import { page } from '$app/stores'
+	import Share from 'carbon-icons-svelte/lib/Share.svelte'
+	import { OverflowMenu, OverflowMenuItem } from 'carbon-components-svelte'
 	import type { AssetMetadataRecord, AssetRecord } from '$lib/interfaces/asset'
 	import AssetMediaBanner from '$lib/components/asset/AssetMediaBanner.svelte'
 	import AssetCollection from '$lib/components/asset/AssetCollection.svelte'
 	import AssetDetailMeta from '$lib/components/asset/AssetDetailMeta.svelte'
-	import CreateEscrowListingTx from '$lib/components/transactions/CreateEscrowListingTx.svelte'
-import BuyEscrowTx from '$lib/components/transactions/BuyEscrowTx.svelte'
+	import ShareTwitter from '$lib/components/common/ShareTwitter.svelte'
+	import { addToast } from '$lib/stores/toast'
 
 	export let asset: AssetRecord
 	export let assetMetadata: AssetMetadataRecord = {}
@@ -30,6 +32,22 @@ import BuyEscrowTx from '$lib/components/transactions/BuyEscrowTx.svelte'
 		fetch(`/api/assets/${$page.params.id}/metadata.json`)
 			.then((response) => response.json())
 			.then((body) => (assetMetadata = body))
+	}
+
+	const getLink = () => {
+		return window.location.href
+	}
+
+	const copyToClipboard = () => {
+		const profileLink = getLink()
+
+		navigator.clipboard.writeText(profileLink).then(() => {
+			addToast({
+				kind: 'info',
+				title: 'Copied!',
+				subtitle: 'Link has been copied to the clipboard.'
+			})
+		})
 	}
 
 	onMount(() => {
@@ -45,16 +63,36 @@ import BuyEscrowTx from '$lib/components/transactions/BuyEscrowTx.svelte'
 	<div class="asset-detail__banner"><AssetMediaBanner assetUrl={asset.url} /></div>
 
 	<div class="asset-detail__content">
-		<div class="container">
+		<div class="container-sm">
 			<div class="asset-detail__content-inner">
 				<div class="asset-detail__intro">
-					<h2 class="asset-detail__title">{asset.name}</h2>
-					<div class="asset-detail__meta">
-						<AssetDetailMeta {asset} />
+					<div class="asset-detail__title-wrap">
+						<h2 class="asset-detail__title">{asset.name}</h2>
+
+						<div class="asset-detail__share">
+							<OverflowMenu kind="secondary" icon={Share} flipped>
+								<OverflowMenuItem text="Copy Link" on:click={copyToClipboard} />
+								<OverflowMenuItem>
+									<ShareTwitter
+										text="{asset.name} on DopePanda"
+										url={getLink()}
+										hashtags="dopepanda"
+										via={null}
+										related={null}>Share on Twitter</ShareTwitter
+									>
+								</OverflowMenuItem>
+							</OverflowMenu>
+						</div>
 					</div>
 
 					<div class="asset-detail__collection">
 						<AssetCollection id={asset.id} creator={asset.creator} />
+					</div>
+
+					<div class="asset-detail__meta">
+						<div class="asset-detail__timestamp">
+							<AssetDetailMeta {asset} />
+						</div>
 					</div>
 
 					<div class="asset-detail__description">
@@ -62,7 +100,7 @@ import BuyEscrowTx from '$lib/components/transactions/BuyEscrowTx.svelte'
 						{#if assetMetadata && assetMetadata.description}
 							{assetMetadata.description}
 						{:else}
-							No description set
+							<div class="empty">No description set</div>
 						{/if}
 					</div>
 
@@ -78,19 +116,9 @@ import BuyEscrowTx from '$lib/components/transactions/BuyEscrowTx.svelte'
 								{/each}
 							</div>
 						{:else}
-							No attributes set
+							<span class="empty">No attributes set</span>
 						{/if}
 					</div>
-				</div>
-
-				<div class="asset-detail_listing">
-					1. Listing 2. Sales
-					<br/>
-					<br/>
-					<CreateEscrowListingTx assetId={asset.id}/>
-					<br/>
-					<br/>
-					<BuyEscrowTx assetId={asset.id}/>
 				</div>
 			</div>
 		</div>
@@ -106,26 +134,57 @@ import BuyEscrowTx from '$lib/components/transactions/BuyEscrowTx.svelte'
 
 			h3 {
 				font-size: 1.125rem;
+				line-height: 1.5;
 				font-weight: bold;
 				margin-bottom: 1rem;
+
+				border-bottom: 2px solid #ffffff69;
+				padding-bottom: 0.5rem;
 			}
 		}
 
 		&__title {
+			flex: 4;
 			font-size: 2.75rem;
 			font-weight: 500;
 		}
-		
-        &__meta {
-            margin-top: 1rem !important;
+
+		&__title-wrap {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+		}
+
+		&__share {
+			flex: 1;
+			display: flex;
+			align-items: center;
+			justify-content: flex-end;
+		}
+
+		&__meta {
+			// background-color: var(--dp--black-03);
+			// padding: 1rem;
+			// border-radius: 4px;
+		}
+
+		&__share {
+			:global(button.bx--overflow-menu) {
+				background-color: var(--dp--black-04);
+				border-radius: 5px;
+
+				&:hover {
+					background-color: var(--dp--black-05);
+				}
+			}
 		}
 
 		&__collection {
+			margin-top: 1.5rem !important;
 		}
 
 		&__description {
 			font-size: 1rem;
-			margin-bottom: 3rem;
 
 			h3 {
 				margin-bottom: 1rem;
@@ -172,11 +231,16 @@ import BuyEscrowTx from '$lib/components/transactions/BuyEscrowTx.svelte'
 	.asset-detail__content-inner {
 		padding: 0 1rem;
 		display: grid;
-		grid-template-columns: 1fr 1fr;
+		grid-template-columns: 1fr;
 		gap: 4rem;
 	}
 
 	.asset-detail_listing {
 		height: 200px;
+	}
+
+	.empty {
+		font-size: 1rem;
+		color: var(--dp--text-05);
 	}
 </style>

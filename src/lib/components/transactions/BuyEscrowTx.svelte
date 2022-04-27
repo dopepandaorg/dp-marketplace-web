@@ -3,10 +3,14 @@
 	import { wallet } from '$lib/stores/wallet'
 	import type { Transaction } from 'algosdk'
 	import { SignedTxn, WalletType } from '$lib/interfaces/wallet'
-	import { signTransaction, signTransactions, submitTransaction } from '$lib/transaction-builder/common'
+	import {
+		signTransaction,
+		signTransactions,
+		submitTransaction
+	} from '$lib/transaction-builder/common'
 	import { onClearPera } from '$lib/helper/walletConnect'
 	import { buildTransactionContestVote } from '$lib/transaction-builder/contest'
-	import { buildTransactionBuyEscrow } from '$lib/transaction-builder/buyEscrow';
+	import { buildTransactionBuyEscrow } from '$lib/transaction-builder/buyEscrow'
 	import { mutation, operationStore, subscription } from '@urql/svelte'
 	import { Q_CAST_VOTE, Q_SUB_DID_CONTEST_ENTRY_VOTE } from '$lib/constants/queries'
 	import TxStep from './TxStep.svelte'
