@@ -35,31 +35,34 @@ export const isValidAlgoAddress = (address: string) => {
  * @returns
  */
 export async function algoSubmitTransaction(
-	signedTxn: SignedTxn
-): Promise<{ txId: string; confirmedRound: number }> {
-	const { txId } = await getAlgoClient().sendRawTransaction(signedTxn.blob).do()
-	const confirmedRound = await waitForTransaction(txId)
+	signedTxn: SignedTxn | SignedTxn[]
+): Promise<{ txId: string; txInfo: any; confirmedRound: number }> {
+	const txns = Array.isArray(signedTxn) ? signedTxn.map(s => s.blob) : signedTxn.blob
+	const { txId } = await getAlgoClient().sendRawTransaction(txns).do()
+	const { confirmedRound, txInfo } = await waitForTransaction(txId)
 
 	return {
 		txId,
+		txInfo,
 		confirmedRound
 	}
 }
 
 export async function algoSubmitTransactions(
 	signedTxn: SignedTxn[]
-): Promise<{ txId: string; confirmedRound: number }> {
+): Promise<{ txId: string; txInfo: any; confirmedRound: number }> {
 	const stxns = signedTxn.map((s) => s.blob)
 	const { txId } = await getAlgoClient().sendRawTransaction(stxns).do()
-	const confirmedRound = await waitForTransaction(txId)
+	const { confirmedRound, txInfo } = await waitForTransaction(txId)
 
 	return {
 		txId,
+		txInfo,
 		confirmedRound
 	}
 }
 
-async function waitForTransaction(txId: string): Promise<number> {
+async function waitForTransaction(txId: string): Promise<{ confirmedRound: number, txInfo: any }> {
 	const client = getAlgoClient()
 
 	let lastStatus = await client.status().do()
@@ -74,7 +77,7 @@ async function waitForTransaction(txId: string): Promise<number> {
 		}
 
 		if (status['confirmed-round']) {
-			return status['confirmed-round']
+			return { confirmedRound: status['confirmed-round'], txInfo: status }
 		}
 
 		lastStatus = await client.statusAfterBlock(lastRound + 1).do()

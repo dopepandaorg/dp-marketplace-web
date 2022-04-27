@@ -1,22 +1,30 @@
 <script lang="ts">
-	import { assets, syncWalletAssets } from '$lib/stores/assets'
-	import { onDestroy, onMount } from 'svelte'
+	import { getContext, onMount } from 'svelte'
 	import EmptyTab from '$lib/components/common/EmptyTab.svelte'
 	import ProfileContentSkeleton from '$lib/components/profile/ProfileContentSkeleton.svelte'
 	import { LoadingStatus } from '$lib/constants/enums'
-	import EmptyPage from '$lib/components/common/EmptyPage.svelte'
+	import type { Writable } from 'svelte/store'
+	import type { ProfileRecord } from '$lib/interfaces/profile'
+	import AssetTile from '$lib/components/common/AssetTile.svelte'
 
+	let wallet
 	let walletAssets = []
 	let status = LoadingStatus.IN_PROGRESS
 
-	const assetsSub = assets.subscribe((a) => {
-		status = a.status
-		walletAssets = a.created
+	const profileWallet = getContext<Writable<ProfileRecord>>('profile-wallet')
+	profileWallet.subscribe((pw) => {
+		wallet = pw
 	})
 
-	onDestroy(assetsSub)
 	onMount(() => {
-		syncWalletAssets()
+		if (wallet) {
+			fetch(`/api/wallet/${wallet}/created.json`)
+				.then((response) => response.json())
+				.then((body) => {
+					walletAssets = body.assets
+				})
+				.finally(() => (status = LoadingStatus.SUCCESS))
+		}
 	})
 </script>
 
@@ -24,17 +32,11 @@
 	{#if status === LoadingStatus.IN_PROGRESS}
 		<ProfileContentSkeleton />
 	{:else if status === LoadingStatus.SUCCESS && walletAssets.length > 0}
-		<!-- <div class="profile-assets__list">
+		<div class="profile-assets__list">
 			{#each walletAssets as asset}
-				<AssetTile id={asset['asset-id']} />
+				<AssetTile id={asset.index} />
 			{/each}
-		</div> -->
-
-		<EmptyPage
-			icon="/images/restricted-access-icon.svg"
-			title="Access Restricted"
-			description="This feature is only available to Beta testers"
-		/>
+		</div>
 	{:else}
 		<EmptyTab
 			title="You have no NFT creations :("

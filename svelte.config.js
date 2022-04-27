@@ -1,8 +1,7 @@
 import vercel from '@sveltejs/adapter-vercel'
 import preprocess from 'svelte-preprocess'
 import { optimizeImports, optimizeCss } from 'carbon-preprocess-svelte'
-import { NodeGlobalsPolyfillPlugin } from '@esbuild-plugins/node-globals-polyfill'
-import rollupNodePolyFill from 'rollup-plugin-node-polyfills'
+import inject from '@rollup/plugin-inject'
 import svg from '@poppanator/sveltekit-svg'
 
 /** @type {import('@sveltejs/kit').Config} */
@@ -25,13 +24,15 @@ const config = {
 			resolve: {
 				alias: {
 					path: 'path-browserify',
-					Buffer: 'rollup-plugin-node-polyfills/polyfills/buffer-es6'
+					buffer: 'buffer'
 				}
 			},
 			build: {
 				transformMixedEsModules: true,
 				rollupOptions: {
-					plugins: [rollupNodePolyFill()]
+					plugins: [
+						inject({ Buffer: ['buffer', 'Buffer'] }),
+					]
 				}
 			},
 			optimizeDeps: {
@@ -39,16 +40,13 @@ const config = {
 				esbuildOptions: {
 					define: {
 						global: 'globalThis'
-					},
-					// Enable esbuild polyfill plugins
-					plugins: [
-						NodeGlobalsPolyfillPlugin({
-							buffer: true
-						})
-					]
+					}
 				}
 			},
-			plugins: [svg({})]
+			plugins: [
+				inject({ Buffer: ['buffer', 'Buffer'] }),
+				svg({})
+			]
 		}
 	}
 }

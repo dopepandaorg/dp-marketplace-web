@@ -111,13 +111,10 @@ export const onMyalgoSignTx = async (txn: Transaction): Promise<SignedTxn> => {
 	return signedTxns
 }
 
-export const onMyalgoSignTxMultiple = async (txn: Transaction): Promise<SignedTxn[]> => {
+export const onMyalgoSignTxMultiple = async (txns: Transaction[]): Promise<SignedTxn[]> => {
 	const myAlgoConnect = new MyAlgoConnect({ bridgeUrl: getMyAlgoBridge() })
 
-	const txns = [txn]
-	const txnGroup = algosdk.assignGroupID(txns)
-
-	const signedTxns = await myAlgoConnect.signTransaction(txnGroup.map((txn) => txn.toByte()))
+	const signedTxns = await myAlgoConnect.signTransaction(txns.map((txn) => txn.toByte()))
 	return signedTxns
 }
 

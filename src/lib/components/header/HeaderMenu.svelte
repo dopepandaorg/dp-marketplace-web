@@ -11,6 +11,7 @@
 	import ShowDataCards from 'carbon-icons-svelte/lib/ShowDataCards.svelte'
 	import Settings from 'carbon-icons-svelte/lib/Settings.svelte'
 	import Logout from 'carbon-icons-svelte/lib/Logout.svelte'
+	import Thumbnail_1 from 'carbon-icons-svelte/lib/Thumbnail_1.svelte'
 
 	import HeaderSubscription from './HeaderSubscription.svelte'
 	import { headerMenuEnter, headerMenuExit, isHeaderOpen } from '$lib/stores/header'
@@ -76,6 +77,11 @@
 						icon={ShowDataCards}
 						label="My Collections"
 						action={() => navigate('/profile/collections')}
+					/>
+					<HeaderNavItem
+						icon={Thumbnail_1}
+						label="My Assets"
+						action={() => navigate('/profile/assets')}
 					/>
 					<hr />
 					<HeaderNavItem icon={Settings} label="Settings" action={() => navigate('/settings')} />

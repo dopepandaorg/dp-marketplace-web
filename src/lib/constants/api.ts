@@ -14,11 +14,23 @@ export const ALGO_EXPLORER_API_ENV = (env?: NetworkEnv) =>
 export const API_WALLET = (wallet: string, env?: NetworkEnv) =>
 	`${ALGO_EXPLORER_API_ENV(env)}/accounts/${wallet}`
 
+export const API_WALLET_ASSETS = (wallet: string, env?: NetworkEnv) =>
+	`${ALGO_EXPLORER_API_ENV(env)}/accounts/${wallet}/assets`
+
+export const API_WALLET_CREATED_ASSETS = (wallet: string, env?: NetworkEnv) =>
+	`${ALGO_EXPLORER_API_ENV(env)}/accounts/${wallet}/created-assets`
+
 export const TINYMAN_LP_API = () =>
 	`https://mainnet.analytics.tinyman.org/api/v1/pools/PMSLU3PDSQ4RTD7PB3MYXWNQL6INRLBYMNX7JTUWT2QXFKAI66DQQDRNVQ`
 
 export const API_ASSET = (id: number, env?: NetworkEnv) =>
 	`${ALGO_EXPLORER_API_ENV(env)}/assets/${id}?include-all=true`
+
+export const API_BLOCK = (round: number, env?: NetworkEnv) =>
+	`${ALGO_EXPLORER_API_ENV(env)}/blocks/${round}`
+
+export const API_ASSET_CONFIG_TXS = (id: number, env?: NetworkEnv) =>
+	`${ALGO_EXPLORER_API_ENV(env)}/transactions?asset-id=${id}&tx-type=acfg`
 
 export const ALGO_EXPLORER_FETCH_OPTIONS = {
 	headers: {

@@ -47,9 +47,9 @@
 	<div class="header-wallet__assets">
 		<HeaderWalletAsset unit="ALGO" />
 		<HeaderWalletAsset unit="DPANDA" isCompiledLP={true} />
-		<div class="header-wallet__view-all">
+		<!-- <div class="header-wallet__view-all">
 			<Button kind="tertiary" on:click={openPortfolio}>View all</Button>
-		</div>
+		</div> -->
 	</div>
 </div>
 

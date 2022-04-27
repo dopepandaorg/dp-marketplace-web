@@ -1,3 +1,5 @@
+import { Buffer } from 'buffer'
+
 export const formatWallet = (wallet: string, limit?: number) => {
 	return wallet
 		? wallet.slice(0, limit || 4) +
@@ -25,4 +27,12 @@ export const explorerAddressUrl = (chain: 'algo', account: string): string => {
 
 export const isTouchDevice = () => {
 	return 'ontouchstart' in window || navigator.maxTouchPoints > 0
+}
+
+export const uint64ToBigEndian = (x: number | bigint) => {
+	x = BigInt(x)
+	// assertUint64(x)
+	const buff = Buffer.alloc(8)
+	buff.writeBigUInt64BE(x)
+	return Uint8Array.from(buff)
 }
