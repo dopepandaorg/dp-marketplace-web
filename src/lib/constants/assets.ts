@@ -5,8 +5,8 @@ import { attachImgixProxy } from '$lib/helper/imgixClient'
 
 export const getWalletConnectBridge = (env?: NetworkEnv) =>
 	(env || NETWORK_ENV) === NetworkEnv.MAINNET
-		? 'https://bridge.walletconnect.org'
-		: 'https://bridge.walletconnect.org'
+		? 'https://wallet-connect-a.perawallet.app'
+		: 'https://wallet-connect-b.perawallet.app'
 
 export const getMyAlgoBridge = (env?: NetworkEnv) =>
 	(env || NETWORK_ENV) === NetworkEnv.MAINNET
