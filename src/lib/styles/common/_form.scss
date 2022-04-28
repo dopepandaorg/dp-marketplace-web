@@ -6,7 +6,8 @@
 	}
 
 	> label,
-	.bx--text-area__label-wrapper label {
+	.bx--text-area__label-wrapper label,
+	.bx--select .bx--label {
 		font-size: 1.125rem;
 		font-weight: 500;
 		color: var(--dp--text-01);
@@ -14,7 +15,8 @@
 	}
 
 	.bx--text-input,
-	.bx--text-area {
+	.bx--text-area,
+	.bx--select-input {
 		border-radius: 5px;
 		border-bottom: 0;
 	}

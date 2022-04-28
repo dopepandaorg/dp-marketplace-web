@@ -18,15 +18,19 @@
 	import { page } from '$app/stores'
 	import Share from 'carbon-icons-svelte/lib/Share.svelte'
 	import { OverflowMenu, OverflowMenuItem } from 'carbon-components-svelte'
-	import type { AssetMetadataRecord, AssetRecord } from '$lib/interfaces/asset'
+	import type { AssetMetadata, AssetRecord } from '$lib/interfaces/asset'
 	import AssetMediaBanner from '$lib/components/asset/AssetMediaBanner.svelte'
 	import AssetDetailCollection from '$lib/components/asset/AssetDetailCollection.svelte'
 	import AssetDetailMeta from '$lib/components/asset/AssetDetailMeta.svelte'
 	import ShareTwitter from '$lib/components/common/ShareTwitter.svelte'
 	import { addToast } from '$lib/stores/toast'
+	import { AssetMetadataStandard } from '$lib/constants/enums'
+import { unSlugify } from '$lib/helper/stringUtils';
 
 	export let asset: AssetRecord
-	export let assetMetadata: AssetMetadataRecord = {}
+	export let assetMetadata: AssetMetadata = {
+		standard: AssetMetadataStandard.ARC69
+	}
 
 	const fetchMetadata = () => {
 		fetch(`/api/assets/${$page.params.id}/metadata.json`)
@@ -110,8 +114,8 @@
 							<div class="asset-detail__attributes__inner">
 								{#each Object.entries(assetMetadata.properties) as [key, value]}
 									<div class="asset-detail__attribute">
-										<div class="asset-detail__attribute__key">{key}</div>
-										<div class="asset-detail__attribute__value">{value}</div>
+										<div class="asset-detail__attribute__key">{unSlugify(key)}</div>
+										<div class="asset-detail__attribute__value">{unSlugify(value)}</div>
 									</div>
 								{/each}
 							</div>
@@ -152,7 +156,7 @@
 
 		&__title {
 			font-weight: 500;
-			
+
 			@media screen and (min-width: 768px) {
 				font-size: 2.75rem;
 				flex: 4;
@@ -171,13 +175,7 @@
 			align-items: center;
 			justify-content: flex-end;
 		}
-
-		&__meta {
-			// background-color: var(--dp--black-03);
-			// padding: 1rem;
-			// border-radius: 4px;
-		}
-
+		
 		&__share {
 			:global(button.bx--overflow-menu) {
 				background-color: var(--dp--black-04);
@@ -219,19 +217,18 @@
 
 			&__key {
 				font-weight: 500;
+				text-transform: capitalize;
 			}
 
 			&:last-child {
 				border-bottom: 0;
+				text-transform: capitalize;
 			}
 		}
 	}
 
 	.asset-detail__title {
 		font-weight: 500;
-	}
-
-	.asset-detail__created {
 	}
 
 	.asset-detail__content {

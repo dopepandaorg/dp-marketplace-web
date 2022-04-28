@@ -1,3 +1,5 @@
+import type { AssetMetadataStandard } from '$lib/constants/enums'
+
 /**
  * Interface for records from Algo Indexer APIs
  *
@@ -24,7 +26,9 @@ export interface AssetRecord {
 /**
  * Interfance for asset metadata records
  */
-export interface AssetMetadataRecord {
+export interface AssetMetadata {
+	standard: AssetMetadataStandard
+	mime_type?: string
 	description?: string
 	properties?: { [key: string]: string }
 }
@@ -32,9 +36,18 @@ export interface AssetMetadataRecord {
 /**
  *
  */
-export interface AssetMetadata {
+export interface AssetData {
 	assetName: string
 	unitName: string
+	description: string
+	mimeType: string
 	assetURL: string
+	metadataStandard: AssetMetadataStandard
+	metadataAttributes: AssetAttribute[]
 	isSensitive: boolean
+}
+
+export interface AssetAttribute {
+	key: string
+	value: string
 }
