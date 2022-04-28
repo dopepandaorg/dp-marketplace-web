@@ -13,7 +13,7 @@
 
 	import TxStep from './TxStep.svelte'
 	import { AssetMetadataStandard, LoadingStatus } from '$lib/constants/enums'
-	import { explorerUrl } from '$lib/helper/utils'
+	import { explorerUrl, triggerWalletDeeplink } from '$lib/helper/utils'
 	import { goto } from '$app/navigation'
 
 	export let name: string
@@ -82,6 +82,7 @@
 		if (isValid && txn) {
 			isSignedTxnLoading = true
 
+			triggerWalletDeeplink()
 			signTransaction(walletType, txn, 'Create asset with Minter')
 				.then((response) => {
 					signedTxn = response

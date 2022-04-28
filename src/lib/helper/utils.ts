@@ -34,6 +34,20 @@ export const isTouchDevice = () => {
 	return 'ontouchstart' in window || navigator.maxTouchPoints > 0
 }
 
+export const isIOS = () => {
+	return /(iPad|iPhone|iPod)/g.test(navigator.userAgent)
+}
+
+export const isMobile = () => {
+	return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
+}
+
+export const triggerWalletDeeplink = () => {
+	if (isMobile()) {
+		window.location.href = isIOS() ? 'algorand-wc://' : 'algorand://'
+	}
+}
+
 export const uint64ToBigEndian = (x: number | bigint) => {
 	x = BigInt(x)
 	// assertUint64(x)
