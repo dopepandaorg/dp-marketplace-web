@@ -25,7 +25,7 @@
 	import ShareTwitter from '$lib/components/common/ShareTwitter.svelte'
 	import { addToast } from '$lib/stores/toast'
 	import { AssetMetadataStandard } from '$lib/constants/enums'
-import { unSlugify } from '$lib/helper/stringUtils';
+	import { unSlugify } from '$lib/helper/stringUtils'
 
 	export let asset: AssetRecord
 	export let assetMetadata: AssetMetadata = {
@@ -175,7 +175,7 @@ import { unSlugify } from '$lib/helper/stringUtils';
 			align-items: center;
 			justify-content: flex-end;
 		}
-		
+
 		&__share {
 			:global(button.bx--overflow-menu) {
 				background-color: var(--dp--black-04);

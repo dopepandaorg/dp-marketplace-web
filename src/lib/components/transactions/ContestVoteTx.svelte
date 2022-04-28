@@ -10,6 +10,7 @@
 	import { Q_CAST_VOTE, Q_SUB_DID_CONTEST_ENTRY_VOTE } from '$lib/constants/queries'
 	import TxStep from './TxStep.svelte'
 	import { LoadingStatus } from '$lib/constants/enums'
+	import { triggerWalletDeeplink } from '$lib/helper/utils'
 
 	const updateDBMutation = mutation({ query: Q_CAST_VOTE })
 
@@ -48,6 +49,8 @@
 	const sign = () => {
 		if (txn) {
 			isSignedTxnLoading = true
+
+			triggerWalletDeeplink()
 			signTransaction(walletType, txn, 'Submit vote on DopePanda')
 				.then((response) => {
 					signedTxn = response
