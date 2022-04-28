@@ -10,7 +10,7 @@
 
 <style lang="scss">
 	.asset-media {
-	    display: flex;
+		display: flex;
 		align-items: center;
 		justify-content: center;
 

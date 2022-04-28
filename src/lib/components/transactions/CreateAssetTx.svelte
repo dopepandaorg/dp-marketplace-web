@@ -1,18 +1,28 @@
 <script lang="ts">
 	import { Button, InlineLoading, Modal } from 'carbon-components-svelte'
+	import Launch from 'carbon-icons-svelte/lib/Launch.svelte'
 	import ArrowRight from 'carbon-icons-svelte/lib/ArrowRight.svelte'
 	import { buildTransactionCreateASA } from '$lib/transaction-builder/createAsset'
 	import { signTransaction, submitTransaction } from '$lib/transaction-builder/common'
 
-	import type { AssetMetadata } from '$lib/interfaces/asset'
+	import type { AssetAttribute, AssetData, AssetMetadata } from '$lib/interfaces/asset'
 	import { wallet } from '$lib/stores/wallet'
 	import type { Transaction } from 'algosdk'
 	import { SignedTxn, WalletType } from '$lib/interfaces/wallet'
 	import { onClearPera } from '$lib/helper/walletConnect'
 
+	import TxStep from './TxStep.svelte'
+	import { AssetMetadataStandard, LoadingStatus } from '$lib/constants/enums'
+	import { explorerUrl } from '$lib/helper/utils'
+	import { goto } from '$app/navigation'
+
 	export let name: string
 	export let unit: string
+	export let description: string
 	export let ipfsCID: string
+	export let ipfsMimeType: string
+	export let metadataStandard: AssetMetadataStandard
+	export let metadataAttributes: AssetAttribute[]
 	export let isSensitive: boolean
 	export let isValid: boolean
 	export let isSubmitting = false
@@ -31,6 +41,7 @@
 
 	let txId: string
 	let confirmedRound: number
+	let assetId: number
 
 	let confirmModal = () => {
 		if (isValid) {
@@ -38,15 +49,29 @@
 			isTxnLoading = true
 			walletType = $wallet.type
 
+			let assetURL = ipfsCID
+
+			if (!ipfsCID.startsWith('ipfs://')) {
+				assetURL = `ipfs://${ipfsCID}`
+			}
+
+			if (!assetURL.endsWith('#i') || !assetURL.endsWith('#v')) {
+				assetURL = `${assetURL}#i`
+			}
+
 			// Build Asset Metadata
-			const metadata: AssetMetadata = {
+			const data: AssetData = {
 				assetName: name,
 				unitName: unit,
-				assetURL: !ipfsCID.startsWith('ipfs://') ? `ipfs://${ipfsCID}` : ipfsCID,
+				description,
+				mimeType: ipfsMimeType,
+				assetURL,
+				metadataStandard,
+				metadataAttributes,
 				isSensitive
 			}
 
-			buildTransactionCreateASA(walletAccount, metadata, 0)
+			buildTransactionCreateASA(walletAccount, data, 0)
 				.then((response) => (txn = response))
 				.catch(() => (txn = null))
 				.finally(() => (isTxnLoading = false))
@@ -57,7 +82,7 @@
 		if (isValid && txn) {
 			isSignedTxnLoading = true
 
-			signTransaction(walletType, txn, 'Create Asset with Minter')
+			signTransaction(walletType, txn, 'Create asset with Minter')
 				.then((response) => {
 					signedTxn = response
 					submit()
@@ -75,7 +100,9 @@
 				.then((response) => {
 					txId = response.txId
 					confirmedRound = response.confirmedRound
+					assetId = response.txInfo['asset-index']
 					isComplete = true
+
 					onClear()
 				})
 				.catch(() => {
@@ -87,14 +114,25 @@
 	}
 
 	const close = () => {
+		txn = null
+		isTxnLoading = null
+
+		signedTxn = null
+		isSignedTxnLoading = null
+
+		txId = null
+		confirmedRound = null
+		assetId = null
 		isSubmitting = false
 
 		if (walletType === WalletType.PERA) {
-			isTxnLoading = false
-			isSignedTxnLoading = false
-			isSubmitting = false
-
 			onClearPera()
+		}
+	}
+
+	const goToAsset = () => {
+		if (assetId) {
+			goto(`/assets/${assetId}`)
 		}
 	}
 </script>
@@ -110,7 +148,7 @@
 	<Modal
 		bind:open
 		preventCloseOnClickOutside
-		modalHeading="Sign Transaction"
+		modalHeading="Create Asset"
 		modalLabel={walletType.toUpperCase()}
 		primaryButtonText="Sign Transaction"
 		secondaryButtonText="Cancel"
@@ -121,40 +159,133 @@
 		on:close={close}
 		on:submit={sign}
 	>
-		{#if isTxnLoading}
-			<InlineLoading status="active" description="Creating Transaction ..." />
-		{:else if txn}
-			<InlineLoading status="finished" description="Transaction Ready" />
-		{/if}
-
-		{#if isSignedTxnLoading}
-			<InlineLoading status="active" description="Waiting for Signature ..." />
-		{:else if signedTxn}
-			<InlineLoading status="finished" description="Signature Complete" />
-		{/if}
-
-		{#if isSubmitting}
-			<InlineLoading status="active" description="Submitting Transaction ..." />
-		{:else if txId && confirmedRound}
-			<InlineLoading status="finished" description="Transaction Submitted" />
-
-			<div>
-				TxID: {txId}
-				<br />
-				Current Round: {confirmedRound}
+		<div class="tx-modal__inner">
+			<div class="tx-modal__steps">
+				<TxStep
+					stepCount={1}
+					status={isTxnLoading
+						? LoadingStatus.IN_PROGRESS
+						: txn
+						? LoadingStatus.SUCCESS
+						: LoadingStatus.NONE}
+					label="Build Transaction"
+					descriptionPending="Building your transaction ..."
+					descriptionSuccess="Transaction ready, sign with your wallet."
+				/>
+				<TxStep
+					stepCount={2}
+					label="Sign transaction"
+					status={isSignedTxnLoading
+						? LoadingStatus.IN_PROGRESS
+						: signedTxn
+						? LoadingStatus.SUCCESS
+						: LoadingStatus.NONE}
+					descriptionPending="Waiting for signature ..."
+					descriptionSuccess="Signature complete"
+				/>
+				<TxStep
+					stepCount={3}
+					status={isSubmitting
+						? LoadingStatus.IN_PROGRESS
+						: txId && confirmedRound
+						? LoadingStatus.SUCCESS
+						: LoadingStatus.NONE}
+					label="Submit transaction"
+					descriptionPending="Submitting transaction on Algorand ..."
+					descriptionSuccess="Transaction submitted"
+				/>
 			</div>
-		{/if}
+			<div class="tx-modal__graphic">
+				{#if txId && confirmedRound}
+					<img src="/images/success-graphic.svg" alt="" />
+					<p>Successfully minted at round {confirmedRound}</p>
+					<Button size="field" kind="secondary" on:click={goToAsset}>Go to Asset</Button>
+					<a href={explorerUrl('algo', `/tx/${txId}`)}>View in Explorer &nbsp; <Launch /></a>
+				{:else}
+					<img src="/images/mint-graphic.svg" alt="" />
+				{/if}
+			</div>
+		</div>
 	</Modal>
 </div>
 
 <style lang="scss">
 	.tx-modal--create-asset {
+		.tx-modal__action {
+			:global(.bx--btn) {
+				width: 100%;
+				max-width: none;
+				justify-content: center;
+				padding: 1rem;
+			}
+		}
+
 		:global(.bx--modal-container) {
 			min-height: 400px;
 		}
 
-		:global(.bx--modal button) {
+		:global(.bx--modal .bx--modal-footer button) {
 			border-radius: 0;
+		}
+	}
+
+	.tx-modal__inner {
+		display: flex;
+		align-items: center;
+		flex-direction: column-reverse;
+		width: 100%;
+
+		@media screen and (min-width: 768px) {
+			flex-direction: row;
+		}
+	}
+
+	.tx-modal__steps {
+		flex: 1;
+		margin-top: 2rem;
+		width: 100%;
+	}
+
+	.tx-modal__graphic {
+		display: flex;
+		justify-content: center;
+		flex-direction: column;
+		text-align: center;
+
+		p {
+			color: var(--dp--text-05);
+			padding-right: 0;
+		}
+
+		img {
+			width: 110px;
+			height: 110px;
+			margin-bottom: 1rem;
+		}
+
+		a {
+			font-size: 0.75rem;
+			display: flex;
+			align-items: center;
+		}
+
+		:global(.bx--btn) {
+			min-height: 0 !important;
+			width: auto !important;
+			padding: 0.75rem 2rem;
+			margin-bottom: 1rem;
+		}
+
+		@media screen and (min-width: 768px) {
+			flex: 1;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+
+			img {
+				width: 150px;
+				height: 150px;
+			}
 		}
 	}
 </style>
