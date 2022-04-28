@@ -13,7 +13,8 @@
 		fetch(`/api/wallet/${$wallet.account}/assets.json`)
 			.then((response) => response.json())
 			.then((body) => {
-				walletAssets = body.assets.filter((a) => a.amount > 0)
+				walletAssets = body.assets
+				// .filter((a) => a.amount > 0)
 			})
 			.finally(() => (status = LoadingStatus.SUCCESS))
 	})

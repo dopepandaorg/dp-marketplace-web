@@ -96,7 +96,12 @@
 		</div>
 	</div>
 {:else if !!asset && asset.isNFT}
-	<div class="asset-tile" on:click={goToAsset} use:inview on:change={() => (isInView = !isInView)}>
+	<div
+		class="asset-tile {amount === 0 && 'unowned'}"
+		on:click={goToAsset}
+		use:inview
+		on:change={() => (isInView = !isInView)}
+	>
 		<div class="asset-tile__inner">
 			<div class="asset-tile__image">
 				<ImageLoader fadeIn src={convertIPFSUrl(asset.url)} />
@@ -171,6 +176,10 @@
 		min-width: 0;
 
 		background-color: var(--dp--black-02);
+
+		&.unowned {
+			opacity: 0.35;
+		}
 
 		&__inner {
 			display: flex;

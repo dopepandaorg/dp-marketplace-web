@@ -29,9 +29,7 @@ const config = {
 			},
 			build: {
 				rollupOptions: {
-					plugins: [
-						inject({ Buffer: ['buffer', 'Buffer'] })
-					]
+					plugins: [inject({ Buffer: ['buffer', 'Buffer'] })]
 				}
 			},
 			optimizeDeps: {

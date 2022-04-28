@@ -4,6 +4,8 @@
 		ContentSwitcher,
 		FileUploaderDropContainer,
 		InlineLoading,
+		Select,
+		SelectItem,
 		Switch
 	} from 'carbon-components-svelte'
 	import AssetCIDInput from './AssetCIDInput.svelte'
@@ -15,12 +17,15 @@
 
 	export let label = 'Media'
 	export let value
+	export let mime = null
 	export let isValid = false
 	export let acceptedFormats: string[] = ['.jpg', '.jpeg', '.png', '.gif']
 	export let aspectRatio: '1x1' | '16x9' = '1x1'
 
 	let selectedTypeIndex = 0
 	let fileUploader
+	let mimeType = null
+	let mimeTypeInput = 'image/jpg'
 
 	let fileSourceUrl: string = value ? convertIPFSCIDToUrl(value) : null
 	let fileCID = value ? value : null
@@ -32,6 +37,9 @@
 
 	const selectFile = (files: File[]) => {
 		if (FileReader && files && files.length) {
+			let file = files[0]
+			mimeType = file.type
+
 			var fr = new FileReader()
 			fr.onload = function () {
 				fileSourceUrl = fr.result as string
@@ -78,10 +86,12 @@
 	$: {
 		if (selectedTypeIndex === 0) {
 			value = fileCID
+			mime = mimeType || null
 			isValid = isFileCIDValid
 		} else if (selectedTypeIndex === 1) {
 			value = inputCID
-			isInputCIDValid = inputCID.length >= 8
+			mime = mimeTypeInput
+			isInputCIDValid = inputCID.length >= 8 && inputCID.startsWith('ipfs://')
 			isValid = isInputCIDValid
 		}
 	}
@@ -142,6 +152,12 @@
 		{#if selectedTypeIndex === 1}
 			<div class="media-input__cid">
 				<AssetCIDInput bind:value={inputCID} />
+				<Select labelText="Mime Type" bind:selected={mimeTypeInput}>
+					<SelectItem value="image/jpg" text="image/jpg" />
+					<SelectItem value="image/jpeg" text="image/jpeg" />
+					<SelectItem value="image/png" text="image/png" />
+					<SelectItem value="image/gif" text="image/gif" />
+				</Select>
 			</div>
 		{:else}
 			<div class="media-input__upload">
@@ -187,6 +203,10 @@
 
 		.media-input__cid {
 			margin-top: 2.5rem;
+
+			&:last-child {
+				margin-right: 0;
+			}
 		}
 
 		.media-input__status {

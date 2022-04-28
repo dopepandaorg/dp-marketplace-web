@@ -23,3 +23,11 @@ export const nWeightFormat = (n: number, digits?: number) => {
 		})
 	return item ? (n / item.value).toFixed(digits).replace(rx, '$1') + item.symbol : '0'
 }
+
+export const slugify = (text: string) => {
+	return text.replace(/ /g, '_').replace(/[^\w-]+/g, '')
+}
+
+export const unSlugify = (text: string) => {
+	return text.replace(/_/g, ' ')
+}
