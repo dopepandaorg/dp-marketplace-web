@@ -29,7 +29,7 @@
 
 		:global(.profile-account-name__account) {
 			font-size: 0.875rem;
-			
+
 			@media screen and (min-width: 768px) {
 				font-size: 1rem;
 			}

@@ -1,17 +1,23 @@
 <script lang="ts">
 	import { Form, FormGroup, Button, TextInput, TextArea, Toggle } from 'carbon-components-svelte'
+	import Erase from 'carbon-icons-svelte/lib/Erase.svelte'
 
 	import AssetUnitInput from './AssetUnitInput.svelte'
+	import AssetAttributesInput from './AssetAttributesInput.svelte'
 	import MediaInput from '../common/MediaInput.svelte'
 	import CreateAssetTx from '../transactions/CreateAssetTx.svelte'
+	import { AssetMetadataStandard } from '$lib/constants/enums'
 
 	let name = ''
 	let unit = ''
 	let isUnitValid = false
 	let description = ''
 	let ipfsCID = ''
+	let ipfsMimeType = null
 	let isIpfsCIDValid = false
 	let isSensitive = false
+	let metadataStandard = AssetMetadataStandard.ARC69
+	let metadataAttributes = [{ key: '', value: '' }]
 
 	let isValid = true
 	let isSubmitting = false
@@ -24,6 +30,8 @@
 		ipfsCID = ''
 		isIpfsCIDValid = false
 		isSensitive = false
+		metadataStandard = AssetMetadataStandard.ARC69
+		metadataAttributes = [{ key: '', value: '' }]
 
 		isValid = false
 	}
@@ -59,7 +67,13 @@
 	<hr />
 
 	<FormGroup>
-		<MediaInput bind:value={ipfsCID} bind:isValid={isIpfsCIDValid} />
+		<MediaInput bind:value={ipfsCID} bind:isValid={isIpfsCIDValid} bind:mime={ipfsMimeType} />
+	</FormGroup>
+
+	<hr />
+
+	<FormGroup>
+		<AssetAttributesInput bind:standard={metadataStandard} bind:attributes={metadataAttributes} />
 	</FormGroup>
 
 	<hr />
@@ -76,11 +90,16 @@
 	<hr />
 
 	<div class="form-submit">
-		<Button kind="secondary" on:click={clearForm} disabled={isSubmitting}>Clear</Button>
+		<Button kind="secondary" on:click={clearForm} disabled={isSubmitting} icon={Erase}>Clear</Button
+		>
 		<CreateAssetTx
 			{name}
 			{unit}
+			{description}
 			{ipfsCID}
+			{ipfsMimeType}
+			{metadataStandard}
+			{metadataAttributes}
 			{isSensitive}
 			{isValid}
 			onClear={clearForm}
@@ -93,12 +112,18 @@
 	.form-submit {
 		display: grid;
 		justify-content: space-between;
-		grid-template-columns: 1fr 1fr;
-		gap: 4rem;
+		grid-template-columns: 1fr;
+		gap: 1rem;
+
+		@media screen and (min-width: 768px) {
+			grid-template-columns: 1fr 1fr;
+			gap: 4rem;
+		}
 
 		:global(.bx--btn) {
 			width: 100%;
 			min-height: 3.5rem;
+			max-width: none;
 		}
 	}
 </style>

@@ -20,6 +20,11 @@ export enum AssetType {
 	NFT = 'nft'
 }
 
+export enum AssetMetadataStandard {
+	ARC3 = 'arc3',
+	ARC69 = 'arc69'
+}
+
 export enum ContestStatus {
 	ACTIVE = 'active',
 	UPCOMING = 'upcoming',
