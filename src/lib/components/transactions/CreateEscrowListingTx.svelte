@@ -15,6 +15,7 @@
 		buildTransactionEscrowListing,
 		createAppEscrowListing
 	} from '$lib/transaction-builder/escrowListing'
+	import { triggerWalletDeeplink } from '$lib/helper/utils'
 
 	export let assetId: number
 	export let isComplete = false
@@ -105,6 +106,8 @@
 	const signAppTx = () => {
 		if (appTxn) {
 			isSignedAppTxnLoading = true
+
+			triggerWalletDeeplink()
 			signTransaction(walletType, appTxn, 'Create an Escrow Listing on DopePanda')
 				.then((response) => {
 					signedAppTxn = response

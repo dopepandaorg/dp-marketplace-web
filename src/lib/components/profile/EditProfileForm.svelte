@@ -132,12 +132,18 @@
 	.form-submit {
 		display: grid;
 		justify-content: space-between;
-		grid-template-columns: 1fr 1fr;
-		gap: 4rem;
+		grid-template-columns: 1fr;
+		gap: 1rem;
+
+		@media screen and (min-width: 768px) {
+			grid-template-columns: 1fr 1fr;
+			gap: 4rem;
+		}
 
 		:global(.bx--btn) {
 			width: 100%;
 			min-height: 3.5rem;
+			max-width: none;
 		}
 	}
 </style>
