@@ -12,6 +12,7 @@
 	import TxStep from './TxStep.svelte'
 	import { LoadingStatus } from '$lib/constants/enums'
 	import { createEventDispatcher } from 'svelte'
+	import { isMobile, triggerWalletDeeplink } from '$lib/helper/utils'
 
 	const updateDBMutation = mutation({ query: Q_SYNC_PROFILE })
 	let dispatch = createEventDispatcher()
@@ -65,6 +66,8 @@
 	const sign = () => {
 		if (txn) {
 			isSignedTxnLoading = true
+
+			triggerWalletDeeplink()
 			signTransaction(walletType, txn, 'Update profile on DopePanda')
 				.then((response) => {
 					signedTxn = response
