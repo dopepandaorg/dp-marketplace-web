@@ -9,15 +9,17 @@
 
 	import Footer from '$lib/components/Footer.svelte'
 	import Header from '$lib/components/Header.svelte'
+	import { browser } from '$app/env'
 
 	// Initialize Hasura Client
-	const wsClient = createWSClient({
-		url: HASURA_WS_CLIENT_URI
-	})
-	initClient({
-		url: HASURA_CLIENT_URI,
-		exchanges: [
-			...defaultExchanges,
+	let subscriptionExchanges = []
+	
+	if (browser) {
+		const wsClient = createWSClient({
+			url: HASURA_WS_CLIENT_URI
+		})
+		
+		subscriptionExchanges.push(
 			subscriptionExchange({
 				forwardSubscription: (operation) => ({
 					subscribe: (sink) => ({
@@ -25,6 +27,14 @@
 					})
 				})
 			})
+		)
+	}
+
+	initClient({
+		url: HASURA_CLIENT_URI,
+		exchanges: [
+			...defaultExchanges,
+			...subscriptionExchanges
 		]
 	})
 
