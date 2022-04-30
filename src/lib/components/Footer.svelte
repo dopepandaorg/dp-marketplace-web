@@ -9,7 +9,6 @@
 <footer>
 	<div class="footer__top">
 		<div class="container">
-			<!-- <NetworkSwitch /> -->
 			<div class="footer__inner">
 				<div class="footer__explore">
 					<h4>Explore more from Dopeverse</h4>
