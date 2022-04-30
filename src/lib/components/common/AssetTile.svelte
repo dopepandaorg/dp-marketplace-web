@@ -107,7 +107,12 @@
 	>
 		<div class="asset-tile__inner">
 			<div class="asset-tile__image">
-				<ImageLoader fadeIn bind:this={imageLoader} bind:error={imageLoaderError} src={convertIPFSUrlOnly(asset.url)}>
+				<ImageLoader
+					fadeIn
+					bind:this={imageLoader}
+					bind:error={imageLoaderError}
+					src={convertIPFSUrlOnly(asset.url)}
+				>
 					<svelte:fragment slot="loading">
 						<div class="asset-tile__image__inner">
 							<InlineLoading />
@@ -115,11 +120,14 @@
 					</svelte:fragment>
 					<svelte:fragment slot="error">
 						<div class="asset-tile__image__inner">
-							<Button kind="ghost" on:click={e => {
-								e.preventDefault();
-								e.stopPropagation();
-								imageLoader.loadImage(convertIPFSUrlOnly(asset.url))
-							}}>
+							<Button
+								kind="ghost"
+								on:click={(e) => {
+									e.preventDefault()
+									e.stopPropagation()
+									imageLoader.loadImage(convertIPFSUrlOnly(asset.url))
+								}}
+							>
 								Error. Try again
 							</Button>
 						</div>
