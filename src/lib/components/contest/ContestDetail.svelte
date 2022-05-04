@@ -14,6 +14,7 @@
 	import ContestSubmitEntry from './ContestSubmitEntry.svelte'
 	import ContestSubmitEntryForm from './ContestSubmitEntryForm.svelte'
 	import { createEventDispatcher } from 'svelte'
+import { wallet } from '$lib/stores/wallet';
 	const dispatch = createEventDispatcher()
 
 	export let contest: ContestRecord
@@ -24,6 +25,7 @@
 	let votingStatus = VotingStatus.NONE
 	let isWeightedVoting = contest.voting_type === 1
 	let submittedEntryIds = []
+	let hasSubmitted = false
 
 	if (dayjs(contest.start_at) <= dayjs() && dayjs(contest.end_at) > dayjs()) {
 		status = ContestStatus.ACTIVE
@@ -77,6 +79,10 @@
 	// Load up all submitted entry ids
 	contest.contest_entries.map((ce) => {
 		submittedEntryIds.push(ce.asset_id)
+
+		if (ce.creator === $wallet.account) {
+			hasSubmitted = true
+		}
 	})
 
 	const onRefetchContest = () => {
@@ -113,13 +119,15 @@
 
 		<div class="contest-detail__content__inner">
 			{#if tabIndex === 0}
-				<ContestSubmitEntry
-					onSubmit={() => (tabIndex = 3)}
-					pendingSubmissionMessage={contest.pending_submission_html &&
-						contest.pending_submission_html}
-				/>
-
-				<div class="contest-detail__entries-label">All Entries</div>
+				{#if !hasSubmitted}
+					<ContestSubmitEntry
+						onSubmit={() => (tabIndex = 3)}
+						pendingSubmissionMessage={contest.pending_submission_html &&
+							contest.pending_submission_html}
+					/>
+	
+					<div class="contest-detail__entries-label">All Entries</div>
+				{/if}
 
 				<div class="contest-detail__entries">
 					{#each [...contestEntries] as entry}
