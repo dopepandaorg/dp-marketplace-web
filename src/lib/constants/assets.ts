@@ -25,14 +25,14 @@ export const getNativeASAs = (env?: NetworkEnv) =>
 		: (nativeASAs as any).testnet
 
 export const convertIPFSCIDToUrl = (url: string): string => {
-	return (url && attachImgixProxy('https://cloudflare-ipfs.com/ipfs/' + url)) || ''
+	return (url && attachImgixProxy('https://ipfs.io/ipfs/' + url)) || ''
 }
 export const convertIPFSUrl = (url: string): string => {
 	return (
-		(url && attachImgixProxy(url.replace('ipfs://', 'https://cloudflare-ipfs.com/ipfs/'))) || ''
+		(url && attachImgixProxy(url.replace('ipfs://', 'https://ipfs.io/ipfs/'))) || ''
 	)
 }
 
 export const convertIPFSUrlOnly = (url: string): string => {
-	return (url && url.replace('ipfs://', 'https://cloudflare-ipfs.com/ipfs/')) || ''
+	return (url && url.replace('ipfs://', 'https://ipfs.io/ipfs/')) || ''
 }
