@@ -191,10 +191,11 @@ export const Q_GET_CONTEST = (id: string) => gql`
 			end_at
 			image_cid
 			description
-			contest_entries {
+			contest_entries(order_by: { created_at: desc }) {
                 id
 				title
 				asset_id
+				creator
 			}
         }
     }
@@ -214,10 +215,11 @@ export const Q_GET_CONTEST_BY_SLUG = gql`
 			prizes_html
 			rules_html
 			pending_submission_html
-			contest_entries {
+			contest_entries(order_by: { created_at: desc }) {
 				id
 				title
 				asset_id
+				creator
 			}
 		}
 	}

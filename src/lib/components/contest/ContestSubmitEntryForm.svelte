@@ -26,7 +26,7 @@
 	let isLoading = false
 	let isValid = false
 	let isSubmitting = false
-	let isEntrySubmitted = false
+	let hasEntrySubmitted = false
 
 	let isConnected = false
 
@@ -39,11 +39,22 @@
 				isAssetIdPristine = true
 
 				const isOwned = $wallet.assets.findIndex((wa) => wa.id === a.id) !== -1
-				const isSubmitted = submittedEntryIds.findIndex((se) => Number(se) !== a.id)
+				let isSubmitted = false
+				
+				if (!hasEntrySubmitted && submittedEntryIds) {
+					isSubmitted = submittedEntryIds.findIndex((se) => Number(se) === a.id) !== -1
+				}
+
 				isAssetAvailable = isOwned && !a.isDeleted && a.isNFT && !isSubmitted
 
 				if (isAssetAvailable) {
 					foundAsset = a
+
+					setTimeout(() => {
+						document.querySelector('.asset-preview').scrollIntoView({ 
+							behavior: 'smooth'
+						})
+					}, 300)
 				} else {
 					foundAsset = null
 				}
@@ -62,7 +73,7 @@
 
 	subscription(contestEntry).subscribe((ce) => {
 		if (ce.data && ce.data.contest_entries) {
-			isEntrySubmitted = ce.data.contest_entries.length > 0
+			hasEntrySubmitted = ce.data.contest_entries.length > 0
 
 			if (ce.data.contest_entries.length > 0) {
 				const contestEntry = ce.data.contest_entries[0]
@@ -119,7 +130,7 @@
 					required
 					labelText="Asset ID*"
 					placeholder="Enter the ASA ID of your entry"
-					disabled={isEntrySubmitted}
+					disabled={hasEntrySubmitted}
 					bind:value={assetId}
 					on:change={() => (isAssetIdPristine = false)}
 					invalid={isAssetIdPristine && !isAssetAvailable && !isLoading}
@@ -128,7 +139,7 @@
 
 				<Button
 					icon={isLoading ? InlineLoading : Search}
-					disabled={!isAssetIdValid || isLoading || isEntrySubmitted}
+					disabled={!isAssetIdValid || isLoading || hasEntrySubmitted}
 					on:click={() => validateAsset()}
 				>
 					Find Asset
@@ -142,7 +153,7 @@
 				required
 				labelText="Reward Wallet*"
 				placeholder="Enter the wallet to receive your reward"
-				disabled={isEntrySubmitted}
+				disabled={hasEntrySubmitted}
 				bind:value={rewardWallet}
 				invalid={!isRewardWalletValid && !isLoading}
 				invalidText="Invalid address, please ensure its a valid Algorand wallet address."
@@ -155,14 +166,12 @@
 			<FormGroup>
 				<div class="asset-preview">
 					<h4 for="">Asset Preview</h4>
-
+					<p>Preview your asset before submission and make sure the title and image are properly displayed. Once you're happy with your preview, select "Submit Entry" below to finalize your submission.</p>
 					<div class="asset-preview__asset">
 						<ContestAssetTilePreview asset={foundAsset} />
 					</div>
 				</div>
 			</FormGroup>
-
-			<hr />
 		{/if}
 
 		<div class="form-submit">
@@ -188,6 +197,14 @@
 		h2 {
 			margin-bottom: 1rem;
 		}
+
+	}
+
+	p {
+		font-size: 0.875rem;
+		line-height: 1.5;
+		opacity: 0.75;
+		margin-bottom: 1rem;
 	}
 
 	.form-submit {

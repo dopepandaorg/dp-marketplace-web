@@ -6,7 +6,7 @@
 	import { signTransaction, submitTransaction } from '$lib/transaction-builder/common'
 
 	import type { AssetAttribute, AssetData, AssetMetadata } from '$lib/interfaces/asset'
-	import { wallet } from '$lib/stores/wallet'
+	import { syncWalletAssets, wallet } from '$lib/stores/wallet'
 	import type { Transaction } from 'algosdk'
 	import { SignedTxn, WalletType } from '$lib/interfaces/wallet'
 	import { onClearPera } from '$lib/helper/walletConnect'
@@ -104,6 +104,7 @@
 					assetId = response.txInfo['asset-index']
 					isComplete = true
 
+					syncWalletAssets()
 					onClear()
 				})
 				.catch(() => {
@@ -199,7 +200,7 @@
 			<div class="tx-modal__graphic">
 				{#if txId && confirmedRound}
 					<img src="/images/success-graphic.svg" alt="" />
-					<p>Successfully minted at round {confirmedRound}</p>
+					<p>Asset successfully minted with ID: {assetId}</p>
 					<Button size="field" kind="secondary" on:click={goToAsset}>Go to Asset</Button>
 					<a href={explorerUrl('algo', `/tx/${txId}`)}>View in Explorer &nbsp; <Launch /></a>
 				{:else}
