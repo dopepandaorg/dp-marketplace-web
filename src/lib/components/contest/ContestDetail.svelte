@@ -121,12 +121,12 @@
 
 	<div class="contest-detail__content">
 		<div class="contest-detail__nav">
-			<ContestTabs bind:tabIndex isSubmittable={true} />
+			<ContestTabs bind:tabIndex isSubmittable={status === ContestStatus.ACTIVE} />
 		</div>
 
 		<div class="contest-detail__content__inner">
 			{#if tabIndex === 0}
-				{#if !hasSubmitted}
+				{#if !hasSubmitted && status === ContestStatus.ACTIVE}
 					<ContestSubmitEntry
 						onSubmit={() => (tabIndex = 3)}
 						pendingSubmissionMessage={contest.pending_submission_html &&
