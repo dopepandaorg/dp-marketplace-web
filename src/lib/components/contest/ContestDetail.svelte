@@ -13,8 +13,9 @@
 	import { parseAmount } from '$lib/helper/utils'
 	import ContestSubmitEntry from './ContestSubmitEntry.svelte'
 	import ContestSubmitEntryForm from './ContestSubmitEntryForm.svelte'
+	import { wallet } from '$lib/stores/wallet'
 	import { createEventDispatcher } from 'svelte'
-import { wallet } from '$lib/stores/wallet';
+
 	const dispatch = createEventDispatcher()
 
 	export let contest: ContestRecord
@@ -79,10 +80,16 @@ import { wallet } from '$lib/stores/wallet';
 	// Load up all submitted entry ids
 	contest.contest_entries.map((ce) => {
 		submittedEntryIds.push(ce.asset_id)
+	})
 
-		if (ce.creator === $wallet.account) {
-			hasSubmitted = true
-		}
+	wallet.subscribe(w => {
+		hasSubmitted = false
+		
+		contest.contest_entries.map((ce) => {
+			if (ce.creator === w.account) {
+				hasSubmitted = true
+			}
+		})
 	})
 
 	const onRefetchContest = () => {
