@@ -13,6 +13,7 @@
 
 <svelte:head>
 	<title>Contests | DopePanda</title>
+	<meta name="description" content="Participate in ongoing contests and win prizes!" />
 </svelte:head>
 
 <PageHeader title="Contests" subtitle="Participate in ongoing contests and win prizes!" theme={4} />

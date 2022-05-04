@@ -10,8 +10,13 @@
 	import ContestAssetTile from '../common/ContestAssetTile.svelte'
 	import ContestTabs from './ContestTabs.svelte'
 	import dayjs from 'dayjs'
-	import EmptyTab from '../common/EmptyTab.svelte'
 	import { parseAmount } from '$lib/helper/utils'
+	import ContestSubmitEntry from './ContestSubmitEntry.svelte'
+	import ContestSubmitEntryForm from './ContestSubmitEntryForm.svelte'
+	import { wallet } from '$lib/stores/wallet'
+	import { createEventDispatcher } from 'svelte'
+
+	const dispatch = createEventDispatcher()
 
 	export let contest: ContestRecord
 
@@ -20,6 +25,8 @@
 	let status = ContestStatus.UPCOMING
 	let votingStatus = VotingStatus.NONE
 	let isWeightedVoting = contest.voting_type === 1
+	let submittedEntryIds = []
+	let hasSubmitted = false
 
 	if (dayjs(contest.start_at) <= dayjs() && dayjs(contest.end_at) > dayjs()) {
 		status = ContestStatus.ACTIVE
@@ -38,6 +45,7 @@
 		contest_id: contest.id
 	})
 
+	// Real time subscription of votes
 	subscription(contestVotes).subscribe((cv) => {
 		if (cv.data && cv.data.contest_entries_votes) {
 			contestEntries = contestEntries.map((ce) => ({ ...ce, votes: 0, weight: 0 }))
@@ -68,6 +76,25 @@
 			})
 		}
 	})
+
+	// Load up all submitted entry ids
+	contest.contest_entries.map((ce) => {
+		submittedEntryIds.push(ce.asset_id)
+	})
+
+	wallet.subscribe(w => {
+		hasSubmitted = false
+		
+		contest.contest_entries.map((ce) => {
+			if (ce.creator === w.account) {
+				hasSubmitted = true
+			}
+		})
+	})
+
+	const onRefetchContest = () => {
+		dispatch('refetchContest')
+	}
 </script>
 
 <div class="contest-detail">
@@ -94,37 +121,51 @@
 
 	<div class="contest-detail__content">
 		<div class="contest-detail__nav">
-			<ContestTabs bind:tabIndex />
+			<ContestTabs bind:tabIndex isSubmittable={true} />
 		</div>
 
-		{#if tabIndex === 0}
-			<div class="contest-detail__entries">
-				{#each [...contestEntries] as entry}
-					{#if entry.asset_id}
-						<ContestAssetTile
-							contestId={contest.id}
-							id={Number(entry.asset_id)}
-							votes={entry.votes}
-							weight={entry.weight}
-							rank={entry.rank}
-							{votingStatus}
-							votingStartTime={contest.voting_start_at}
-							{isWeightedVoting}
-						/>
-					{/if}
-				{/each}
-			</div>
-			{#if contestEntries.length === 0}
-				<EmptyTab
-					title="This contest is open for entries!"
-					description={contest.pending_submission_html && contest.pending_submission_html}
-				/>
+		<div class="contest-detail__content__inner">
+			{#if tabIndex === 0}
+				{#if !hasSubmitted}
+					<ContestSubmitEntry
+						onSubmit={() => (tabIndex = 3)}
+						pendingSubmissionMessage={contest.pending_submission_html &&
+							contest.pending_submission_html}
+					/>
+	
+					<div class="contest-detail__entries-label">All Entries</div>
+				{/if}
+
+				<div class="contest-detail__entries">
+					{#each [...contestEntries] as entry}
+						{#if entry.asset_id}
+							<ContestAssetTile
+								contestId={contest.id}
+								id={Number(entry.asset_id)}
+								votes={entry.votes}
+								weight={entry.weight}
+								rank={entry.rank}
+								{votingStatus}
+								votingStartTime={contest.voting_start_at}
+								{isWeightedVoting}
+							/>
+						{/if}
+					{/each}
+				</div>
+			{:else if tabIndex === 1}
+				{@html contest.prizes_html}
+			{:else if tabIndex === 2}
+				{@html contest.rules_html}
+			{:else if tabIndex === 3}
+				<div class="container-sm">
+					<ContestSubmitEntryForm
+						{submittedEntryIds}
+						contestId={contest.id}
+						on:submit={onRefetchContest}
+					/>
+				</div>
 			{/if}
-		{:else if tabIndex === 1}
-			{@html contest.prizes_html}
-		{:else if tabIndex === 2}
-			{@html contest.rules_html}
-		{/if}
+		</div>
 	</div>
 </div>
 
@@ -180,10 +221,22 @@
 			margin-top: 4rem;
 		}
 
+		&__entries-label {
+			font-size: 1.25rem;
+			padding: 2rem 0 1rem;
+			margin-bottom: 1rem;
+			margin-top: 2rem;
+			border-bottom: 1px solid var(--dp--black-04);
+		}
+
 		&__entries {
 			display: grid;
 			grid-template-columns: 1fr;
 			gap: 2rem;
+
+			&:first-child {
+				margin-top: 0;
+			}
 
 			@media screen and (min-width: 768px) {
 				grid-template-columns: 1fr 1fr;

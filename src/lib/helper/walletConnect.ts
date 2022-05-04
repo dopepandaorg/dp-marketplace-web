@@ -12,10 +12,7 @@ import { addToast } from '$lib/stores/toast'
 import { N_WALLET_DISCONNECT } from '$lib/constants/notifications'
 import { getWalletConnectBridge, getMyAlgoBridge } from '$lib/constants/assets'
 
-let walletConnectConnector: WalletConnect = new WalletConnect({
-	bridge: getWalletConnectBridge(),
-	qrcodeModal: QRCodeModal
-})
+let walletConnectConnector: WalletConnect
 
 /**
  * Myalgo
