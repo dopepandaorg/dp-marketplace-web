@@ -13,12 +13,12 @@
 
 	// Initialize Hasura Client
 	let subscriptionExchanges = []
-	
+
 	if (browser) {
 		const wsClient = createWSClient({
 			url: HASURA_WS_CLIENT_URI
 		})
-		
+
 		subscriptionExchanges.push(
 			subscriptionExchange({
 				forwardSubscription: (operation) => ({
@@ -32,10 +32,7 @@
 
 	initClient({
 		url: HASURA_CLIENT_URI,
-		exchanges: [
-			...defaultExchanges,
-			...subscriptionExchanges
-		]
+		exchanges: [...defaultExchanges, ...subscriptionExchanges]
 	})
 
 	// Initialize Navigation Progress Bar
