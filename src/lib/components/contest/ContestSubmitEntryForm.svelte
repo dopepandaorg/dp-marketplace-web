@@ -26,7 +26,7 @@
 	let isLoading = false
 	let isValid = false
 	let isSubmitting = false
-	let isEntrySubmitted = false
+	let hasEntrySubmitted = false
 
 	let isConnected = false
 
@@ -39,7 +39,12 @@
 				isAssetIdPristine = true
 
 				const isOwned = $wallet.assets.findIndex((wa) => wa.id === a.id) !== -1
-				const isSubmitted = submittedEntryIds.findIndex((se) => Number(se) !== a.id)
+				let isSubmitted = false
+				
+				if (!hasEntrySubmitted) {
+					isSubmitted = submittedEntryIds.findIndex((se) => Number(se) !== a.id) !== -1
+				}
+
 				isAssetAvailable = isOwned && !a.isDeleted && a.isNFT && !isSubmitted
 
 				if (isAssetAvailable) {
@@ -62,7 +67,7 @@
 
 	subscription(contestEntry).subscribe((ce) => {
 		if (ce.data && ce.data.contest_entries) {
-			isEntrySubmitted = ce.data.contest_entries.length > 0
+			hasEntrySubmitted = ce.data.contest_entries.length > 0
 
 			if (ce.data.contest_entries.length > 0) {
 				const contestEntry = ce.data.contest_entries[0]
@@ -119,7 +124,7 @@
 					required
 					labelText="Asset ID*"
 					placeholder="Enter the ASA ID of your entry"
-					disabled={isEntrySubmitted}
+					disabled={hasEntrySubmitted}
 					bind:value={assetId}
 					on:change={() => (isAssetIdPristine = false)}
 					invalid={isAssetIdPristine && !isAssetAvailable && !isLoading}
@@ -128,7 +133,7 @@
 
 				<Button
 					icon={isLoading ? InlineLoading : Search}
-					disabled={!isAssetIdValid || isLoading || isEntrySubmitted}
+					disabled={!isAssetIdValid || isLoading || hasEntrySubmitted}
 					on:click={() => validateAsset()}
 				>
 					Find Asset
@@ -142,7 +147,7 @@
 				required
 				labelText="Reward Wallet*"
 				placeholder="Enter the wallet to receive your reward"
-				disabled={isEntrySubmitted}
+				disabled={hasEntrySubmitted}
 				bind:value={rewardWallet}
 				invalid={!isRewardWalletValid && !isLoading}
 				invalidText="Invalid address, please ensure its a valid Algorand wallet address."
