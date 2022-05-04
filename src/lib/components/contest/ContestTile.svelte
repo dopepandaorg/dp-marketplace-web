@@ -33,12 +33,7 @@
 	})
 </script>
 
-<div
-	class="contest-tile"
-	on:click={() =>
-		(status === ContestStatus.ACTIVE || status === ContestStatus.ENDED) &&
-		goto(`/contests/${contest.slug}`)}
->
+<div class="contest-tile" on:click={() => goto(`/contests/${contest.slug}`)}>
 	<div class="contest-tile__image">
 		<div>
 			<ImageLoader fadeIn src={convertIPFSUrl(contest.image_cid)} />

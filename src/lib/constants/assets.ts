@@ -14,7 +14,7 @@ export const getMyAlgoBridge = (env?: NetworkEnv) =>
 		: 'https://dev.myalgo.com/bridge'
 
 export const DPANDA_ASSET_ID = (env?: NetworkEnv) =>
-	(env || NETWORK_ENV) === NetworkEnv.MAINNET ? 391379500 : 62484045
+	(env || NETWORK_ENV) === NetworkEnv.MAINNET ? 391379500 : 85326355
 
 export const DPANDA_LP_ASSET_ID = (env?: NetworkEnv) =>
 	(env || NETWORK_ENV) === NetworkEnv.MAINNET ? 552661375 : 552661375

@@ -61,6 +61,7 @@
 
 <svelte:head>
 	<title>{asset.name} | DopePanda</title>
+	<meta name="description" content={assetMetadata && assetMetadata.description} />
 </svelte:head>
 
 <div class="asset-detail">

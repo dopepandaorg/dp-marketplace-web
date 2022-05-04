@@ -153,7 +153,6 @@
 	 *
 	 */
 	const setupAppTransaction = () => {
-		console.log('setting app tx', appId)
 		if (appId) {
 			buildTransactionEscrowListing(walletAccount, appId, assetId, 10, 1)
 				.then((response) => (setupAppTxn = response))

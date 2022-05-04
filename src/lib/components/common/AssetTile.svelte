@@ -1,8 +1,8 @@
 <script lang="ts">
 	import { inview } from 'svelte-inview'
-	import { Button, ImageLoader, SkeletonPlaceholder } from 'carbon-components-svelte'
+	import { Button, ImageLoader, InlineLoading, SkeletonPlaceholder } from 'carbon-components-svelte'
 	import { goto } from '$app/navigation'
-	import { convertIPFSUrl, convertIPFSUrlOnly } from '$lib/constants/assets'
+	import { convertIPFSUrlOnly } from '$lib/constants/assets'
 	import ProfileAvatar from '../profile/ProfileAvatar.svelte'
 	import { explorerUrl, formatWallet } from '$lib/helper/utils'
 
@@ -17,6 +17,9 @@
 	let asset
 	let isLoading = true
 	let isInView = false
+
+	let imageLoader
+	let imageLoaderError
 
 	const goToAsset = (e: Event) => {
 		e.preventDefault()
@@ -104,7 +107,32 @@
 	>
 		<div class="asset-tile__inner">
 			<div class="asset-tile__image">
-				<ImageLoader fadeIn src={convertIPFSUrl(asset.url)} />
+				<ImageLoader
+					fadeIn
+					bind:this={imageLoader}
+					bind:error={imageLoaderError}
+					src={convertIPFSUrlOnly(asset.url)}
+				>
+					<svelte:fragment slot="loading">
+						<div class="asset-tile__image__inner">
+							<InlineLoading />
+						</div>
+					</svelte:fragment>
+					<svelte:fragment slot="error">
+						<div class="asset-tile__image__inner">
+							<Button
+								kind="ghost"
+								on:click={(e) => {
+									e.preventDefault()
+									e.stopPropagation()
+									imageLoader.loadImage(convertIPFSUrlOnly(asset.url))
+								}}
+							>
+								Error. Try again
+							</Button>
+						</div>
+					</svelte:fragment>
+				</ImageLoader>
 			</div>
 			<div class="asset-tile__content">
 				<div class="asset-tile__title-wrap">
@@ -207,6 +235,13 @@
 				object-position: center;
 
 				transition: transform 0.3s;
+			}
+
+			:global(.asset-tile__image__inner) {
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				transform: translate(-50%, -50%);
 			}
 		}
 

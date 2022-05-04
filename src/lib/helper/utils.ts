@@ -1,3 +1,5 @@
+import { NetworkEnv } from '$lib/constants/enums'
+import { NETWORK_ENV } from '$lib/variables'
 import { Buffer } from 'buffer'
 
 export const formatWallet = (wallet: string, limit?: number) => {
@@ -21,12 +23,12 @@ export const assetImageUrl = (chain: 'algo', assetId: string, iconUrl?: string):
 }
 
 export const explorerUrl = (chain: 'algo', path?: string) => {
-	const isTestnet = localStorage.getItem('dp_algo-network-testnet') == 'true'
+	const isTestnet = NETWORK_ENV !== NetworkEnv.MAINNET
 	return `https://${isTestnet ? 'testnet.' : ''}algoexplorer.io${path}`
 }
 
 export const explorerAddressUrl = (chain: 'algo', account: string): string => {
-	const isTestnet = localStorage.getItem('dp_algo-network-testnet') == 'true'
+	const isTestnet = NETWORK_ENV !== NetworkEnv.MAINNET
 	return `https://${isTestnet ? 'testnet.' : ''}algoexplorer.io/address/${account}`
 }
 

@@ -30,6 +30,7 @@ export interface ContestRecord {
 export interface ContestEntryRecord {
 	id: string
 	title: string
+	creator: string
 	description: string
 	asset_id: string
 	votes?: number

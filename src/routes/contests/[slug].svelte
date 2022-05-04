@@ -37,7 +37,10 @@
 					hideCloseButton
 				/>
 			{:else if contestData}
-				<ContestDetail contest={contestData} />
+				<ContestDetail
+					contest={contestData}
+					on:refetchContest={() => contest.reexecute({ requestPolicy: 'network-only' })}
+				/>
 			{:else}
 				<InlineNotification
 					lowContrast

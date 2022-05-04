@@ -64,7 +64,7 @@ export const Q_CONNECT_PROFILE = gql`
  */
 export const Q_GET_CONTESTS = gql`
 	query GetContest {
-		contests(order_by: { start_at: asc }) {
+		contests(order_by: { start_at: desc }) {
 			id
 			slug
 			title
@@ -79,6 +79,16 @@ export const Q_GET_CONTESTS = gql`
 					count
 				}
 			}
+		}
+	}
+`
+
+export const Q_SUB_CONTEST_ENTRIES = gql`
+	query SubContestEntries($contest_id: uuid!) {
+		contest_entries(where: { contest_id: { _eq: $contest_id } }) {
+			id
+			title
+			asset_id
 		}
 	}
 `
@@ -181,10 +191,11 @@ export const Q_GET_CONTEST = (id: string) => gql`
 			end_at
 			image_cid
 			description
-			contest_entries {
+			contest_entries(order_by: { created_at: desc }) {
                 id
 				title
 				asset_id
+				creator
 			}
         }
     }
@@ -204,10 +215,11 @@ export const Q_GET_CONTEST_BY_SLUG = gql`
 			prizes_html
 			rules_html
 			pending_submission_html
-			contest_entries {
+			contest_entries(order_by: { created_at: desc }) {
 				id
 				title
 				asset_id
+				creator
 			}
 		}
 	}
@@ -219,6 +231,29 @@ export const Q_CAST_VOTE = gql`
 			contest_id
 			tx_id
 			voter
+		}
+	}
+`
+export const Q_SUBMIT_ENTRY = gql`
+	mutation SubmitEntryWithTx($txId: String!, $wallet: String!, $contestId: uuid!) {
+		SubmitEntryWithTx(txId: $txId, wallet: $wallet, contestId: $contestId) {
+			id
+			created_tx_id
+			created_at_round
+			contest_id
+			asset_id
+		}
+	}
+`
+export const Q_SUB_MY_CONTEST_ENTRY = gql`
+	subscription SubContestEntry($contest_id: uuid!, $wallet: String!) {
+		contest_entries(
+			where: { _and: { contest_id: { _eq: $contest_id }, creator: { _eq: $wallet } } }
+		) {
+			id
+			asset_id
+			creator
+			created_at
 		}
 	}
 `
