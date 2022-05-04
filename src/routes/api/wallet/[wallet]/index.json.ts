@@ -33,6 +33,7 @@ export const get: RequestHandler = async ({ params }) => {
 
 		if (walletResponse.account.assets) {
 			const nativeAssets = []
+			const nonNativeAssets = []
 
 			walletResponse.account.assets.map((a) => {
 				const asset = nativeASAs.find((asa) => asa.id === a['asset-id'])
@@ -50,10 +51,16 @@ export const get: RequestHandler = async ({ params }) => {
 						totalDPANDALp = Math.round(a.amount * lpDPANDAFactor)
 						totalDPANDA += totalDPANDALp
 					}
+				} else {
+					nonNativeAssets.push({
+						id: a['asset-id'],
+						amount: a.amount,
+						...asset
+					})
 				}
 			})
 
-			assets = [...assets, ...nativeAssets]
+			assets = [...assets, ...nativeAssets, ...nonNativeAssets]
 		}
 	}
 
