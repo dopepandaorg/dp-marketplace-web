@@ -41,14 +41,20 @@
 				const isOwned = $wallet.assets.findIndex((wa) => wa.id === a.id) !== -1
 				let isSubmitted = false
 				
-				if (!hasEntrySubmitted) {
-					isSubmitted = submittedEntryIds.findIndex((se) => Number(se) !== a.id) !== -1
+				if (!hasEntrySubmitted && submittedEntryIds) {
+					isSubmitted = submittedEntryIds.findIndex((se) => Number(se) === a.id) !== -1
 				}
 
 				isAssetAvailable = isOwned && !a.isDeleted && a.isNFT && !isSubmitted
 
 				if (isAssetAvailable) {
 					foundAsset = a
+
+					setTimeout(() => {
+						document.querySelector('.asset-preview').scrollIntoView({ 
+							behavior: 'smooth'
+						})
+					}, 300)
 				} else {
 					foundAsset = null
 				}
@@ -160,14 +166,12 @@
 			<FormGroup>
 				<div class="asset-preview">
 					<h4 for="">Asset Preview</h4>
-
+					<p>Preview your asset before submission and make sure the title and image are properly displayed. Once you're happy with your preview, select "Submit Entry" below to finalize your submission.</p>
 					<div class="asset-preview__asset">
 						<ContestAssetTilePreview asset={foundAsset} />
 					</div>
 				</div>
 			</FormGroup>
-
-			<hr />
 		{/if}
 
 		<div class="form-submit">
@@ -193,6 +197,14 @@
 		h2 {
 			margin-bottom: 1rem;
 		}
+
+	}
+
+	p {
+		font-size: 0.875rem;
+		line-height: 1.5;
+		opacity: 0.75;
+		margin-bottom: 1rem;
 	}
 
 	.form-submit {
