@@ -193,6 +193,8 @@
 			</div>
 		</div>
 	</div>
+{:else if $$slots.empty}
+	<slot name="empty" />
 {/if}
 
 <style lang="scss">
