@@ -1,12 +1,30 @@
 <script lang="ts">
 	import SelectWindow from 'carbon-icons-svelte/lib/SelectWindow.svelte'
+	import { createEventDispatcher } from 'svelte'
+	import ProfileShowcaseSelectForm from './ProfileShowcaseSelectForm.svelte'
+	const dispatch = createEventDispatcher()
 
 	export let isEditable = true
+	export let index
 
-	const selectAsset = () => {}
+	let open
+
+	const openSelectAsset = () => {
+		open = true
+	}
+
+	const select = (e: CustomEvent) => {
+		if (e.detail.id) {
+			dispatch('select', {
+				id: e.detail.id
+			})
+
+			open = false
+		}
+	}
 </script>
 
-<div class="asset-tile" on:click={selectAsset} class:is-editable={isEditable}>
+<div class="asset-tile" on:click={openSelectAsset} class:is-editable={isEditable}>
 	<div class="asset-tile__inner">
 		<div class="asset-tile__image">
 			{#if isEditable}
@@ -42,6 +60,8 @@
 		</div>
 	</div>
 </div>
+
+<ProfileShowcaseSelectForm {index} bind:open on:select={select} />
 
 <style lang="scss">
 	.asset-tile {
