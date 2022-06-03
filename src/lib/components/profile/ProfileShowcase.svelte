@@ -1,12 +1,15 @@
 <script lang="ts">
 	import { getContext } from 'svelte'
 	import type { Writable } from 'svelte/store'
+	import type { OperationStore } from '@urql/svelte'
 	import type { ProfileRecord } from '$lib/interfaces/profile'
 	import { Button, SkeletonPlaceholder } from 'carbon-components-svelte'
 	import AssetTile from '../common/AssetTile.svelte'
 	import ProfileShowcaseTileSelector from './ProfileShowcaseTileSelector.svelte'
 	import UpdateProfileShowcaseTx from '../transactions/UpdateProfileShowcaseTx.svelte'
 	import TrashCanIcon from 'carbon-icons-svelte/lib/TrashCan.svelte'
+
+	export let isEditable: boolean
 
 	let isLoading = false
 	let isPristine = true
@@ -25,6 +28,14 @@
 	const onSelect = (id: number, i: number) => {
 		featuredGallery[i] = id
 		isPristine = false
+	}
+
+	const onSubmit = () => {
+		const profileQuery = getContext<OperationStore>('profile-query')
+
+		if (profileQuery) {
+			profileQuery.reexecute({ requestPolicy: 'network-only' })
+		}
 	}
 </script>
 
@@ -49,7 +60,7 @@
 			<h4>Profile Showcase</h4>
 
 			{#if !isPristine}
-				<UpdateProfileShowcaseTx {featuredGallery} />
+				<UpdateProfileShowcaseTx {featuredGallery} on:complete={onSubmit}/>
 			{/if}
 		</div>
 
@@ -61,7 +72,7 @@
 							<svelte:fragment slot="empty">
 								<ProfileShowcaseTileSelector
 									index={i}
-									isEditable={true}
+									{isEditable}
 									on:select={(e) => onSelect(e.detail.id, i)}
 								/>
 							</svelte:fragment>
@@ -80,7 +91,7 @@
 				{:else}
 					<ProfileShowcaseTileSelector
 						index={i}
-						isEditable={true}
+						{isEditable}
 						on:select={(e) => onSelect(e.detail.id, i)}
 					/>
 				{/if}

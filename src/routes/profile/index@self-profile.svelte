@@ -10,7 +10,7 @@
 </div>
 
 <div class="profile-content">
-	<ProfileShowcase />
+	<ProfileShowcase isEditable={true} />
 </div>
 
 <style lang="scss">

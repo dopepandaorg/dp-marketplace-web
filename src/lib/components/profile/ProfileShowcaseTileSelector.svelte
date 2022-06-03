@@ -24,7 +24,7 @@
 	}
 </script>
 
-<div class="asset-tile" on:click={openSelectAsset} class:is-editable={isEditable}>
+<div class="asset-tile" on:click={isEditable && openSelectAsset} class:is-editable={isEditable}>
 	<div class="asset-tile__inner">
 		<div class="asset-tile__image">
 			{#if isEditable}

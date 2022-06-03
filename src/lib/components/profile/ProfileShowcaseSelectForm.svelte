@@ -85,11 +85,8 @@
 	<Form on:submit={(e) => e.preventDefault()}>
 		<div class="form-inner">
 			<FormGroup>
-				<h5 for="">Asset Preview</h5>
-				<p>
-					Preview your asset before submission and make sure the title and image are properly
-					displayed.
-				</p>
+				<h5 for="">Asset Lookup</h5>
+				<p>Enter the ASA ID of your asset below to locate and preview before submission.</p>
 
 				<div class="inline">
 					<TextInput

@@ -13,8 +13,9 @@
 	import { LoadingStatus } from '$lib/constants/enums'
 	import { buildTransactionFeaturedGalleryUpdate } from '$lib/transaction-builder/featuredGallery'
 	import { triggerWalletDeeplink } from '$lib/helper/utils'
+	import { Q_SYNC_FEATURED_GALLERY } from '$lib/constants/queries'
 
-	const updateDBMutation = mutation({ query: null })
+	const updateDBMutation = mutation({ query: Q_SYNC_FEATURED_GALLERY })
 	let dispatch = createEventDispatcher()
 
 	export let featuredGallery: number[]
@@ -195,7 +196,7 @@
 				/>
 			</div>
 			<div class="tx-modal__graphic">
-				<img src="/images/vote-graphic.svg" alt="" />
+				<img src="/images/edit-profile-graphic.svg" alt="" />
 			</div>
 		</div>
 	</Modal>
