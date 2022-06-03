@@ -193,6 +193,36 @@
 			</div>
 		</div>
 	</div>
+{:else if $$slots.empty}
+	<slot name="empty" />
+{:else}
+	<div class="asset-tile">
+		<div class="asset-tile__inner">
+			<div class="asset-tile__image">
+				<SkeletonPlaceholder style="position: absolute; top: 0; width: 100%; height: 100%;" />
+			</div>
+			<div class="asset-tile__content">
+				<div class="asset-tile__title-wrap">
+					<div class="asset-tile__creator-avatar" style="border-radius: 50%; overflow: hidden;">
+						<SkeletonPlaceholder style="width: 40px; height: 40px;" />
+					</div>
+
+					<div class="asset-tile__title">
+						<SkeletonPlaceholder style="width: 120px; height: 2rem" />
+					</div>
+				</div>
+
+				<div class="asset-tile__meta">
+					<div class="asset-tile__meta-item">
+						<div class="asset-tile__meta-item__label">Unit</div>
+						<div class="asset-tile__meta-item__value">
+							<SkeletonPlaceholder style="width: 60px; height: 1rem" />
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 {/if}
 
 <style lang="scss">

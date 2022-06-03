@@ -28,9 +28,7 @@ export const convertIPFSCIDToUrl = (url: string): string => {
 	return (url && attachImgixProxy('https://ipfs.io/ipfs/' + url)) || ''
 }
 export const convertIPFSUrl = (url: string): string => {
-	return (
-		(url && attachImgixProxy(url.replace('ipfs://', 'https://ipfs.io/ipfs/'))) || ''
-	)
+	return (url && attachImgixProxy(url.replace('ipfs://', 'https://ipfs.io/ipfs/'))) || ''
 }
 
 export const convertIPFSUrlOnly = (url: string): string => {

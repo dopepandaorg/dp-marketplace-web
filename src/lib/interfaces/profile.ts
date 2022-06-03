@@ -8,5 +8,6 @@ export interface ProfileRecord {
 	social_twitter?: string
 	social_instagram?: string
 	social_website?: string
+	featured_gallery?: number[]
 	created_at?: string
 }

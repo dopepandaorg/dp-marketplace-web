@@ -15,6 +15,8 @@ export const Q_GET_PROFILE_BY_HANDLE = gql`
 			social_instagram
 			social_twitter
 			social_website
+			featured_gallery
+
 			created_at
 		}
 	}
@@ -31,6 +33,8 @@ export const Q_GET_PROFILE = gql`
 			social_instagram
 			social_twitter
 			social_website
+			featured_gallery
+
 			created_at
 		}
 	}
@@ -47,6 +51,15 @@ export const Q_SYNC_PROFILE = gql`
 			social_instagram
 			social_twitter
 			social_website
+			featured_gallery
+		}
+	}
+`
+export const Q_SYNC_FEATURED_GALLERY = gql`
+	mutation UpdateProfileFeaturedGalleryWithTx($txId: String!, $wallet: String!) {
+		UpdateProfileFeaturedGalleryWithTx(txId: $txId, wallet: $wallet) {
+			wallet
+			featured_gallery
 		}
 	}
 `
