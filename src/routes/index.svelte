@@ -1,17 +1,11 @@
-<script context="module">
-	export async function load() {
-		return {
-			status: 302,
-			redirect: '/contests'
-		}
-	}
-</script>
-
 <script lang="ts">
+	import IndexAbout from '$lib/components/index/IndexAbout.svelte'
+
 	import IndexBanner from '$lib/components/index/IndexBanner.svelte'
 	import IndexCategories from '$lib/components/index/IndexCategories.svelte'
+	import IndexCuratedCollections from '$lib/components/index/IndexCuratedCollections.svelte'
+	import IndexRewards from '$lib/components/index/IndexRewards.svelte'
 	import IndexTrending from '$lib/components/index/IndexTrending.svelte'
-	import IndexExplore from '$lib/components/index/IndexExplore.svelte'
 </script>
 
 <svelte:head>
@@ -20,5 +14,6 @@
 
 <IndexBanner />
 <IndexTrending />
-<IndexCategories />
-<IndexExplore />
+<IndexCuratedCollections />
+<IndexAbout />
+<IndexRewards />

@@ -9,9 +9,6 @@
 	<div class="container">
 		<div class="section__header">
 			<h3>Trending</h3>
-			<Button kind="tertiary" icon={ArrowRight} on:click={() => goto('/trending')}
-				>See all in Trending</Button
-			>
 		</div>
 
 		<div class="trending-list">

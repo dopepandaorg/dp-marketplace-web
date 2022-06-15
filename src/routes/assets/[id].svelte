@@ -111,7 +111,7 @@
 
 					<div class="asset-detail__attributes">
 						<h3>Attributes</h3>
-						{#if assetMetadata && assetMetadata.properties}
+						{#if assetMetadata && assetMetadata.properties && assetMetadata.properties.length > 0}
 							<div class="asset-detail__attributes__inner">
 								{#each Object.entries(assetMetadata.properties) as [key, value]}
 									<div class="asset-detail__attribute">

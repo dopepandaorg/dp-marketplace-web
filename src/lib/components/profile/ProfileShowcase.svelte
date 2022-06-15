@@ -60,7 +60,7 @@
 			<h4>Profile Showcase</h4>
 
 			{#if !isPristine}
-				<UpdateProfileShowcaseTx {featuredGallery} on:complete={onSubmit}/>
+				<UpdateProfileShowcaseTx {featuredGallery} on:complete={onSubmit} />
 			{/if}
 		</div>
 
