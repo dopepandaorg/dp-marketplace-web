@@ -73,7 +73,7 @@
 <Modal
 	bind:open
 	preventCloseOnClickOutside
-	modalLabel="Slot 1/8"
+	modalLabel={index ? `Slot ${index + 1}/8` : null}
 	modalHeading="Update Profile Showcase"
 	primaryButtonText="Select"
 	secondaryButtonText="Cancel"
