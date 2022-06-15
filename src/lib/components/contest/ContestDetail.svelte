@@ -82,9 +82,9 @@
 		submittedEntryIds.push(ce.asset_id)
 	})
 
-	wallet.subscribe(w => {
+	wallet.subscribe((w) => {
 		hasSubmitted = false
-		
+
 		contest.contest_entries.map((ce) => {
 			if (ce.creator === w.account) {
 				hasSubmitted = true
@@ -132,7 +132,7 @@
 						pendingSubmissionMessage={contest.pending_submission_html &&
 							contest.pending_submission_html}
 					/>
-	
+
 					<div class="contest-detail__entries-label">All Entries</div>
 				{/if}
 
