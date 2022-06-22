@@ -73,7 +73,7 @@
 <Modal
 	bind:open
 	preventCloseOnClickOutside
-	modalLabel={index ? `Slot ${index + 1}/8` : null}
+	modalLabel={index >= 0 ? `Slot ${index + 1}/8` : null}
 	modalHeading="Update Profile Showcase"
 	primaryButtonText="Select"
 	secondaryButtonText="Cancel"
@@ -102,6 +102,7 @@
 					<Button
 						icon={isLoading ? InlineLoading : Search}
 						iconDescription="Find Asset"
+						tooltipAlignment="end"
 						kind="secondary"
 						disabled={!isAssetIdValid || isLoading}
 						on:click={() => validateAsset()}
