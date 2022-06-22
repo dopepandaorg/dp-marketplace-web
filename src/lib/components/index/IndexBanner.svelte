@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { Button } from 'carbon-components-svelte'
+	import { ImageSearch, IntentRequestCreate } from 'carbon-icons-svelte'
 	import IndexSlider from './IndexSlider.svelte'
 </script>
 
@@ -8,16 +9,20 @@
 		<div class="section-banner__inner">
 			<div class="section-banner__content">
 				<div class="title">
-					<h1>Marketplace Headline</h1>
+					<h1>Buy, Sell and Trade your NFTs and get rewarded!</h1>
 				</div>
 
 				<div class="subtitle">
-					<p>Find your favorite content, join like-minded communities & unlock exclusive content</p>
+					<p>DopePanda is a community-first, creator economy ecosystem.</p>
 				</div>
 
 				<div class="cta">
-					<Button kind="primary">Create</Button>
-					<Button kind="tertiary">Explore</Button>
+					<a href="/create">
+						<Button class="cta__primary" kind="primary" icon={IntentRequestCreate}>Create</Button>
+					</a>
+					<a href="/explore">
+						<Button class="cta__secondary" kind="tertiary" icon={ImageSearch}>Explore</Button>
+					</a>
 				</div>
 			</div>
 
@@ -30,7 +35,12 @@
 
 <style lang="scss">
 	.section-banner {
-		background-color: #29a1a8;
+		background-color: var(--dp--black-03);
+		padding-bottom: 2vw;
+
+		&__content {
+			margin-bottom: 2rem;
+		}
 	}
 
 	.section-banner__inner {
@@ -38,13 +48,11 @@
 		grid-template-columns: 1fr 1fr;
 		gap: 4rem;
 
+		align-items: center;
+
 		> div {
 			min-width: 0;
 		}
-	}
-
-	.title {
-		margin-top: 2.5rem;
 	}
 
 	.subtitle {
@@ -58,5 +66,24 @@
 
 	.cta {
 		margin-top: 2rem;
+
+		:global(.bx--btn) {
+			font-size: 1.125rem;
+			padding: calc(1.25rem - 3px) 83px calc(1.25rem - 3px) 20px;
+		}
+
+		:global(.bx--btn svg) {
+			width: 1.5rem;
+			height: 1.5rem;
+		}
+
+		:global(.cta__primary) {
+			margin-right: 1.25rem;
+			background: linear-gradient(180deg, #06beb6 0%, #48b1bf 100%);
+		}
+
+		:global(.cta__secondary) {
+			border-width: 2px;
+		}
 	}
 </style>

@@ -39,6 +39,15 @@ export const Q_GET_PROFILE = gql`
 		}
 	}
 `
+export const Q_GET_PROFILE_MINI = gql`
+	query GetProfileMini($wallet: String!) {
+		profiles_by_pk(wallet: $wallet) {
+			display_name
+			avatar_cid
+			handle
+		}
+	}
+`
 export const Q_SYNC_PROFILE = gql`
 	mutation SyncProfileWithTx($txId: String, $wallet: String) {
 		SyncProfileWithTx(txId: $txId, wallet: $wallet) {
@@ -51,7 +60,6 @@ export const Q_SYNC_PROFILE = gql`
 			social_instagram
 			social_twitter
 			social_website
-			featured_gallery
 		}
 	}
 `
@@ -267,6 +275,68 @@ export const Q_SUB_MY_CONTEST_ENTRY = gql`
 			asset_id
 			creator
 			created_at
+		}
+	}
+`
+
+export const Q_GET_COLLECTIONS_TRENDING = gql`
+	query GetTrendingCollections {
+		collections(
+			order_by: { collections_analytics_1ds_aggregate: { max: { floor_price: desc_nulls_last } } }
+			limit: 12
+		) {
+			collections_analytics_1ds(limit: 2) {
+				floor_price
+				ts
+			}
+			id
+			title
+			slug
+			creator
+			avatar_cid
+			is_verified
+		}
+	}
+`
+export const Q_GET_COLLECTION_BY_SLUG = gql`
+	query GetCollectionBySlug($slug: String) {
+		collections(where: { slug: { _eq: $slug } }) {
+			id
+			title
+			slug
+			avatar_cid
+		}
+	}
+`
+
+export const Q_GET_COLLECTION = gql`
+	query GetCollection($id: uuid!) {
+		collections_by_pk(id: $id) {
+			id
+			title
+			slug
+			avatar_cid
+		}
+	}
+`
+
+export const Q_GET_COLLECTIONS_BY_CREATOR = gql`
+	query GetCollectionsByCreator($creator: String!) {
+		collections(where: { creator: { _eq: $creator } }) {
+			id
+			title
+			slug
+			is_verified
+		}
+	}
+`
+
+export const Q_CREATE_COLLECTION = gql`
+	mutation CreateCollectionWithTx($txId: String!, $wallet: String!) {
+		CreateCollectionWithTx(txId: $txId, wallet: $wallet) {
+			id
+			title
+			slug
 		}
 	}
 `
