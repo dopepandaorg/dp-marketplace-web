@@ -26,11 +26,38 @@
 	import { addToast } from '$lib/stores/toast'
 	import { AssetMetadataStandard } from '$lib/constants/enums'
 	import { unSlugify } from '$lib/helper/stringUtils'
+	import CreateEscrowListingTx from '$lib/components/transactions/CreateEscrowListingTx.svelte'
+	import { operationStore, query } from '@urql/svelte'
+	import { Q_GET_ESCROW_LISTING } from '$lib/constants/queries'
+	import BuyEscrowTx from '$lib/components/transactions/BuyEscrowTx.svelte'
+	import { wallet } from '$lib/stores/wallet'
 
 	export let asset: AssetRecord
 	export let assetMetadata: AssetMetadata = {
 		standard: AssetMetadataStandard.ARC69
 	}
+
+	let isOwner
+	let escrowListing = null
+	const escrowListingQuery = operationStore(
+		Q_GET_ESCROW_LISTING,
+		{ id: asset.id },
+		{ requestPolicy: 'cache-only' }
+	)
+
+	if (asset.id) {
+		query(escrowListingQuery)
+	}
+
+	escrowListingQuery.subscribe((e) => {
+		if (e.data && e.data.escrow_listings.length > 0) {
+			escrowListing = e.data.escrow_listings[0]
+		}
+	})
+
+	wallet.subscribe(w => {
+		isOwner = w.assets.findIndex((wa) => wa.amount >= 1 && wa.id === asset.id) !== -1
+	})
 
 	const fetchMetadata = () => {
 		fetch(`/api/assets/${$page.params.id}/metadata.json`)
@@ -111,7 +138,7 @@
 
 					<div class="asset-detail__attributes">
 						<h3>Attributes</h3>
-						{#if assetMetadata && assetMetadata.properties}
+						{#if assetMetadata && assetMetadata.properties && Object.keys(assetMetadata.properties).length > 0}
 							<div class="asset-detail__attributes__inner">
 								{#each Object.entries(assetMetadata.properties) as [key, value]}
 									<div class="asset-detail__attribute">
@@ -124,6 +151,27 @@
 							<span class="empty">No attributes set</span>
 						{/if}
 					</div>
+
+					{#if escrowListing && !isOwner}
+						<div class="asset-detail__listing">
+							<h3>Listing</h3>
+							
+							<BuyEscrowTx
+								escrowId={escrowListing.id}
+								assetId={asset.id}
+								unitPrice={escrowListing.sale_price}
+								creator={escrowListing.creator}
+								applicationId={escrowListing.application_id}
+							/>
+						</div>
+					{:else if escrowListing && isOwner}
+						Remove Listing
+					{:else if !escrowListing && isOwner}
+						<div class="asset-detail__listing">
+							<h3>Listing</h3>
+							<CreateEscrowListingTx assetId={asset.id} />
+						</div>
+					{/if}
 				</div>
 			</div>
 		</div>
@@ -143,16 +191,16 @@
 				@media screen and (min-width: 768px) {
 				}
 			}
+		}
 
-			h3 {
-				font-size: 1.125rem;
-				line-height: 1.5;
-				font-weight: bold;
-				margin-bottom: 1rem;
+		h3 {
+			font-size: 1.125rem;
+			line-height: 1.5;
+			font-weight: bold;
+			margin-bottom: 1rem;
 
-				border-bottom: 2px solid #ffffff69;
-				padding-bottom: 0.5rem;
-			}
+			border-bottom: 2px solid #ffffff69;
+			padding-bottom: 0.5rem;
 		}
 
 		&__title {

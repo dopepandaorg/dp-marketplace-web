@@ -63,12 +63,6 @@
 				<div class="footer__copyright">
 					© DopePanda {new Date().getFullYear()}, All Rights Reserved
 				</div>
-				<div class="footer__privacy_menu">
-					<ul>
-						<li><a href="/privacy-policy">Privacy Policy</a></li>
-						<li><a href="/terms-and-conditions">Terms & Conditions</a></li>
-					</ul>
-				</div>
 			</div>
 		</div>
 	</div>
@@ -118,45 +112,45 @@
 			}
 		}
 
-		.footer__privacy_menu,
-		.footer__copyright {
-			font-size: 0.875rem;
+		// .footer__privacy_menu,
+		// .footer__copyright {
+		// 	font-size: 0.875rem;
 
-			@media screen and (max-width: 767px) {
-				margin-bottom: 1rem;
-				text-align: center;
-			}
+		// 	@media screen and (max-width: 767px) {
+		// 		margin-bottom: 1rem;
+		// 		text-align: center;
+		// 	}
 
-			&,
-			a {
-				color: rgba($color: white, $alpha: 0.75);
-			}
-		}
+		// 	&,
+		// 	a {
+		// 		color: rgba($color: white, $alpha: 0.75);
+		// 	}
+		// }
 
-		.footer__privacy_menu {
-			ul {
-				display: flex;
-				list-style: none;
+		// .footer__privacy_menu {
+		// 	ul {
+		// 		display: flex;
+		// 		list-style: none;
 
-				@media screen and (max-width: 767px) {
-					flex-direction: column;
-					align-items: center;
-				}
+		// 		@media screen and (max-width: 767px) {
+		// 			flex-direction: column;
+		// 			align-items: center;
+		// 		}
 
-				li {
-					margin-top: 1rem;
+		// 		li {
+		// 			margin-top: 1rem;
 
-					@media screen and (min-width: 768px) {
-						margin-left: 1.5rem;
-						margin-top: 0;
-					}
+		// 			@media screen and (min-width: 768px) {
+		// 				margin-left: 1.5rem;
+		// 				margin-top: 0;
+		// 			}
 
-					&:first-child {
-						margin-left: 0;
-					}
-				}
-			}
-		}
+		// 			&:first-child {
+		// 				margin-left: 0;
+		// 			}
+		// 		}
+		// 	}
+		// }
 
 		.footer__explore__hotlinks {
 			display: grid;

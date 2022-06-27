@@ -6,8 +6,17 @@
 	import ProfileAvatar from '../profile/ProfileAvatar.svelte'
 	import { explorerUrl, formatWallet } from '$lib/helper/utils'
 
+	import { wallet } from '$lib/stores/wallet'
+	import type { AssetRecord } from '$lib/interfaces/asset'
+	import CreateEscrowListingTx from '../transactions/CreateEscrowListingTx.svelte'
+
 	import IconIPFS from '../../../../static/icons/ipfs.svg'
 	import IconAlgoExplorer from '../../../../static/icons/algoexplorer.svg'
+	import { Q_GET_ESCROW_LISTING } from '$lib/constants/queries'
+	import { operationStore, query } from '@urql/svelte'
+
+	import BuyEscrowTx from '../transactions/BuyEscrowTx.svelte'
+	import RemoveEscrowListingTx from '../transactions/RemoveEscrowListingTx.svelte'
 
 	export let id
 	export let amount: number = null
@@ -15,11 +24,32 @@
 	export let showListing = false
 
 	let asset
+	let escrowListing = null
 	let isLoading = true
 	let isInView = false
 
 	let imageLoader
 	let imageLoaderError
+
+	let isOwner
+	let isCreator
+	let isOpen = false
+
+	const escrowListingQuery = operationStore(
+		Q_GET_ESCROW_LISTING,
+		{ id },
+		{ requestPolicy: 'cache-only' }
+	)
+
+	if (id) {
+		query(escrowListingQuery)
+	}
+
+	escrowListingQuery.subscribe((e) => {
+		if (e.data && e.data.escrow_listings.length > 0) {
+			escrowListing = e.data.escrow_listings[0]
+		}
+	})
 
 	const goToAsset = (e: Event) => {
 		e.preventDefault()
@@ -40,16 +70,37 @@
 	}
 
 	const loadData = () => {
+		if (!id) return
+
 		setTimeout(() => {
-			fetch(`/api/assets/${id}.json`)
-				.then((response) => response.json())
-				.then((a) => (asset = a))
-				.finally(() => (isLoading = false))
+			isLoading = true
+
+			if (isInView) {
+				escrowListingQuery.reexecute({ requestPolicy: 'network-only' })
+
+				fetch(`/api/assets/${id}.json`)
+					.then((response) => response.json())
+					.then((a: AssetRecord) => {
+						asset = a
+
+						if ($wallet.account) {
+							isCreator = a.creator === $wallet.account
+							isOwner = $wallet.assets.findIndex((wa) => wa.amount >= 1 && wa.id === a.id) !== -1
+						}
+					})
+					.finally(() => (isLoading = false))
+			}
 		}, 100)
+	}
+
+	let isActionable = false
+
+	$: {
+		isActionable = (escrowListing && !isOwner) || (escrowListing && isOwner) || (!escrowListing && isOwner)
 	}
 </script>
 
-{#if isLoading}
+{#if isLoading || $escrowListingQuery.fetching}
 	<div
 		class="asset-tile"
 		use:inview
@@ -100,13 +151,15 @@
 	</div>
 {:else if !!asset && asset.isNFT}
 	<div
-		class="asset-tile {amount === 0 && 'unowned'}"
-		on:click={goToAsset}
 		use:inview
+		class="asset-tile"
+		class:unowned={amount === 0}
+		class:actionable={isActionable}
+		class:open={isOpen}
 		on:change={() => (isInView = !isInView)}
 	>
 		<div class="asset-tile__inner">
-			<div class="asset-tile__image">
+			<div class="asset-tile__image" on:click={goToAsset}>
 				<ImageLoader
 					fadeIn
 					bind:this={imageLoader}
@@ -135,7 +188,7 @@
 				</ImageLoader>
 			</div>
 			<div class="asset-tile__content">
-				<div class="asset-tile__title-wrap">
+				<div class="asset-tile__title-wrap" on:click={goToAsset}>
 					<div class="asset-tile__creator-avatar">
 						<ProfileAvatar identifier={asset.creator} size={40} />
 					</div>
@@ -168,7 +221,7 @@
 					</div>
 				{/if}
 
-				<div class="asset-tile__meta">
+				<div class="asset-tile__meta" on:click={goToAsset}>
 					<div class="asset-tile__meta-item">
 						<div class="asset-tile__meta-item__label">Unit</div>
 						<div class="asset-tile__meta-item__value">
@@ -183,11 +236,51 @@
 							</div>
 						</div>
 					{/if}
-					{#if showListing}
+
+					{#if showListing && $escrowListingQuery.data}
 						<div class="asset-tile__meta-item">
-							<div class="asset-tile__meta-item__label">Listing</div>
-							<div class="asset-tile__meta-item__value">Unlisted</div>
+							<div class="asset-tile__meta-item__label">
+								{#if $escrowListingQuery.data.escrow_listings.length > 0}
+									Direct Sale
+								{:else}
+									Listing
+								{/if}
+							</div>
+							<div class="asset-tile__meta-item__value">
+								{#if $escrowListingQuery.data.escrow_listings.length > 0}
+									{$escrowListingQuery.data.escrow_listings[0].sale_price}
+									<img src="/icons/algo.svg" alt="Algo">
+								{:else}
+									Unlisted
+								{/if}
+							</div>
 						</div>
+					{/if}
+				</div>
+
+				<div class="asset-tile__action">
+					{#if escrowListing && !isOwner}
+						<BuyEscrowTx
+							on:buy={() => goto(`/assets/${id}`)}
+							bind:open={isOpen}
+							escrowId={escrowListing.id}
+							assetId={id}
+							unitPrice={escrowListing.sale_price}
+							creator={escrowListing.creator}
+							applicationId={escrowListing.application_id}
+						/>
+					{:else if escrowListing && isOwner}
+						<RemoveEscrowListingTx
+							on:remove={() => goto(`/assets/${id}`)}
+							bind:open={isOpen}
+							assetId={id}
+						/>
+					{:else if !escrowListing && isOwner}
+						<CreateEscrowListingTx
+							on:create={() => goto(`/assets/${id}`)}
+							bind:open={isOpen}
+							assetId={id}
+						/>
 					{/if}
 				</div>
 			</div>
@@ -229,9 +322,9 @@
 	.asset-tile {
 		position: relative;
 		display: flex;
-		align-items: center;
 		border-radius: 5px;
 		min-width: 0;
+		overflow: hidden;
 
 		background-color: var(--dp--black-02);
 
@@ -276,6 +369,8 @@
 		}
 
 		&__content {
+			flex: 1;
+
 			position: relative;
 			width: 100%;
 			min-height: 120px;
@@ -354,6 +449,8 @@
 		}
 
 		&__meta-item {
+			position: relative;
+
 			display: flex;
 			flex-direction: column;
 			align-items: center;
@@ -376,7 +473,7 @@
 				align-items: center;
 
 				img {
-					width: 1.125rem;
+					width: 0.875rem;
 					height: auto;
 					float: left;
 					margin-left: 0.25rem;
@@ -385,7 +482,12 @@
 		}
 
 		&__action {
+			position: absolute;
+			left: 0;
+			right: 0;
+			padding: 0 1rem 1rem;
 			margin-top: 1.25rem;
+			background-color: var(--dp--black-03);
 
 			:global(.bx--btn) {
 				width: 100%;
@@ -394,12 +496,22 @@
 		}
 
 		&:hover {
-			cursor: pointer;
-
 			.asset-tile__image {
 				:global(img) {
 					transform: scale(1.05);
 				}
+			}
+
+			&.actionable {
+				.asset-tile__content {
+					transform: none;
+				}
+			}
+		}
+
+		&.open {
+			.asset-tile__content {
+				transform: none;
 			}
 		}
 	}

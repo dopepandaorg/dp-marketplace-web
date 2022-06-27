@@ -80,11 +80,25 @@ export const buildTransactionEscrowListing = async (
 			// 4 * min txn fee
 			4 * 1_000
 
+
+		const attributes = {
+			asset_id: assetId,
+			creator: walletAddress,
+			seller: walletAddress,
+			sale_qty: qty,
+			sale_price: price,
+			sale_royalty: 0,
+			application_id: appId,
+			application_address: appAddr
+		}
+		const note = `dp.listing.escrow(${JSON.stringify(attributes)})`
+
 		const fundAppTxn = makePaymentTxnWithSuggestedParamsFromObject({
 			suggestedParams: { ...params },
 			from: walletAddress,
 			to: appAddr,
-			amount: fundingAmount
+			amount: fundingAmount,
+			note: Uint8Array.from(Buffer.from(note))
 		})
 
 		const setupTxn = makeApplicationCallTxnFromObject({
@@ -96,7 +110,8 @@ export const buildTransactionEscrowListing = async (
 				uint64ToBigEndian(price * (1_000 * 1_000))
 			],
 			foreignAssets: [assetId],
-			onComplete: 0
+			onComplete: 0,
+			note: Uint8Array.from(Buffer.from(note))
 		})
 
 		const fundNFTTxn = makeAssetTransferTxnWithSuggestedParamsFromObject({
@@ -104,7 +119,8 @@ export const buildTransactionEscrowListing = async (
 			from: walletAddress,
 			to: appAddr,
 			amount: qty,
-			assetIndex: assetId
+			assetIndex: assetId,
+			note: Uint8Array.from(Buffer.from(note))
 		})
 
 		txns = assignGroupID([fundAppTxn, setupTxn, fundNFTTxn])

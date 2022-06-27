@@ -25,12 +25,6 @@
 
 <style lang="scss">
 	.contest-detail {
-		&__title {
-			h1 {
-				font-size: 2.25rem;
-			}
-		}
-
 		&__image {
 			position: relative;
 			border-radius: 10px;

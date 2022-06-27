@@ -9,7 +9,6 @@
 	import HeaderNavItem from './HeaderNavItem.svelte'
 	import UserProfile from 'carbon-icons-svelte/lib/UserProfile.svelte'
 	import ShowDataCards from 'carbon-icons-svelte/lib/ShowDataCards.svelte'
-	import Settings from 'carbon-icons-svelte/lib/Settings.svelte'
 	import Logout from 'carbon-icons-svelte/lib/Logout.svelte'
 	import Thumbnail_1 from 'carbon-icons-svelte/lib/Thumbnail_1.svelte'
 
@@ -84,7 +83,6 @@
 						action={() => navigate('/profile/assets')}
 					/>
 					<hr />
-					<HeaderNavItem icon={Settings} label="Settings" action={() => navigate('/settings')} />
 					<HeaderNavItem icon={Logout} label="Disconnect" action={walletDisconnect} />
 				</div>
 			</div>
