@@ -5,12 +5,15 @@
 	import { SignedTxn, WalletType } from '$lib/interfaces/wallet'
 	import { signTransactions, submitTransaction } from '$lib/transaction-builder/common'
 	import { onClearPera } from '$lib/helper/walletConnect'
+	import { explorerUrl, triggerWalletDeeplink } from '$lib/helper/utils'
 	import { buildTransactionBuyEscrow } from '$lib/transaction-builder/buyEscrow'
 	import TxStep from './TxStep.svelte'
 	import { LoadingStatus } from '$lib/constants/enums'
 	import { mutation } from '@urql/svelte'
 	import { Q_UPDATE_ESCROW_LISTING } from '$lib/constants/queries'
-import { createEventDispatcher } from 'svelte';
+	import { createEventDispatcher } from 'svelte'
+	import Launch from 'carbon-icons-svelte/lib/Launch.svelte'
+	import { goto } from '$app/navigation'
 
 	const dispatch = createEventDispatcher()
 	const updateDBMutation = mutation({ query: Q_UPDATE_ESCROW_LISTING })
@@ -48,7 +51,7 @@ import { createEventDispatcher } from 'svelte';
 
 		buildTransactionBuyEscrow(
 			walletAccount,
-			walletAccount,
+			creator,
 			applicationId,
 			assetId,
 			unitPrice * qty,
@@ -98,7 +101,6 @@ import { createEventDispatcher } from 'svelte';
 			updateDBMutation({ txId, wallet: walletAccount, escrowId })
 				.then((result) => {
 					isComplete = true
-					clear()
 
 					dispatch('submitTx', {
 						txId,
@@ -134,6 +136,13 @@ import { createEventDispatcher } from 'svelte';
 
 	const close = () => {
 		clear()
+	}
+
+	const goToAsset = () => {
+		if (assetId) {
+			goto(`/assets/${assetId}`)
+			clear()
+		}
 	}
 </script>
 
@@ -209,7 +218,14 @@ import { createEventDispatcher } from 'svelte';
 				/>
 			</div>
 			<div class="tx-modal__graphic">
-				<img src="/images/buy-graphic.svg" alt="" />
+				{#if txId && confirmedRound}
+					<img src="/images/success-graphic.svg" alt="" />
+					<p>Asset successfully purchased!</p>
+					<Button size="field" kind="secondary" on:click={goToAsset}>Go to Asset</Button>
+					<a href={explorerUrl('algo', `/tx/${txId}`)}>View in Explorer &nbsp; <Launch /></a>
+				{:else}
+					<img src="/images/buy-graphic.svg" alt="" />
+				{/if}
 			</div>
 		</div>
 	</Modal>
@@ -266,9 +282,33 @@ import { createEventDispatcher } from 'svelte';
 	}
 
 	.tx-modal__graphic {
+		display: flex;
+		justify-content: center;
+		flex-direction: column;
+		text-align: center;
+		
+		p {
+			color: var(--dp--text-05);
+			padding-right: 0;
+		}
+
 		img {
-			width: 120px;
-			height: 120px;
+			width: 110px;
+			height: 110px;
+			margin-bottom: 1rem;
+		}
+
+		a {
+			font-size: 0.75rem;
+			display: flex;
+			align-items: center;
+		}
+
+		:global(.bx--btn) {
+			min-height: 0 !important;
+			width: auto !important;
+			padding: 0.75rem 2rem;
+			margin-bottom: 1rem;
 		}
 
 		@media screen and (min-width: 768px) {
@@ -278,8 +318,8 @@ import { createEventDispatcher } from 'svelte';
 			justify-content: center;
 
 			img {
-				width: 200px;
-				height: 200px;
+				width: 150px;
+				height: 150px;
 			}
 		}
 	}

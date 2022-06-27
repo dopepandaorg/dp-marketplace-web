@@ -66,7 +66,7 @@
 
 		<div class="curated-collection-item__assets">
 			{#each featuredAssets as a}
-				<AssetTile id={a} />
+				<AssetTile id={a} showListing />
 			{/each}
 		</div>
 	</div>
