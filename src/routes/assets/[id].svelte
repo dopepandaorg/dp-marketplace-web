@@ -31,6 +31,7 @@
 	import { Q_GET_ESCROW_LISTING } from '$lib/constants/queries'
 	import BuyEscrowTx from '$lib/components/transactions/BuyEscrowTx.svelte'
 	import { wallet } from '$lib/stores/wallet'
+import RemoveEscrowListingTx from '$lib/components/transactions/RemoveEscrowListingTx.svelte';
 
 	export let asset: AssetRecord
 	export let assetMetadata: AssetMetadata = {
@@ -39,10 +40,10 @@
 
 	let isOwner
 	let escrowListing = null
+
 	const escrowListingQuery = operationStore(
 		Q_GET_ESCROW_LISTING,
-		{ id: asset.id },
-		{ requestPolicy: 'cache-only' }
+		{ id: asset.id }
 	)
 
 	if (asset.id) {
@@ -127,6 +128,37 @@
 						</div>
 					</div>
 
+					{#if escrowListing && !isOwner}
+						<div class="asset-detail__listing">
+							<h3>Listing</h3>
+							
+							<div class="asset-detail__buy">
+								<div class="asset-detail__buy-price">
+									{escrowListing.sale_price} <img src="/icons/algo.svg" alt="Algo" />
+								</div>
+								<div>
+									<BuyEscrowTx
+										escrowId={escrowListing.id}
+										assetId={asset.id}
+										unitPrice={escrowListing.sale_price}
+										creator={escrowListing.creator}
+										applicationId={escrowListing.application_id}
+									/>
+								</div>
+							</div>
+						</div>
+					{:else if escrowListing && isOwner}
+						<div class="asset-detail__listing">
+							<h3>Listing</h3>
+							<RemoveEscrowListingTx assetId={asset.id} />
+						</div>
+					{:else if !escrowListing && isOwner}
+						<div class="asset-detail__listing">
+							<h3>Listing</h3>
+							<CreateEscrowListingTx assetId={asset.id} />
+						</div>
+					{/if}
+
 					<div class="asset-detail__description">
 						<h3>Description</h3>
 						{#if assetMetadata && assetMetadata.description}
@@ -151,27 +183,6 @@
 							<span class="empty">No attributes set</span>
 						{/if}
 					</div>
-
-					{#if escrowListing && !isOwner}
-						<div class="asset-detail__listing">
-							<h3>Listing</h3>
-							
-							<BuyEscrowTx
-								escrowId={escrowListing.id}
-								assetId={asset.id}
-								unitPrice={escrowListing.sale_price}
-								creator={escrowListing.creator}
-								applicationId={escrowListing.application_id}
-							/>
-						</div>
-					{:else if escrowListing && isOwner}
-						Remove Listing
-					{:else if !escrowListing && isOwner}
-						<div class="asset-detail__listing">
-							<h3>Listing</h3>
-							<CreateEscrowListingTx assetId={asset.id} />
-						</div>
-					{/if}
 				</div>
 			</div>
 		</div>
@@ -272,6 +283,23 @@
 			&:last-child {
 				border-bottom: 0;
 				text-transform: capitalize;
+			}
+		}
+
+		&__buy {
+			display: grid;
+			grid-template-columns: 1fr 1fr;
+		}
+
+		&__buy-price {
+			font-size: 2.75rem;
+			font-weight: bold;
+			display: flex;
+			align-items: center;
+
+			img {
+				width: 1rem;
+				margin-left: 0.5rem;
 			}
 		}
 	}
