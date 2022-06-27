@@ -3,7 +3,7 @@
 </script>
 
 <div class="collection-filter">
-	<Accordion>
+	<!-- <Accordion>
 		<AccordionItem title="Attributes">
 			<div role="group" aria-label="selectable tiles">
 				<SelectableTile selected>Multi-select Tile</SelectableTile>
@@ -23,5 +23,5 @@
 				region-specific translations via the service's customization capability.
 			</p>
 		</AccordionItem>
-	</Accordion>
+	</Accordion> -->
 </div>

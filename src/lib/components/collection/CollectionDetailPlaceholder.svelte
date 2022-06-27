@@ -1,10 +1,6 @@
 <script>
 	import AssetTile from '../common/AssetTile.svelte'
-
-	import CollectionFilter from './CollectionFilter.svelte'
-
 	import CollectionHeaderSkeleton from './CollectionHeaderSkeleton.svelte'
-	import CollectionMeta from './CollectionMeta.svelte'
 </script>
 
 <div class="collection-detail">
@@ -13,15 +9,9 @@
 	</div>
 
 	<div class="collection-detail__inner">
-		<div class="collection-detail__filter">
-			<CollectionFilter />
-		</div>
+		<!-- <div class="collection-detail__filter" /> -->
 
 		<div class="collection-detail__results">
-			<div class="collection-detail__meta">
-				<CollectionMeta />
-			</div>
-
 			<div class="collection-detail__list">
 				<AssetTile id={null} />
 				<AssetTile id={null} />
@@ -43,7 +33,7 @@
 
 		&__inner {
 			display: grid;
-			grid-template-columns: 320px 1fr;
+			grid-template-columns: 1fr;
 			gap: 2rem;
 
 			height: 100%;
@@ -62,11 +52,7 @@
 		&__list {
 			display: grid;
 			grid-template-columns: 1fr 1fr 1fr 1fr;
-			gap: 1rem;
-		}
-
-		&__meta {
-			margin-bottom: 1rem;
+			gap: 1.5rem;
 		}
 	}
 </style>

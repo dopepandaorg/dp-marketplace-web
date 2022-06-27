@@ -1,13 +1,14 @@
 <script lang="ts">
-	import SelectWindow from 'carbon-icons-svelte/lib/SelectWindow.svelte'
 	import { createEventDispatcher } from 'svelte'
+	import SelectWindow from 'carbon-icons-svelte/lib/SelectWindow.svelte'
 	import ProfileShowcaseSelectForm from './ProfileShowcaseSelectForm.svelte'
+
 	const dispatch = createEventDispatcher()
 
 	export let isEditable = true
 	export let index
 
-	let open
+	let open = false
 
 	const openSelectAsset = () => {
 		open = true
@@ -52,6 +53,12 @@
 			<div class="asset-tile__meta">
 				<div class="asset-tile__meta-item">
 					<div class="asset-tile__meta-item__label">Unit</div>
+					<div class="asset-tile__meta-item__value">
+						<div style="width: 60px; height: 1rem; background-color: var(--dp--black-05);" />
+					</div>
+				</div>
+				<div class="asset-tile__meta-item">
+					<div class="asset-tile__meta-item__label">Listing</div>
 					<div class="asset-tile__meta-item__value">
 						<div style="width: 60px; height: 1rem; background-color: var(--dp--black-05);" />
 					</div>

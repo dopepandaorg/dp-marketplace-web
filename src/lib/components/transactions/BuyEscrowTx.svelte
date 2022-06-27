@@ -8,14 +8,25 @@
 	import { buildTransactionBuyEscrow } from '$lib/transaction-builder/buyEscrow'
 	import TxStep from './TxStep.svelte'
 	import { LoadingStatus } from '$lib/constants/enums'
+	import { mutation } from '@urql/svelte'
+	import { Q_UPDATE_ESCROW_LISTING } from '$lib/constants/queries'
+import { createEventDispatcher } from 'svelte';
 
-	// const updateDBMutation = mutation({ query: Q_CAST_VOTE })
+	const dispatch = createEventDispatcher()
+	const updateDBMutation = mutation({ query: Q_UPDATE_ESCROW_LISTING })
 
+	export let escrowId
 	export let assetId
+	export let applicationId
+	export let unitPrice
+	export let creator
+
 	export let isComplete = false
 	export let isSubmitting = false
 
-	let open = false
+	let qty = 1
+
+	export let open = false
 	let walletType = $wallet.type
 	let walletAccount = $wallet.account
 
@@ -35,7 +46,14 @@
 		isTxnLoading = true
 		walletType = $wallet.type
 
-		buildTransactionBuyEscrow(walletAccount, walletAccount, 86243100, assetId, 10, 1)
+		buildTransactionBuyEscrow(
+			walletAccount,
+			walletAccount,
+			applicationId,
+			assetId,
+			unitPrice * qty,
+			qty
+		)
 			.then((response) => (txns = response))
 			.catch(() => (txns = null))
 			.finally(() => (isTxnLoading = false))
@@ -57,6 +75,7 @@
 	const submit = () => {
 		if (signedTxns) {
 			isSubmitting = true
+
 			submitTransaction(signedTxns)
 				.then((response) => {
 					txId = response.txId
@@ -75,17 +94,25 @@
 	}
 
 	const updateDB = () => {
-		isComplete = true
-		clear()
+		if (txId && confirmedRound && escrowId) {
+			updateDBMutation({ txId, wallet: walletAccount, escrowId })
+				.then((result) => {
+					isComplete = true
+					clear()
 
-		// if (txId && confirmedRound) {
-		// 	updateDBMutation({ txId, wallet: walletAccount, contestId })
-		// 		.then(() => {
-		// 			isComplete = true
-		// 			clear()
-		// 		})
-		// 		.finally(() => (isUpdateDBLoading = false))
-		// }
+					dispatch('submitTx', {
+						txId,
+						confirmedRound
+					})
+
+					if (result.data && result.data.UpdateEscrowListingWithTx) {
+						dispatch('buy', {
+							...result.data.UpdateEscrowListingWithTx
+						})
+					}
+				})
+				.finally(() => (isUpdateDBLoading = false))
+		}
 	}
 
 	const clear = () => {
@@ -110,20 +137,20 @@
 	}
 </script>
 
-<div class="tx-modal tx-modal--contest-vote">
+<div class="tx-modal tx-modal--buy-escrow">
 	<div class="tx-modal__action">
 		<Button
 			on:click={confirmModal}
 			type="button"
 			disabled={open}
-			icon={isSubmitting && InlineLoading}>Buy</Button
+			icon={isSubmitting && InlineLoading}>Buy Now</Button
 		>
 	</div>
 
 	<Modal
 		bind:open
 		preventCloseOnClickOutside
-		modalHeading="Cast Your Vote"
+		modalHeading="Buy Now"
 		modalLabel={walletType && walletType.toUpperCase()}
 		primaryButtonText="Sign Transaction"
 		secondaryButtonText="Cancel"
@@ -182,14 +209,14 @@
 				/>
 			</div>
 			<div class="tx-modal__graphic">
-				<img src="/images/vote-graphic.svg" alt="" />
+				<img src="/images/buy-graphic.svg" alt="" />
 			</div>
 		</div>
 	</Modal>
 </div>
 
 <style lang="scss">
-	.tx-modal--contest-vote {
+	.tx-modal--buy-escrow {
 		.tx-modal__action {
 			:global(.bx--btn) {
 				width: 100%;

@@ -14,16 +14,16 @@
 	const slug = $page.params.slug
 	const isUUID = checkValidUUID(slug)
 
-	const collection = operationStore(
+	const collectionData = writable<CollectionRecord>(null)
+	const collectionQuery = operationStore(
 		isUUID ? Q_GET_COLLECTION : Q_GET_COLLECTION_BY_SLUG,
 		isUUID ? { id: slug } : { slug }
 	)
 
-	const collectionData = writable<CollectionRecord>(null)
 	setContext('collection-data', collectionData)
+	query(collectionQuery)
 
-	query(collection)
-	collection.subscribe((c) => {
+	collectionQuery.subscribe((c) => {
 		if (isUUID && c.data && c.data.collections_by_pk) {
 			collectionData.set(c.data.collections_by_pk)
 		} else if (c.data && c.data.collections) {
@@ -34,19 +34,21 @@
 </script>
 
 <svelte:head>
-	<title>Collections | Marketplace | DopePanda</title>
+	<title
+		>{$collectionData ? `${$collectionData.title} | Collections` : 'Collections'} | DopePanda</title
+	>
 </svelte:head>
 
 <div class="page page-collection collection-page">
 	<div class="container">
-		{#if $collection.fetching}
+		{#if $collectionQuery.fetching}
 			<CollectionDetailPlaceholder />
-		{:else if $collection.error}
+		{:else if $collectionQuery.error}
 			<InlineNotification
 				lowContrast
 				kind="error"
 				title="Error:"
-				subtitle={$collection.error.message}
+				subtitle={$collectionQuery.error.message}
 				hideCloseButton
 			/>
 		{:else if collectionData}

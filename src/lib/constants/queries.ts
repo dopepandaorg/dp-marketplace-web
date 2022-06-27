@@ -304,7 +304,24 @@ export const Q_GET_COLLECTION_BY_SLUG = gql`
 			id
 			title
 			slug
+			creator
+			description
 			avatar_cid
+			banner_cid
+			pattern_prefix
+			collections_analytics_1ds(limit: 1, order_by: { ts: desc }) {
+				total_items
+				floor_price
+				volume
+				ts
+			}
+			collections_analytics_1ds_aggregate {
+				aggregate {
+					sum {
+						volume
+					}
+				}
+			}
 		}
 	}
 `
@@ -315,7 +332,29 @@ export const Q_GET_COLLECTION = gql`
 			id
 			title
 			slug
+			creator
+			description
 			avatar_cid
+			banner_cid
+			pattern_prefix
+
+			social_website
+			social_twitter
+			social_discord
+
+			collections_analytics_1ds(limit: 1, order_by: { ts: desc }) {
+				total_items
+				floor_price
+				volume
+				ts
+			}
+			collections_analytics_1ds_aggregate {
+				aggregate {
+					sum {
+						volume
+					}
+				}
+			}
 		}
 	}
 `
@@ -326,7 +365,22 @@ export const Q_GET_COLLECTIONS_BY_CREATOR = gql`
 			id
 			title
 			slug
+			avatar_cid
+			banner_cid
 			is_verified
+			collections_analytics_1ds(limit: 1, order_by: { ts: desc }) {
+				total_items
+				floor_price
+				volume
+				ts
+			}
+			collections_analytics_1ds_aggregate {
+				aggregate {
+					sum {
+						volume
+					}
+				}
+			}
 		}
 	}
 `
@@ -337,6 +391,54 @@ export const Q_CREATE_COLLECTION = gql`
 			id
 			title
 			slug
+		}
+	}
+`
+
+export const Q_GET_ESCROW_LISTING = gql`
+	query GetEscrowListing($id: bigint!) {
+		escrow_listings(where: {asset_id: {_eq: $id}, status: {_eq: "active"}}) {
+			id
+			asset_id
+			creator
+			seller
+
+			sale_fee
+			sale_price
+			sale_royalty
+			sale_qty
+
+			application_id
+			application_address
+
+			status
+		}
+	}
+`
+export const Q_CREATE_ESCROW_LISTING = gql`
+	mutation SetupEscrowListing($txId: String!, $wallet: String!) {
+		SetupEscrowListingWithTx(txId: $txId, wallet: $wallet) {
+			id
+			application_id
+			application_address
+			
+			asset_id
+			status
+		}
+	}
+`
+
+export const Q_UPDATE_ESCROW_LISTING = gql`
+	mutation UpdateEscrowListing($txId: String!, $wallet: String!, $escrowId: String!) {
+		UpdateEscrowListingWithTx(txId: $txId, wallet: $wallet, escrowId: $escrowId) {
+			status
+			id
+			asset_id
+			application_id
+			application_address
+			creator
+			created_at
+			updated_at
 		}
 	}
 `

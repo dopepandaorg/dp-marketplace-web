@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { SkeletonPlaceholder } from 'carbon-components-svelte'
+	import CollectionDataPlaceholder from './CollectionDataPlaceholder.svelte'
 </script>
 
 <div class="collection-header__wrap">
@@ -9,18 +10,22 @@
 		</div>
 	</div>
 
-	<div class="profile-meta">
-		<div class="profile-meta__account">
-			<div class="profile-account-name">
+	<div class="collection-meta">
+		<div class="collection-meta__account">
+			<div class="collection-account-name">
 				<SkeletonPlaceholder style="width: 18rem; height: 1.75rem; margin-bottom: 0.625rem;" />
 				<SkeletonPlaceholder style="width: 10rem; height: 1.125rem;" />
 			</div>
 		</div>
 
-		<div class="profile-meta__action">
-			<SkeletonPlaceholder style="width: 100px; height: 48px;" />
-			<SkeletonPlaceholder style="width: 100px; height: 48px;" />
-			<SkeletonPlaceholder style="width: 100px; height: 48px;" />
+		<div class="collection-meta__data">
+			<CollectionDataPlaceholder />
+		</div>
+
+		<div class="collection-meta__action">
+			<SkeletonPlaceholder style="width: 48px; height: 48px;" />
+			<SkeletonPlaceholder style="width: 48px; height: 48px;" />
+			<SkeletonPlaceholder style="width: 48px; height: 48px;" />
 		</div>
 	</div>
 </div>
@@ -30,7 +35,7 @@
 		padding-bottom: 2rem;
 	}
 
-	.profile-account-name {
+	.collection-account-name {
 		overflow: hidden;
 	}
 
@@ -58,21 +63,22 @@
 		}
 	}
 
-	.profile-meta {
+	.collection-meta {
 		display: flex;
 		flex-direction: column;
-		align-items: center;
-
 		padding: 2rem 0 0;
 
 		@media screen and (min-width: 768px) {
-			flex-direction: row;
+			display: grid;
+			grid-template-columns: 1fr 2fr 1fr;
 			justify-content: space-between;
+			flex-direction: row;
 			padding: 0;
 		}
 
 		&__action {
 			display: flex;
+			justify-content: flex-end;
 			margin-top: 1rem;
 
 			@media screen and (min-width: 768px) {
@@ -86,6 +92,11 @@
 					margin-left: 0;
 				}
 			}
+		}
+
+		&__data {
+			display: flex;
+			justify-content: center;
 		}
 	}
 
@@ -113,7 +124,7 @@
 		position: absolute;
 		left: 50%;
 		top: 100%;
-		transform: translate(-50%, -65%);
+		transform: translate(-50%, -75%);
 
 		:global(.profile-avatar) {
 			@media screen and (max-width: 767px) {

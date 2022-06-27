@@ -59,7 +59,9 @@
 			margin-right: 1rem;
 
 			background-color: var(--dp--black-02);
-			border-radius: 50%;
+			border-radius: 5px;
+
+			overflow: hidden;
 		}
 
 		&__content {

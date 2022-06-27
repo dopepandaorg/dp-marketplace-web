@@ -26,8 +26,6 @@
 	export let assetId: number
 	export let isComplete = false
 
-	let view: 'input' | 'submit' = 'input'
-
 	let isAppSubmitting = false
 	let isSetupAppSubmitting = false
 
@@ -87,7 +85,6 @@
 	}
 
 	const close = () => {
-		view = 'input'
 		clear()
 	}
 
@@ -103,8 +100,6 @@
 	}
 
 	const proceedModal = () => {
-		view = 'submit'
-
 		walletType = $wallet.type
 		isAppTxnLoading = true
 
@@ -229,6 +224,8 @@
 	 *
 	 */
 	const updateDB = () => {
+		isComplete = true
+
 		if (appSetupTxId && appSetupConfirmedRound) {
 			updateDBMutation({ txId: appSetupTxId, wallet: walletAccount })
 				.then((result) => {
@@ -261,154 +258,128 @@
 		<Button
 			on:click={confirmModal}
 			type="button"
-			kind="tertiary"
+			kind="danger-tertiary"
 			disabled={open}
-			icon={(isAppSubmitting || isSetupAppSubmitting) && InlineLoading}>Create Listing</Button
+			icon={(isAppSubmitting || isSetupAppSubmitting) && InlineLoading}>Remove Listing</Button
 		>
 	</div>
 
 	<Modal
 		bind:open
 		preventCloseOnClickOutside
-		modalHeading="Create Listing"
+		modalHeading="Remove Listing"
 		modalLabel={walletType && walletType.toUpperCase()}
-		primaryButtonText={view === 'input' ? 'Continue' : 'Sign Transaction'}
-		secondaryButtonText={view === 'input' ? 'Cancel' : 'Back'}
-		primaryButtonDisabled={view === 'input' ? !isInputValid : !isTxValid}
+		primaryButtonText={'Sign Transaction'}
+		secondaryButtonText={'Cancel'}
+		primaryButtonDisabled={!isTxValid}
 		passiveModal={isAppTxnLoading ||
 			isSetupAppTxnLoading ||
 			isAppSubmitting ||
 			isSetupAppSubmitting}
 		on:click:button--secondary={() => {
-			if (view === 'submit') view = 'input'
-			else open = false
+			open = false
 		}}
 		on:open
 		on:close={close}
-		on:submit={view === 'input'
-			? () => {
-					proceedModal()
-			  }
-			: appId
+		on:submit={appId
 			? signSetupAppTx
 			: signAppTx}
 	>
 		<div class="tx-modal__inner">
-			{#if view === 'input'}
-				<div class="tx-modal__input">
-					<p>
-						Lorem ipsum dolor sit amet, consectetur adipisicing elit explicabo accusamus temporibus
-						eos esse amet obcaecati id reiciendis.
-					</p>
-
-					<NumberInput
-						bind:value={price}
-						label="Price"
-						invalidText="Enter a valid asset price"
-						min={1}
-						required
-					/>
-
-					<NumberInput bind:value={qty} label="Quantity" min={1} readonly required />
-
-					<Slider labelText="Creator Royalty" min={0} max={50} step={10} disabled />
-				</div>
-			{:else}
-				<div class="tx-modal__steps">
-					<!-- Create Escrow Application -->
-					{#if isAppSubmitting || (appCreateTxId && appCreateConfirmedRound)}
-						<TxStep
-							stepCount={1}
-							label="Create Escrow Application"
-							status={isAppSubmitting
-								? LoadingStatus.IN_PROGRESS
-								: appCreateTxId && appCreateConfirmedRound
-								? LoadingStatus.SUCCESS
-								: LoadingStatus.NONE}
-							descriptionPending="Submitting transaction on Algorand ..."
-							descriptionSuccess={`Application created with ID: ${appId}`}
-						/>
-					{:else if isSignedAppTxnLoading || signedAppTxn}
-						<TxStep
-							stepCount={1}
-							label="Create Escrow Application"
-							status={isSignedAppTxnLoading
-								? LoadingStatus.IN_PROGRESS
-								: signedAppTxn
-								? LoadingStatus.SUCCESS
-								: LoadingStatus.NONE}
-							descriptionPending="Waiting for signature ..."
-							descriptionSuccess="Signature complete"
-						/>
-					{:else}
-						<TxStep
-							stepCount={1}
-							status={isAppTxnLoading
-								? LoadingStatus.IN_PROGRESS
-								: appTxn
-								? LoadingStatus.SUCCESS
-								: LoadingStatus.NONE}
-							label="Create Escrow Application"
-							descriptionPending="Building your transaction ..."
-							descriptionSuccess="Transaction ready, sign with your wallet."
-						/>
-					{/if}
-
-					<!-- Submit Transaction -->
-					{#if isSignedSetupAppTxnLoading || signedSetupAppTxn}
-						<TxStep
-							stepCount={2}
-							label="Setup Escrow Application"
-							status={isSignedSetupAppTxnLoading
-								? LoadingStatus.IN_PROGRESS
-								: signedSetupAppTxn
-								? LoadingStatus.SUCCESS
-								: LoadingStatus.NONE}
-							descriptionPending="Waiting for signature ..."
-							descriptionSuccess="Signature complete"
-						/>
-					{:else}
-						<TxStep
-							stepCount={2}
-							label="Setup Escrow Application"
-							status={isSetupAppTxnLoading
-								? LoadingStatus.IN_PROGRESS
-								: setupAppTxn
-								? LoadingStatus.SUCCESS
-								: LoadingStatus.NONE}
-							descriptionPending="Building your transaction ..."
-							descriptionSuccess="Transaction ready, sign with your wallet."
-						/>
-					{/if}
-
+			<div class="tx-modal__steps">
+				<!-- Create Escrow Application -->
+				{#if isAppSubmitting || (appCreateTxId && appCreateConfirmedRound)}
 					<TxStep
-						stepCount={3}
-						status={isSetupAppSubmitting
+						stepCount={1}
+						label="Remove Escrow Application"
+						status={isAppSubmitting
 							? LoadingStatus.IN_PROGRESS
-							: appSetupTxId && appSetupConfirmedRound
+							: appCreateTxId && appCreateConfirmedRound
 							? LoadingStatus.SUCCESS
 							: LoadingStatus.NONE}
-						label="Submit transaction"
 						descriptionPending="Submitting transaction on Algorand ..."
-						descriptionSuccess="Transaction submitted"
+						descriptionSuccess={`Application created with ID: ${appId}`}
 					/>
-
+				{:else if isSignedAppTxnLoading || signedAppTxn}
 					<TxStep
-						stepCount={4}
-						status={isUpdateDBLoading
+						stepCount={1}
+						label="Create Escrow Application"
+						status={isSignedAppTxnLoading
 							? LoadingStatus.IN_PROGRESS
-							: appSetupTxId && appSetupConfirmedRound
+							: signedAppTxn
 							? LoadingStatus.SUCCESS
 							: LoadingStatus.NONE}
-						label="Update Index"
-						descriptionPending="Updating indexes ..."
-						descriptionSuccess="Complete"
+						descriptionPending="Waiting for signature ..."
+						descriptionSuccess="Signature complete"
 					/>
-				</div>
-				<div class="tx-modal__graphic">
-					<img src="/images/create-listing-graphic.svg" alt="" />
-				</div>
-			{/if}
+				{:else}
+					<TxStep
+						stepCount={1}
+						status={isAppTxnLoading
+							? LoadingStatus.IN_PROGRESS
+							: appTxn
+							? LoadingStatus.SUCCESS
+							: LoadingStatus.NONE}
+						label="Create Escrow Application"
+						descriptionPending="Building your transaction ..."
+						descriptionSuccess="Transaction ready, sign with your wallet."
+					/>
+				{/if}
+
+				<!-- Submit Transaction -->
+				{#if isSignedSetupAppTxnLoading || signedSetupAppTxn}
+					<TxStep
+						stepCount={2}
+						label="Setup Escrow Application"
+						status={isSignedSetupAppTxnLoading
+							? LoadingStatus.IN_PROGRESS
+							: signedSetupAppTxn
+							? LoadingStatus.SUCCESS
+							: LoadingStatus.NONE}
+						descriptionPending="Waiting for signature ..."
+						descriptionSuccess="Signature complete"
+					/>
+				{:else}
+					<TxStep
+						stepCount={2}
+						label="Setup Escrow Application"
+						status={isSetupAppTxnLoading
+							? LoadingStatus.IN_PROGRESS
+							: setupAppTxn
+							? LoadingStatus.SUCCESS
+							: LoadingStatus.NONE}
+						descriptionPending="Building your transaction ..."
+						descriptionSuccess="Transaction ready, sign with your wallet."
+					/>
+				{/if}
+
+				<TxStep
+					stepCount={3}
+					status={isSetupAppSubmitting
+						? LoadingStatus.IN_PROGRESS
+						: appSetupTxId && appSetupConfirmedRound
+						? LoadingStatus.SUCCESS
+						: LoadingStatus.NONE}
+					label="Submit transaction"
+					descriptionPending="Submitting transaction on Algorand ..."
+					descriptionSuccess="Transaction submitted"
+				/>
+
+				<TxStep
+					stepCount={4}
+					status={isUpdateDBLoading
+						? LoadingStatus.IN_PROGRESS
+						: appSetupTxId && appSetupConfirmedRound
+						? LoadingStatus.SUCCESS
+						: LoadingStatus.NONE}
+					label="Update Index"
+					descriptionPending="Updating indexes ..."
+					descriptionSuccess="Complete"
+				/>
+			</div>
+			<div class="tx-modal__graphic">
+				<img src="/images/remove-listing-graphic.svg" alt="" />
+			</div>
 		</div>
 	</Modal>
 </div>

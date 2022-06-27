@@ -1,44 +1,76 @@
 <script lang="ts">
-	import { Button, Link } from 'carbon-components-svelte'
+	import { Button, ImageLoader, Link } from 'carbon-components-svelte'
 	import Globe from 'carbon-icons-svelte/lib/Wikis.svelte'
 	import LogoDiscord from 'carbon-icons-svelte/lib/LogoDiscord.svelte'
 	import LogoTwitter from 'carbon-icons-svelte/lib/LogoTwitter.svelte'
 	import ArrowRight from 'carbon-icons-svelte/lib/ArrowRight.svelte'
+	import { convertIPFSCIDToUrl } from '$lib/constants/assets'
 
 	import AssetTile from '../common/AssetTile.svelte'
+	import { operationStore, query } from '@urql/svelte'
+	import type { CollectionRecord } from '$lib/interfaces/collection'
+	import { Q_GET_COLLECTION } from '$lib/constants/queries'
 
-	export let title = 'Title'
-	export let description =
-		'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Consequuntur delectus adipisci'
+	export let id
+	export let featuredAssets = []
+	let collectionData: CollectionRecord = null
+	const collectionQuery = operationStore(Q_GET_COLLECTION, { id })
+
+	query(collectionQuery)
+
+	collectionQuery.subscribe((c) => {
+		if (c.data) {
+			collectionData = c.data.collections_by_pk
+		}
+	})
 </script>
 
-<div class="curated-collection-item">
-	<div class="curated-collection-item__content">
-		<div class="curated-collection-item__meta">
-			<div class="curated-collection-item__avatar" />
-			<div class="curated-collection-item__title">{title}</div>
-			<div class="curated-collection-item__description">{description}</div>
-		</div>
-
-		<div class="curated-collection-item__action">
-			<div class="curated-collection-item__links">
-				<Link href="#"><LogoDiscord /> dopepandaorg</Link>
-				<Link href="#"><LogoTwitter /> @dopepandaorg</Link>
-				<Link href="#"><Globe /> https://dopepanda.org</Link>
+{#if !$collectionQuery.fetching && collectionData}
+	<div class="curated-collection-item">
+		<div class="curated-collection-item__content">
+			<div class="curated-collection-item__meta">
+				<div class="curated-collection-item__avatar">
+					<ImageLoader src={convertIPFSCIDToUrl(collectionData.avatar_cid)} />
+				</div>
+				<div class="curated-collection-item__title">{collectionData.title}</div>
+				<div class="curated-collection-item__description">{collectionData.description}</div>
 			</div>
 
-			<a href="/collections/sdsdsds">
-				<Button kind="tertiary" icon={ArrowRight}>View Collection</Button>
-			</a>
+			<div class="curated-collection-item__action">
+				<div class="curated-collection-item__links">
+					{#if collectionData.social_discord}
+						<Link href={collectionData.social_discord} target="_blank">
+							<LogoDiscord />
+							{collectionData.social_discord}
+						</Link>
+					{/if}
+					{#if collectionData.social_twitter}
+						<Link href={'https://twitter.com/' + collectionData.social_twitter}>
+							<LogoTwitter />
+							{collectionData.social_twitter}
+						</Link>
+					{/if}
+					{#if collectionData.social_website}
+						<Link href={collectionData.social_website}>
+							<Globe />
+							{collectionData.social_website}
+						</Link>
+					{/if}
+				</div>
+
+				<a href="/collections/{collectionData.slug || collectionData.id}">
+					<Button kind="tertiary" icon={ArrowRight}>View Collection</Button>
+				</a>
+			</div>
+		</div>
+
+		<div class="curated-collection-item__assets">
+			{#each featuredAssets as a}
+				<AssetTile id={a} />
+			{/each}
 		</div>
 	</div>
-
-	<div class="curated-collection-item__assets">
-		<AssetTile id={86432212} />
-		<AssetTile id={87797799} />
-		<AssetTile id={86432212} />
-	</div>
-</div>
+{/if}
 
 <style lang="scss">
 	.curated-collection-item {
@@ -72,6 +104,12 @@
 			margin-bottom: 1.5rem;
 
 			border-radius: 0.5rem;
+
+			:global(img) {
+				width: 100%;
+				height: 100%;
+				border-radius: 0.5rem;
+			}
 		}
 
 		&__title {

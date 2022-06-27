@@ -3,34 +3,34 @@
 	import ProfileContentSkeleton from '$lib/components/profile/ProfileContentSkeleton.svelte'
 	import { operationStore, query } from '@urql/svelte'
 	import { Q_GET_COLLECTIONS_BY_CREATOR } from '$lib/constants/queries'
-	import { Button } from 'carbon-components-svelte'
-	import { goto } from '$app/navigation'
 	import CreateCollectionWithTx from '$lib/components/transactions/CreateCollectionWithTx.svelte'
+	import { wallet } from '$lib/stores/wallet'
+import CollectionListTable from '$lib/components/collection/CollectionListTable.svelte'
 
-	const collections = operationStore<any>(Q_GET_COLLECTIONS_BY_CREATOR, {
-		creator: 'R2HPT36QHQUDAKJ2GICQLNDRKQB34RMJRXXUBVSMPMKFHOEU6GZTSJ6KDY'
+	const collectionQuery = operationStore<any>(Q_GET_COLLECTIONS_BY_CREATOR, {
+		creator: $wallet.account
 	})
-	query(collections)
+	query(collectionQuery)
 
-	const createCollection = () => {
-		goto('/profile/collections/create')
+	const goToCollection = (e: CustomEvent) => {
+		collectionQuery.reexecute({ requestPolicy: 'network-only' })
 	}
 </script>
 
 <div class="profile-collections">
-	{#if $collections.fetching}
+	{#if $collectionQuery.fetching}
 		<ProfileContentSkeleton />
-	{:else if $collections.data && $collections.data.collections}
+	{:else if $collectionQuery.data && $collectionQuery.data.collections}
 		<div class="profile-collections__head">
 			<h4>All Collections</h4>
-			<CreateCollectionWithTx />
+			<CreateCollectionWithTx on:create={goToCollection} />
 		</div>
 
 		<div class="profile-collections__list">
-			<table>
+			<CollectionListTable collections={$collectionQuery.data.collections}/>
+			<!-- <table>
 				<thead>
 					<tr>
-						<th>Rank</th>
 						<th>Collection</th>
 						<th>Floor</th>
 						<th>24h Volume</th>
@@ -39,17 +39,36 @@
 					</tr>
 				</thead>
 				<tbody>
-					{#each $collections.data.collections as collection, _i}
+					{#each $collectionQuery.data.collections as collection, _i}
 						<tr>
-							<td>{_i + 1}</td>
 							<td
 								><a href="/collections/{collection.slug || collection.id}">{collection.title}</a
 								></td
 							>
+							<td>
+								{collection.collections_analytics_1ds[0]
+									? collection.collections_analytics_1ds[0].floor_price
+									: 0}
+							</td>
+							<td>
+								{collection.collections_analytics_1ds[0]
+									? collection.collections_analytics_1ds[0].volume
+									: 0}
+							</td>
+							<td>
+								{collection.collections_analytics_1ds_aggregate.aggregate.sum.volume
+									? collection.collections_analytics_1ds_aggregate.aggregate.sum.volume
+									: 0}
+							</td>
+							<td>
+								{collection.collections_analytics_1ds[0]
+									? collection.collections_analytics_1ds[0].total_items
+									: 0}
+							</td>
 						</tr>
 					{/each}
 				</tbody>
-			</table>
+			</table> -->
 		</div>
 	{:else}
 		<EmptyTab

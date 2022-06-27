@@ -3,6 +3,7 @@
 	import type { Writable } from 'svelte/store'
 	import { goto } from '$app/navigation'
 	import { convertIPFSCIDToUrl } from '$lib/constants/assets'
+	import CollectionData from '$lib/components/collection/CollectionData.svelte'
 	import { Button, ImageLoader, OverflowMenu, OverflowMenuItem } from 'carbon-components-svelte'
 	import ArrowLeft from 'carbon-icons-svelte/lib/ArrowLeft.svelte'
 	import Edit from 'carbon-icons-svelte/lib/Edit.svelte'
@@ -12,11 +13,14 @@
 	import ShareTwitter from '../common/ShareTwitter.svelte'
 
 	import type { CollectionRecord } from '$lib/interfaces/collection'
+	import { page } from '$app/stores'
+	import { LogoDiscord } from 'carbon-icons-svelte'
 
 	export let isEditCollection = false
 
 	let id
 	let title
+	let description
 	let slug
 	let avatar_cid
 	let banner_cid
@@ -50,6 +54,7 @@
 		if (cd) {
 			id = cd.id
 			title = cd.title
+			description = cd.description
 			slug = cd.slug
 			avatar_cid = cd.avatar_cid
 			banner_cid = cd.banner_cid
@@ -67,6 +72,17 @@
 				<ImageLoader src={convertIPFSCIDToUrl(avatar_cid)} />
 			</div>
 		</div>
+
+		{#if $page.routeId.indexOf('/edit') === -1}
+			<div class="collection-header__action">
+				<Button kind="tertiary" on:click={editCollection} icon={Edit}>Edit Collection</Button>
+			</div>
+		{:else}
+			<div class="collection-header__action">
+				<Button kind="tertiary" on:click={backToCollection} icon={ArrowLeft}>Back to Collection</Button
+				>
+			</div>
+		{/if}
 	</div>
 
 	<div class="collection-meta">
@@ -74,50 +90,47 @@
 			<div class="collection-meta__name">
 				{title}
 			</div>
+			<div class="collection-meta__description">
+				{description}
+			</div>
 		</div>
 
-		{#if !isEditCollection}
-			<div class="collection-meta__action">
-				<Button size="field" kind="secondary" on:click={editCollection} icon={Edit}
-					>Edit Collection</Button
-				>
+		<div class="collection-meta__data">
+			<CollectionData />
+		</div>
 
-				<OverflowMenu kind="secondary" icon={Share} flipped>
-					<OverflowMenuItem text="Copy Link" on:click={copyToClipboard} />
-					<OverflowMenuItem>
-						<ShareTwitter
-							text="Check out this amazing profile!"
-							url={getCollectionLink()}
-							hashtags="dopepanda"
-							via={null}
-							related={null}>Share on Twitter</ShareTwitter
-						>
-					</OverflowMenuItem>
-				</OverflowMenu>
-			</div>
-		{:else}
-			<div class="collection-meta__action">
-				<Button size="field" kind="secondary" on:click={backToCollection} icon={ArrowLeft}
-					>Back to Profile</Button
-				>
-			</div>
-		{/if}
+		<div class="collection-meta__action">
+			<OverflowMenu kind="secondary" icon={Share} flipped>
+				<OverflowMenuItem text="Copy Link" on:click={copyToClipboard} />
+				<OverflowMenuItem>
+					<ShareTwitter
+						text="Check out this amazing profile!"
+						url={getCollectionLink()}
+						hashtags="dopepanda"
+						via={null}
+						related={null}>Share on Twitter</ShareTwitter
+					>
+				</OverflowMenuItem>
+			</OverflowMenu>
+		</div>
 	</div>
 </div>
 
 <style lang="scss">
 	.collection-header__wrap {
-		padding-bottom: 2rem;
+		padding-bottom: 1rem;
+		margin-bottom: 1rem;
 	}
 
 	.collection-meta {
 		display: flex;
+		align-items: flex-start;
 		flex-direction: column;
-		align-items: center;
-
 		padding: 2rem 0 0;
 
 		@media screen and (min-width: 768px) {
+			display: grid;
+			grid-template-columns: 1fr 2fr 1fr;
 			justify-content: space-between;
 			flex-direction: row;
 			padding: 0;
@@ -125,6 +138,7 @@
 
 		&__action {
 			display: flex;
+			justify-content: flex-end;
 			margin-top: 1rem;
 
 			@media screen and (min-width: 768px) {
@@ -153,12 +167,20 @@
 			}
 		}
 
-		&__account {
+		&__data {
+			display: flex;
+			justify-content: center;
 		}
 
 		&__name {
 			font-size: 1.5rem;
 			font-weight: bold;
+		}
+
+		&__description {
+			margin-top: 0.75rem;
+			line-height: 1.3;
+			color: var(--dp--text-05);
 		}
 	}
 
@@ -212,7 +234,7 @@
 		position: absolute;
 		left: 50%;
 		top: 100%;
-		transform: translate(-50%, -65%);
+		transform: translate(-50%, -75%);
 
 		:global(.profile-avatar) {
 			@media screen and (max-width: 767px) {
