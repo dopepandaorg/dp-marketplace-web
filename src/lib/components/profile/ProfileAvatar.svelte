@@ -26,7 +26,7 @@
 </script>
 
 {#if avatar_cid}
-	<div class="profile-avatar">
+	<div class="profile-avatar" style="width: {size}px; height: {size}px">
 		<ImageLoader src={convertIPFSCIDToUrl(avatar_cid)} />
 	</div>
 {:else}

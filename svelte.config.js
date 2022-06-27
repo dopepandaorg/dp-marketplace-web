@@ -42,7 +42,16 @@ const config = {
 			},
 			plugins: [
 				process.env.NODE_ENV === 'development' && inject({ Buffer: ['buffer', 'Buffer'] }),
-				svg({})
+				svg({
+					svgoOptions: {
+						plugins: [
+							{
+								name: 'preset-default',
+								params: { overrides: { removeViewBox: false } }
+							}
+						]
+					}
+				})
 			]
 		}
 	}

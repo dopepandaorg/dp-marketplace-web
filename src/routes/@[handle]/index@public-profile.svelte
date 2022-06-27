@@ -1,11 +1,16 @@
 <script lang="ts">
 	import ProfileBio from '$lib/components/profile/ProfileBio.svelte'
+	import ProfileShowcase from '$lib/components/profile/ProfileShowcase.svelte'
 	import ProfileSocialLinks from '$lib/components/profile/ProfileSocialLinks.svelte'
 </script>
 
 <div class="profile-overview">
 	<ProfileBio />
 	<ProfileSocialLinks />
+</div>
+
+<div class="profile-content">
+	<ProfileShowcase isEditable={false} />
 </div>
 
 <style lang="scss">

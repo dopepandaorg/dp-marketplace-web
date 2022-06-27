@@ -5,6 +5,7 @@
 	import { goto } from '$app/navigation'
 
 	enum PageType {
+		MARKETPLACE = 'Marketplace',
 		CONTESTS = 'Contest',
 		MINTER = 'Minter',
 		PLATFORM = 'Platform',
@@ -13,12 +14,18 @@
 
 	const pageTypes = [
 		{
+			id: PageType.MARKETPLACE,
+			text: 'Marketplace',
+			path: '/',
+			allowedPaths: ['/', '/marketplace'],
+			isDisabled: false
+		},
+		{
 			id: PageType.CONTESTS,
 			text: 'Contests',
 			path: '/contests',
 			allowedPaths: ['/contests'],
-			isDisabled: false,
-			tooltip: 'Coming Soon'
+			isDisabled: false
 		},
 		{
 			id: PageType.MINTER,

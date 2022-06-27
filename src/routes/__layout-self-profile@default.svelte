@@ -26,6 +26,7 @@
 
 	setContext('profile-wallet', profileWallet)
 	setContext('profile-data', profileData)
+	setContext('profile-query', profileQuery)
 	query(profileQuery)
 
 	wallet.subscribe((w) => {
