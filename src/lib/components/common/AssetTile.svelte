@@ -263,7 +263,7 @@
 						<BuyEscrowTx
 							bind:open={isOpen}
 							assetId={id}
-							creator={asset.creator}
+							creator={escrowListing.creator}
 							escrowId={escrowListing.id}
 							unitPrice={escrowListing.sale_price}
 							applicationId={escrowListing.application_id}
