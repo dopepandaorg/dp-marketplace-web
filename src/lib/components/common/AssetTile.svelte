@@ -261,12 +261,11 @@
 				<div class="asset-tile__action">
 					{#if escrowListing && !isOwner}
 						<BuyEscrowTx
-							on:buy={() => goto(`/assets/${id}`)}
 							bind:open={isOpen}
-							escrowId={escrowListing.id}
 							assetId={id}
+							creator={asset.creator}
+							escrowId={escrowListing.id}
 							unitPrice={escrowListing.sale_price}
-							creator={escrowListing.creator}
 							applicationId={escrowListing.application_id}
 						/>
 					{:else if escrowListing && isOwner}
