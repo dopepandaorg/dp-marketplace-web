@@ -25,16 +25,19 @@
 				</td>
 				<td><a href="/collections/{collection.slug || collection.id}">{collection.title}</a></td>
 				<td>
+					<img class="icon" src="/icons/algo.svg" alt="Algo">
 					{collection.collections_analytics_1ds[0]
 						? collection.collections_analytics_1ds[0].floor_price
 						: 0}
 				</td>
 				<td>
+					<img class="icon" src="/icons/algo.svg" alt="Algo">
 					{collection.collections_analytics_1ds[0]
 						? collection.collections_analytics_1ds[0].volume
 						: 0}
 				</td>
 				<td>
+					<img class="icon" src="/icons/algo.svg" alt="Algo">
 					{collection.collections_analytics_1ds_aggregate.aggregate.sum.volume
 						? collection.collections_analytics_1ds_aggregate.aggregate.sum.volume
 						: 0}
@@ -121,6 +124,12 @@
 				object-fit: contain;
 
 				float: left;
+			}
+
+			:global(img.icon) {
+				width: 0.875rem;
+				height: 0.875rem;
+				margin-right: 0.5rem;
 			}
 
 			span {

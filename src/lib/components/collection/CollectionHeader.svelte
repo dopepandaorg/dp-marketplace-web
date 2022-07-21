@@ -14,7 +14,6 @@
 
 	import type { CollectionRecord } from '$lib/interfaces/collection'
 	import { page } from '$app/stores'
-	import { LogoDiscord } from 'carbon-icons-svelte'
 
 	export let isEditCollection = false
 

@@ -17,6 +17,7 @@
 
 	import BuyEscrowTx from '../transactions/BuyEscrowTx.svelte'
 	import RemoveEscrowListingTx from '../transactions/RemoveEscrowListingTx.svelte'
+import ConnectWallet from './ConnectWallet.svelte';
 
 	export let id
 	export let amount: number = null
@@ -34,6 +35,11 @@
 	let isOwner
 	let isCreator
 	let isOpen = false
+	let walletIsConnected = false
+
+	wallet.subscribe((w) => {
+		walletIsConnected = w.isConnected
+	})
 
 	const escrowListingQuery = operationStore(
 		Q_GET_ESCROW_LISTING,
@@ -259,7 +265,9 @@
 				</div>
 
 				<div class="asset-tile__action">
-					{#if escrowListing && !isOwner}
+					{#if (escrowListing || isOwner) && !walletIsConnected}
+						<ConnectWallet label="Connect Wallet" />
+					{:else if escrowListing && !isOwner}
 						<BuyEscrowTx
 							bind:open={isOpen}
 							assetId={id}
@@ -268,17 +276,18 @@
 							unitPrice={escrowListing.sale_price}
 							applicationId={escrowListing.application_id}
 						/>
-					{:else if escrowListing && isOwner}
+					{:else if !!escrowListing && !!isOwner}
 						<RemoveEscrowListingTx
+							assetId={id}
+							bind:open={isOpen}
 							on:remove={() => goto(`/assets/${id}`)}
-							bind:open={isOpen}
-							assetId={id}
 						/>
-					{:else if !escrowListing && isOwner}
+					{:else if !escrowListing && !!isOwner}
 						<CreateEscrowListingTx
-							on:create={() => goto(`/assets/${id}`)}
-							bind:open={isOpen}
 							assetId={id}
+							creator={asset.creator}
+							bind:open={isOpen}
+							on:create={() => goto(`/assets/${id}`)}
 						/>
 					{/if}
 				</div>
@@ -495,6 +504,8 @@
 		}
 
 		&:hover {
+			cursor: pointer;
+			
 			.asset-tile__image {
 				:global(img) {
 					transform: scale(1.05);

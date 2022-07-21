@@ -155,7 +155,7 @@ import RemoveEscrowListingTx from '$lib/components/transactions/RemoveEscrowList
 					{:else if !escrowListing && isOwner}
 						<div class="asset-detail__listing">
 							<h3>Listing</h3>
-							<CreateEscrowListingTx assetId={asset.id} />
+							<CreateEscrowListingTx assetId={asset.id} creator={escrowListing.creator} />
 						</div>
 					{/if}
 
