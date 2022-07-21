@@ -19,7 +19,7 @@
 	profileData.subscribe((pd) => {
 		isLoading = !pd.wallet
 
-		if (pd.featured_gallery) {
+		if (pd.featured_gallery && pd.featured_gallery.length > 0) {
 			featuredGallery = pd.featured_gallery
 			isPristine = true
 		}

@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { Button } from 'carbon-components-svelte'
-	import { ImageSearch, IntentRequestCreate } from 'carbon-icons-svelte'
+	import ImageSearch from 'carbon-icons-svelte/lib/ImageSearch.svelte'
+	import IntentRequestCreate from 'carbon-icons-svelte/lib/IntentRequestCreate.svelte'
 	import IndexSlider from './IndexSlider.svelte'
 </script>
 
