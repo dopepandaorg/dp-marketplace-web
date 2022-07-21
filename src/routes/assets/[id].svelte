@@ -165,11 +165,17 @@
 							/>
 						</div>
 					{:else if escrowListing && isOwner}
-						Remove Listing
+						<!-- <RemoveEscrowListingTx
+							on:remove={() => goto(`/assets/${id}`)}
+							bind:open={isOpen}
+							assetId={id}
+						/> -->
 					{:else if !escrowListing && isOwner}
 						<div class="asset-detail__listing">
 							<h3>Listing</h3>
-							<CreateEscrowListingTx assetId={asset.id} />
+							<CreateEscrowListingTx
+								assetId={asset.id}
+								creator={asset.creator} />
 						</div>
 					{/if}
 				</div>

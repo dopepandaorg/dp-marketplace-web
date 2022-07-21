@@ -55,6 +55,7 @@ export const createAppEscrowListing = async (
 
 export const buildTransactionEscrowListing = async (
 	walletAddress: string,
+	creatorAddress: string,
 	appId: number,
 	assetId: number,
 	price: number,
@@ -83,7 +84,7 @@ export const buildTransactionEscrowListing = async (
 
 		const attributes = {
 			asset_id: assetId,
-			creator: walletAddress,
+			creator: creatorAddress,
 			seller: walletAddress,
 			sale_qty: qty,
 			sale_price: price,
