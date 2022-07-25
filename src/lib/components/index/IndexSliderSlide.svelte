@@ -54,9 +54,22 @@
 
 		&__meta {
 			display: flex;
-			justify-content: space-between;
-			align-items: center;
+			flex-direction: column;
 			margin-top: 1rem;
+
+			a {
+				margin-top: 1rem;
+			}
+
+			@media screen and (min-width: 768px) {
+				flex-direction: row;
+				align-items: center;
+				justify-content: space-between;
+
+				a {
+					margin-top: 0;
+				}
+			}
 		}
 
 		&__content {
