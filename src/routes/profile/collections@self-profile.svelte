@@ -30,9 +30,14 @@
 			<CollectionListTable collections={$collectionQuery.data.collections} />
 		</div>
 	{:else}
+		<div class="profile-collections__head">
+			<h4>All Collections</h4>
+			<CreateCollectionWithTx on:create={goToCollection} />
+		</div>
+
 		<EmptyTab
 			title="You have no collections :("
-			description="You can change the network you're on. Or Buy you first NFT from the Marketplace"
+			description="You may select 'Create Collection' to create your first collection."
 		/>
 	{/if}
 </div>
