@@ -6,7 +6,8 @@ import {
 	getApplicationAddress,
 	makeApplicationCallTxnFromObject,
 	makeAssetTransferTxnWithSuggestedParamsFromObject,
-	makePaymentTxnWithSuggestedParamsFromObject
+	makePaymentTxnWithSuggestedParamsFromObject,
+	makeApplicationDeleteTxnFromObject
 } from 'algosdk'
 import { getAlgoClient } from '$lib/helper/algoClient'
 import { addToast } from '$lib/stores/toast'
@@ -55,6 +56,7 @@ export const createAppEscrowListing = async (
 
 export const buildTransactionEscrowListing = async (
 	walletAddress: string,
+	creatorAddress: string,
 	appId: number,
 	assetId: number,
 	price: number,
@@ -80,11 +82,24 @@ export const buildTransactionEscrowListing = async (
 			// 4 * min txn fee
 			4 * 1_000
 
+		const attributes = {
+			asset_id: assetId,
+			creator: creatorAddress,
+			seller: walletAddress,
+			sale_qty: qty,
+			sale_price: price,
+			sale_royalty: 0,
+			application_id: appId,
+			application_address: appAddr
+		}
+		const note = `dp.listing.escrow(${JSON.stringify(attributes)})`
+
 		const fundAppTxn = makePaymentTxnWithSuggestedParamsFromObject({
 			suggestedParams: { ...params },
 			from: walletAddress,
 			to: appAddr,
-			amount: fundingAmount
+			amount: fundingAmount,
+			note: Uint8Array.from(Buffer.from(note))
 		})
 
 		const setupTxn = makeApplicationCallTxnFromObject({
@@ -96,7 +111,8 @@ export const buildTransactionEscrowListing = async (
 				uint64ToBigEndian(price * (1_000 * 1_000))
 			],
 			foreignAssets: [assetId],
-			onComplete: 0
+			onComplete: 0,
+			note: Uint8Array.from(Buffer.from(note))
 		})
 
 		const fundNFTTxn = makeAssetTransferTxnWithSuggestedParamsFromObject({
@@ -104,7 +120,8 @@ export const buildTransactionEscrowListing = async (
 			from: walletAddress,
 			to: appAddr,
 			amount: qty,
-			assetIndex: assetId
+			assetIndex: assetId,
+			note: Uint8Array.from(Buffer.from(note))
 		})
 
 		txns = assignGroupID([fundAppTxn, setupTxn, fundNFTTxn])
@@ -116,4 +133,34 @@ export const buildTransactionEscrowListing = async (
 	}
 
 	return txns
+}
+
+export const deleteAppEscrowListing = async (
+	walletAddress: string,
+	creatorAddress: string,
+	appId: number,
+	assetId: number
+): Promise<Transaction> => {
+	let txn: Transaction
+
+	try {
+		// Load Algorand client
+		const algodClient = getAlgoClient()
+		const params = await algodClient.getTransactionParams().do()
+
+		txn = makeApplicationDeleteTxnFromObject({
+			suggestedParams: { ...params },
+			from: walletAddress,
+			appIndex: appId,
+			foreignAssets: [assetId],
+			accounts: [creatorAddress]
+		})
+	} catch (error) {
+		// Display error notification
+		addToast(N_ERROR_CREATE_TXN)
+		console.error(error)
+		throw new Error(error)
+	}
+
+	return txn
 }

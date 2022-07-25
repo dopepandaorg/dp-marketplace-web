@@ -19,7 +19,7 @@
 	profileData.subscribe((pd) => {
 		isLoading = !pd.wallet
 
-		if (pd.featured_gallery) {
+		if (pd.featured_gallery && pd.featured_gallery.length > 0) {
 			featuredGallery = pd.featured_gallery
 			isPristine = true
 		}
@@ -44,14 +44,14 @@
 		<h4><SkeletonPlaceholder style="width: 200px; height: 1.5rem;" /></h4>
 
 		<div class="profile-showcase__grid">
-			<AssetTile id={null} />
-			<AssetTile id={null} />
-			<AssetTile id={null} />
-			<AssetTile id={null} />
-			<AssetTile id={null} />
-			<AssetTile id={null} />
-			<AssetTile id={null} />
-			<AssetTile id={null} />
+			<AssetTile id={null} showListing />
+			<AssetTile id={null} showListing />
+			<AssetTile id={null} showListing />
+			<AssetTile id={null} showListing />
+			<AssetTile id={null} showListing />
+			<AssetTile id={null} showListing />
+			<AssetTile id={null} showListing />
+			<AssetTile id={null} showListing />
 		</div>
 	</div>
 {:else}
@@ -60,7 +60,7 @@
 			<h4>Profile Showcase</h4>
 
 			{#if !isPristine}
-				<UpdateProfileShowcaseTx {featuredGallery} on:complete={onSubmit}/>
+				<UpdateProfileShowcaseTx {featuredGallery} on:complete={onSubmit} />
 			{/if}
 		</div>
 
@@ -68,7 +68,7 @@
 			{#each featuredGallery as gridId, i}
 				{#if gridId}
 					<div class="profile-showcase__item">
-						<AssetTile id={gridId}>
+						<AssetTile id={gridId} showListing>
 							<svelte:fragment slot="empty">
 								<ProfileShowcaseTileSelector
 									index={i}

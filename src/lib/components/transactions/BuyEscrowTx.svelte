@@ -1,21 +1,35 @@
 <script lang="ts">
 	import { Button, InlineLoading, Modal } from 'carbon-components-svelte'
-	import { wallet } from '$lib/stores/wallet'
+	import { syncWalletAssets, wallet } from '$lib/stores/wallet'
 	import type { Transaction } from 'algosdk'
 	import { SignedTxn, WalletType } from '$lib/interfaces/wallet'
 	import { signTransactions, submitTransaction } from '$lib/transaction-builder/common'
 	import { onClearPera } from '$lib/helper/walletConnect'
+	import { explorerUrl, triggerWalletDeeplink } from '$lib/helper/utils'
 	import { buildTransactionBuyEscrow } from '$lib/transaction-builder/buyEscrow'
 	import TxStep from './TxStep.svelte'
 	import { LoadingStatus } from '$lib/constants/enums'
+	import { mutation } from '@urql/svelte'
+	import { Q_UPDATE_ESCROW_LISTING } from '$lib/constants/queries'
+	import { createEventDispatcher } from 'svelte'
+	import Launch from 'carbon-icons-svelte/lib/Launch.svelte'
+	import { goto } from '$app/navigation'
 
-	// const updateDBMutation = mutation({ query: Q_CAST_VOTE })
+	const dispatch = createEventDispatcher()
+	const updateDBMutation = mutation({ query: Q_UPDATE_ESCROW_LISTING })
 
+	export let escrowId
 	export let assetId
+	export let applicationId
+	export let unitPrice
+	export let creator
+
 	export let isComplete = false
 	export let isSubmitting = false
 
-	let open = false
+	let qty = 1
+
+	export let open = false
 	let walletType = $wallet.type
 	let walletAccount = $wallet.account
 
@@ -35,7 +49,7 @@
 		isTxnLoading = true
 		walletType = $wallet.type
 
-		buildTransactionBuyEscrow(walletAccount, walletAccount, 86243100, assetId, 10, 1)
+		buildTransactionBuyEscrow(walletAccount, creator, applicationId, assetId, unitPrice * qty, qty)
 			.then((response) => (txns = response))
 			.catch(() => (txns = null))
 			.finally(() => (isTxnLoading = false))
@@ -44,6 +58,7 @@
 	const sign = () => {
 		if (txns) {
 			isSignedTxnLoading = true
+			triggerWalletDeeplink()
 			signTransactions(walletType, txns, 'Buy Asset')
 				.then((response) => {
 					signedTxns = response
@@ -57,12 +72,14 @@
 	const submit = () => {
 		if (signedTxns) {
 			isSubmitting = true
+
 			submitTransaction(signedTxns)
 				.then((response) => {
 					txId = response.txId
 					confirmedRound = response.confirmedRound
 					isUpdateDBLoading = true
 
+					syncWalletAssets()
 					updateDB()
 				})
 				.catch((error) => {
@@ -75,17 +92,24 @@
 	}
 
 	const updateDB = () => {
-		isComplete = true
-		clear()
+		if (txId && confirmedRound && escrowId) {
+			updateDBMutation({ txId, wallet: walletAccount, escrowId })
+				.then((result) => {
+					isComplete = true
 
-		// if (txId && confirmedRound) {
-		// 	updateDBMutation({ txId, wallet: walletAccount, contestId })
-		// 		.then(() => {
-		// 			isComplete = true
-		// 			clear()
-		// 		})
-		// 		.finally(() => (isUpdateDBLoading = false))
-		// }
+					dispatch('submitTx', {
+						txId,
+						confirmedRound
+					})
+
+					if (result.data && result.data.UpdateEscrowListingWithTx) {
+						dispatch('buy', {
+							...result.data.UpdateEscrowListingWithTx
+						})
+					}
+				})
+				.finally(() => (isUpdateDBLoading = false))
+		}
 	}
 
 	const clear = () => {
@@ -108,22 +132,29 @@
 	const close = () => {
 		clear()
 	}
+
+	const goToAsset = () => {
+		if (assetId) {
+			goto(`/profile/assets`)
+			clear()
+		}
+	}
 </script>
 
-<div class="tx-modal tx-modal--contest-vote">
+<div class="tx-modal tx-modal--buy-escrow">
 	<div class="tx-modal__action">
 		<Button
 			on:click={confirmModal}
 			type="button"
 			disabled={open}
-			icon={isSubmitting && InlineLoading}>Buy</Button
+			icon={isSubmitting && InlineLoading}>Buy Now</Button
 		>
 	</div>
 
 	<Modal
 		bind:open
 		preventCloseOnClickOutside
-		modalHeading="Cast Your Vote"
+		modalHeading="Buy Now"
 		modalLabel={walletType && walletType.toUpperCase()}
 		primaryButtonText="Sign Transaction"
 		secondaryButtonText="Cancel"
@@ -182,14 +213,21 @@
 				/>
 			</div>
 			<div class="tx-modal__graphic">
-				<img src="/images/vote-graphic.svg" alt="" />
+				{#if txId && confirmedRound}
+					<img src="/images/success-graphic.svg" alt="" />
+					<p>Asset successfully purchased!</p>
+					<Button size="field" kind="secondary" on:click={goToAsset}>Go to Assets</Button>
+					<a href={explorerUrl('algo', `/tx/${txId}`)}>View in Explorer &nbsp; <Launch /></a>
+				{:else}
+					<img src="/images/buy-graphic.svg" alt="" />
+				{/if}
 			</div>
 		</div>
 	</Modal>
 </div>
 
 <style lang="scss">
-	.tx-modal--contest-vote {
+	.tx-modal--buy-escrow {
 		.tx-modal__action {
 			:global(.bx--btn) {
 				width: 100%;
@@ -239,9 +277,33 @@
 	}
 
 	.tx-modal__graphic {
+		display: flex;
+		justify-content: center;
+		flex-direction: column;
+		text-align: center;
+
+		p {
+			color: var(--dp--text-05);
+			padding-right: 0;
+		}
+
 		img {
-			width: 120px;
-			height: 120px;
+			width: 110px;
+			height: 110px;
+			margin-bottom: 1rem;
+		}
+
+		a {
+			font-size: 0.75rem;
+			display: flex;
+			align-items: center;
+		}
+
+		:global(.bx--btn) {
+			min-height: 0 !important;
+			width: auto !important;
+			padding: 0.75rem 2rem;
+			margin-bottom: 1rem;
 		}
 
 		@media screen and (min-width: 768px) {
@@ -251,8 +313,8 @@
 			justify-content: center;
 
 			img {
-				width: 200px;
-				height: 200px;
+				width: 150px;
+				height: 150px;
 			}
 		}
 	}

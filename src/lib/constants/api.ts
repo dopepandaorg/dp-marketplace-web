@@ -32,6 +32,9 @@ export const API_BLOCK = (round: number, env?: NetworkEnv) =>
 export const API_ASSET_CONFIG_TXS = (id: number, env?: NetworkEnv) =>
 	`${ALGO_EXPLORER_API_ENV(env)}/transactions?asset-id=${id}&tx-type=acfg`
 
+export const API_CREATOR_ASSETS_BY_UNIT = (creator: string, prefix: string, env?: NetworkEnv) =>
+	`${ALGO_EXPLORER_API_ENV(env)}/assets?creator=${creator}${prefix ? '&unit=' + prefix : ''}`
+
 export const ALGO_EXPLORER_FETCH_OPTIONS = {
 	headers: {
 		'X-API-Key': 'lWrz92T39U4SdqPQHWbZd14QXH94ucTe6Z1biOed'

@@ -3,7 +3,7 @@
 	let apyAlgoStake = 25
 
 	let durationAlgoStake = Math.round(
-		(new Date('2022-06-01').getTime() - new Date().getTime()) / DAYS_MULTIPLIER
+		(new Date('2022-09-01').getTime() - new Date().getTime()) / DAYS_MULTIPLIER
 	)
 	let durationAlgoStakeLP = Math.round(
 		(new Date('2022-12-01').getTime() - new Date().getTime()) / DAYS_MULTIPLIER
@@ -90,7 +90,7 @@
 						</td>
 						<td>{durationAlgoStakeLP} days</td>
 						<td>
-							1LP → 175 DPANDA
+							1LP → 125 DPANDA
 							<span
 								><a
 									href="https://dopepanda.medium.com/moving-away-from-lp-competition-stake-your-algo-dpanda-lp-tokens-with-algostake-801557fb7caa"

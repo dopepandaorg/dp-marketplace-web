@@ -320,6 +320,18 @@
     estree-walker "^2.0.1"
     picomatch "^2.2.2"
 
+"@splidejs/splide@^4.0.6":
+  version "4.0.6"
+  resolved "https://registry.yarnpkg.com/@splidejs/splide/-/splide-4.0.6.tgz#b3db9f0636f789c8a9d61d838a4bfbd692f2cbc1"
+  integrity sha512-JHJJX08qAe5N33p6TKBAs5hRkJHmmG+Kh9LPWkOQgcV07yG+YEiY26lXi/xbH6Rb0UUxbs3Y3Iz/1WYjmfGhjA==
+
+"@splidejs/svelte-splide@^0.2.4":
+  version "0.2.4"
+  resolved "https://registry.yarnpkg.com/@splidejs/svelte-splide/-/svelte-splide-0.2.4.tgz#6ccc4973ec2ea10fa1ccc01fc5cba09f8d8d8833"
+  integrity sha512-l0Ubr7NStH+hmX3DAPGjpI1PcokDO3DyHimDZrkyv9/62m/FUpTbbDz9KfitQw9ovpvwUY09OVvt9B6UC4W9QQ==
+  dependencies:
+    "@splidejs/splide" "^4.0.6"
+
 "@sveltejs/adapter-auto@next":
   version "1.0.0-next.17"
   resolved "https://registry.yarnpkg.com/@sveltejs/adapter-auto/-/adapter-auto-1.0.0-next.17.tgz#f5b134ec302e294a77ee23ae2463a2c91c10831e"
