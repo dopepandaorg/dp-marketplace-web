@@ -75,21 +75,30 @@
 <style lang="scss">
 	.curated-collection-item {
 		display: grid;
-		grid-template-columns: 320px 1fr;
-		padding: 2rem;
-		gap: 4rem;
+		grid-template-columns: 1fr;
+		padding: 1.25rem;
+		gap: 2rem;
 		margin-bottom: 4rem;
 		border-radius: 0.5rem;
 
 		min-height: 500px;
-
 		background-color: #50a3a830;
+
+		@media screen and (min-width: 768px) {
+			grid-template-columns: 320px 1fr;
+			gap: 4rem;
+			padding: 2rem;
+		}
 
 		&__assets {
 			display: grid;
-			grid-template-columns: 1fr 1fr 1fr;
+			grid-template-columns: 1fr;
 			gap: 1.5rem;
 			align-items: center;
+
+			@media screen and (min-width: 768px) {
+				grid-template-columns: 1fr 1fr 1fr;
+			}
 		}
 
 		&__content {

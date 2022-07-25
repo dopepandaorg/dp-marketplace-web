@@ -170,6 +170,11 @@
 		&__data {
 			display: flex;
 			justify-content: center;
+			width: 100%;
+
+			@media screen and (min-width: 768px) {
+				width: auto;
+			}
 		}
 
 		&__name {
@@ -209,14 +214,12 @@
 	}
 
 	.collection-header {
-		position: relative;
-
 		display: flex;
-		align-items: flex-end;
-		justify-content: flex-end;
+		position: relative;
+		justify-content: center;
 
 		width: 100%;
-		height: 120px;
+		height: 160px;
 		border-radius: 10px;
 		margin-bottom: 2rem;
 		padding: 1rem;
@@ -226,7 +229,9 @@
 		background-size: cover;
 
 		@media screen and (min-width: 768px) {
-			height: 150px;
+			height: 160px;
+			align-items: flex-end;
+			justify-content: flex-end;
 		}
 	}
 
