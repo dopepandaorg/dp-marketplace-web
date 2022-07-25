@@ -34,19 +34,32 @@
 	<div class="collection-meta__list">
 		<div class="collection-meta__item">
 			<label>Floor</label>
-			<span>{floorPrice}</span>
+			<span>
+				{#if floorPrice}
+					<img src="/icons/algo.svg" alt="Algo" />
+					{Number(floorPrice).toLocaleString()}
+				{:else}
+					N/A
+				{/if}
+			</span>
 		</div>
 		<div class="collection-meta__item">
 			<label>Volume 24h</label>
-			<span>{volume}</span>
+			<span>
+				<img src="/icons/algo.svg" alt="Algo" />
+				{Number(volume).toLocaleString()}
+			</span>
 		</div>
 		<div class="collection-meta__item">
 			<label>Total Volume</label>
-			<span>{totalVolume}</span>
+			<span>
+				<img src="/icons/algo.svg" alt="Algo" />
+				{Number(totalVolume).toLocaleString()}
+			</span>
 		</div>
 		<div class="collection-meta__item">
 			<label>Total Items</label>
-			<span>{totalItems}</span>
+			<span>{Number(totalItems).toLocaleString()}</span>
 		</div>
 	</div>
 </div>
@@ -99,6 +112,11 @@
 			span {
 				font-size: 1.125rem;
 				margin-top: 0.375rem;
+
+				img {
+					width: 0.75rem;
+					height: 0.75rem;
+				}
 			}
 		}
 	}
