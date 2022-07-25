@@ -3,7 +3,7 @@
 	import { Q_GET_PROFILE } from '$lib/constants/queries'
 	import { operationStore, query } from '@urql/svelte'
 	import { wallet } from '$lib/stores/wallet'
-	import EditCollectionForm from '$lib/components/collection/EditCollectionForm.svelte';
+	import EditCollectionForm from '$lib/components/collection/EditCollectionForm.svelte'
 
 	// export const profile = operationStore(Q_GET_PROFILE, { wallet: $wallet.account })
 	// query(profile)

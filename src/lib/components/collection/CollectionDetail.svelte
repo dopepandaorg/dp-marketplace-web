@@ -13,6 +13,7 @@
 	let assets = []
 	let isLoading = false
 
+	const collectionItems = getContext<Writable<number>>('collection-items')
 	const collectionData = getContext<Writable<CollectionRecord>>('collection-data')
 	collectionData.subscribe((c) => {
 		if (c) {
@@ -23,7 +24,6 @@
 
 	onMount(() => {
 		isLoading = true
-		console.log('sdsd', creator)
 
 		fetch(
 			prefix
@@ -33,6 +33,7 @@
 			.then((response) => response.json())
 			.then((body) => {
 				assets = body.assets
+				collectionItems.set(assets.length)
 			})
 			.finally(() => (isLoading = false))
 	})

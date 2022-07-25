@@ -1,16 +1,17 @@
 <script lang="ts">
 	import { Form, FormGroup, Button, TextInput, TextArea } from 'carbon-components-svelte'
 	import MediaInput from '../common/MediaInput.svelte'
-	import EditProfileTx from '../transactions/EditProfileTx.svelte'
 	import { goto } from '$app/navigation'
 	import Erase from 'carbon-icons-svelte/lib/Erase.svelte'
 	import { getContext } from 'svelte'
 	import type { Writable } from 'svelte/store'
 	import type { CollectionRecord } from '$lib/interfaces/collection'
+	import EditCollectionTx from '../transactions/EditCollectionTx.svelte'
+
+	let collectionData
 
 	let title
 	let slug
-	let isHandleValid = false
 	let creator
 	let description
 	let pattern_prefix
@@ -26,16 +27,6 @@
 	let isSubmitting = false
 	let isPristine = false
 
-	let collectionData
-	const collectionQuery = getContext<Writable<CollectionRecord>>('collection-data')
-	collectionQuery.subscribe((c) => {
-		collectionData = c
-
-		if (!collectionData && c) {
-			resetForm()
-		}
-	})
-
 	const resetForm = () => {
 		slug = collectionData.slug
 		title = collectionData.title
@@ -48,6 +39,14 @@
 		isAvatarIpfsCIDValid = false
 		isBannerIpfsCIDValid = false
 	}
+
+	const collectionQuery = getContext<Writable<CollectionRecord>>('collection-data')
+	collectionQuery.subscribe((c) => {
+		if (!collectionData && !!c) {
+			collectionData = c
+			resetForm()
+		}
+	})
 </script>
 
 <Form on:submit={(e) => e.preventDefault()}>
@@ -124,18 +123,23 @@
 			Reset
 		</Button>
 
-		<!-- <EditProfileTx
-			{name}
-			{bio}
+		<EditCollectionTx
+			id={collectionData.id}
+			{title}
+			{slug}
+			{creator}
+			{description}
+			{pattern_prefix}
 			{twitter}
-			{instagram}
+			{discord}
+			{reddit}
 			{website}
 			{avatarIpfsCID}
 			{bannerIpfsCID}
 			isValid={!isPristine}
 			bind:isSubmitting
-			on:complete={() => goto('/profile')}
-		/> -->
+			on:complete={() => goto(`/collections/${collectionData.id}`)}
+		/>
 	</div>
 </Form>
 

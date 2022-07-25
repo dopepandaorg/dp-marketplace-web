@@ -36,8 +36,12 @@
 
 <style lang="scss">
 	.section-banner {
-		background-color: var(--dp--black-03);
 		padding-bottom: 2vw;
+
+		background-image: url('/images/slider-bg.jpg');
+		background-repeat: no-repeat;
+		background-position: center;
+		background-size: cover;
 
 		&__content {
 			margin-bottom: 2rem;

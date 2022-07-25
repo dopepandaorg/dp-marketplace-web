@@ -385,6 +385,16 @@ export const Q_GET_COLLECTIONS_BY_CREATOR = gql`
 	}
 `
 
+export const Q_GET_CURATED_COLLECTIONS = gql`
+	query GetCuratedCollections {
+		curated_collections {
+			id
+			collection
+			selected_assets
+		}
+	}
+`
+
 export const Q_CREATE_COLLECTION = gql`
 	mutation CreateCollectionWithTx($txId: String!, $wallet: String!) {
 		CreateCollectionWithTx(txId: $txId, wallet: $wallet) {
@@ -394,10 +404,25 @@ export const Q_CREATE_COLLECTION = gql`
 		}
 	}
 `
+export const Q_SYNC_COLLECTION = gql`
+	mutation SyncCollectionWithTx($txId: String, $wallet: String) {
+		SyncCollectionWaithTx(txId: $txId, wallet: $wallet) {
+			display_name
+			handle
+			wallet
+			bio
+			avatar_cid
+			banner_cid
+			social_instagram
+			social_twitter
+			social_website
+		}
+	}
+`
 
 export const Q_GET_ESCROW_LISTING = gql`
 	query GetEscrowListing($id: bigint!) {
-		escrow_listings(where: {asset_id: {_eq: $id}, status: {_eq: "active"}}) {
+		escrow_listings(where: { asset_id: { _eq: $id }, status: { _eq: "active" } }) {
 			id
 			asset_id
 			creator
@@ -421,7 +446,7 @@ export const Q_CREATE_ESCROW_LISTING = gql`
 			id
 			application_id
 			application_address
-			
+
 			asset_id
 			status
 		}

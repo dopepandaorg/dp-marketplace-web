@@ -25,7 +25,7 @@ export const nWeightFormat = (n: number, digits?: number) => {
 }
 
 export const formatPercentage = (n: number) => {
-	return Number(n * 100).toFixed(2) + '%'
+	return !!n ? Number(n * 100).toFixed(2) + '%' : `0%`
 }
 
 export const slugify = (text: string) => {

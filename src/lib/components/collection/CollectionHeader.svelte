@@ -78,7 +78,8 @@
 			</div>
 		{:else}
 			<div class="collection-header__action">
-				<Button kind="tertiary" on:click={backToCollection} icon={ArrowLeft}>Back to Collection</Button
+				<Button kind="tertiary" on:click={backToCollection} icon={ArrowLeft}
+					>Back to Collection</Button
 				>
 			</div>
 		{/if}

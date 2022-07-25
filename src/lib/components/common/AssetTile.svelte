@@ -17,7 +17,8 @@
 
 	import BuyEscrowTx from '../transactions/BuyEscrowTx.svelte'
 	import RemoveEscrowListingTx from '../transactions/RemoveEscrowListingTx.svelte'
-import ConnectWallet from './ConnectWallet.svelte';
+	import ConnectWallet from './ConnectWallet.svelte'
+	import { escape_object } from 'svelte/internal'
 
 	export let id
 	export let amount: number = null
@@ -54,6 +55,10 @@ import ConnectWallet from './ConnectWallet.svelte';
 	escrowListingQuery.subscribe((e) => {
 		if (e.data && e.data.escrow_listings.length > 0) {
 			escrowListing = e.data.escrow_listings[0]
+
+			if (escrowListing && escrowListing.seller === $wallet.account) {
+				showListing = true
+			}
 		}
 	})
 
@@ -102,7 +107,8 @@ import ConnectWallet from './ConnectWallet.svelte';
 	let isActionable = false
 
 	$: {
-		isActionable = (escrowListing && !isOwner) || (escrowListing && isOwner) || (!escrowListing && isOwner)
+		isActionable =
+			(escrowListing && !isOwner) || (escrowListing && isOwner) || (!escrowListing && isOwner)
 	}
 </script>
 
@@ -159,7 +165,7 @@ import ConnectWallet from './ConnectWallet.svelte';
 	<div
 		use:inview
 		class="asset-tile"
-		class:unowned={amount === 0}
+		class:unowned={amount === 0 && !showListing}
 		class:actionable={isActionable}
 		class:open={isOpen}
 		on:change={() => (isInView = !isInView)}
@@ -255,7 +261,7 @@ import ConnectWallet from './ConnectWallet.svelte';
 							<div class="asset-tile__meta-item__value">
 								{#if $escrowListingQuery.data.escrow_listings.length > 0}
 									{$escrowListingQuery.data.escrow_listings[0].sale_price}
-									<img src="/icons/algo.svg" alt="Algo">
+									<img src="/icons/algo.svg" alt="Algo" />
 								{:else}
 									Unlisted
 								{/if}
@@ -267,6 +273,12 @@ import ConnectWallet from './ConnectWallet.svelte';
 				<div class="asset-tile__action">
 					{#if (escrowListing || isOwner) && !walletIsConnected}
 						<ConnectWallet label="Connect Wallet" />
+					{:else if !!escrowListing && escrowListing.seller === $wallet.account}
+						<RemoveEscrowListingTx
+							assetId={id}
+							bind:open={isOpen}
+							on:remove={() => goto(`/assets/${id}`)}
+						/>
 					{:else if escrowListing && !isOwner}
 						<BuyEscrowTx
 							bind:open={isOpen}
@@ -275,12 +287,6 @@ import ConnectWallet from './ConnectWallet.svelte';
 							escrowId={escrowListing.id}
 							unitPrice={escrowListing.sale_price}
 							applicationId={escrowListing.application_id}
-						/>
-					{:else if !!escrowListing && !!isOwner}
-						<RemoveEscrowListingTx
-							assetId={id}
-							bind:open={isOpen}
-							on:remove={() => goto(`/assets/${id}`)}
 						/>
 					{:else if !escrowListing && !!isOwner}
 						<CreateEscrowListingTx
@@ -453,7 +459,7 @@ import ConnectWallet from './ConnectWallet.svelte';
 
 			display: grid;
 			grid-template-columns: 1fr 1fr;
-			gap: 2rem;
+			gap: 1rem 2rem;
 		}
 
 		&__meta-item {
@@ -505,7 +511,7 @@ import ConnectWallet from './ConnectWallet.svelte';
 
 		&:hover {
 			cursor: pointer;
-			
+
 			.asset-tile__image {
 				:global(img) {
 					transform: scale(1.05);

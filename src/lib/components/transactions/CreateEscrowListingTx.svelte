@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { Button, InlineLoading, Modal, NumberInput, Slider } from 'carbon-components-svelte'
-	import { wallet } from '$lib/stores/wallet'
+	import { syncWalletAssets, wallet } from '$lib/stores/wallet'
 	import type { Transaction } from 'algosdk'
 	import { SignedTxn, WalletType } from '$lib/interfaces/wallet'
 	import {
@@ -189,6 +189,8 @@
 	const signSetupAppTx = () => {
 		if (setupAppTxn) {
 			isSignedAppTxnLoading = true
+
+			triggerWalletDeeplink()
 			signTransactions(walletType, setupAppTxn, 'Setup your Escrow Listing on DopePanda')
 				.then((response) => {
 					signedSetupAppTxn = response
@@ -206,12 +208,14 @@
 	const submitSetupAppTx = () => {
 		if (signedSetupAppTxn) {
 			isSetupAppSubmitting = true
+
 			submitTransaction(signedSetupAppTxn)
 				.then(({ txId, confirmedRound }) => {
 					appSetupTxId = txId
 					appSetupConfirmedRound = confirmedRound
-
 					isUpdateDBLoading = true
+
+					syncWalletAssets()
 					updateDB()
 				})
 				.catch((error) => {
@@ -277,7 +281,8 @@
 		passiveModal={isAppTxnLoading ||
 			isSetupAppTxnLoading ||
 			isAppSubmitting ||
-			isSetupAppSubmitting}
+			isSetupAppSubmitting ||
+			isUpdateDBLoading}
 		on:click:button--secondary={() => {
 			if (view === 'submit') view = 'input'
 			else open = false

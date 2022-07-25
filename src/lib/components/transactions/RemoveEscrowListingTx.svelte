@@ -3,17 +3,14 @@
 	import { wallet } from '$lib/stores/wallet'
 	import type { Transaction } from 'algosdk'
 	import { SignedTxn, WalletType } from '$lib/interfaces/wallet'
-	import {
-		signTransaction,
-		signTransactions,
-		submitTransaction
-	} from '$lib/transaction-builder/common'
+	import { signTransactions, submitTransaction } from '$lib/transaction-builder/common'
 	import { onClearPera } from '$lib/helper/walletConnect'
 	import TxStep from './TxStep.svelte'
 	import { LoadingStatus } from '$lib/constants/enums'
 	import {
 		buildTransactionEscrowListing,
-		createAppEscrowListing
+		createAppEscrowListing,
+		deleteAppEscrowListing
 	} from '$lib/transaction-builder/escrowListing'
 	import { triggerWalletDeeplink } from '$lib/helper/utils'
 	import { mutation } from '@urql/svelte'
@@ -99,80 +96,16 @@
 		open = true
 	}
 
-	const proceedModal = () => {
-		walletType = $wallet.type
-		isAppTxnLoading = true
-
-		createAppTransaction()
-	}
-
 	/**
-	 * Step 1. Create the Application and wait for user's signature
+	 * Step 1. Application setup transaction is created
 	 *
 	 */
-	const createAppTransaction = () => {
-		createAppEscrowListing(walletAccount, assetId)
-			.then((response) => (appTxn = response))
-			.catch(() => (appTxn = null))
-			.finally(() => (isAppTxnLoading = false))
-	}
-
-	/**
-	 * Step 2. User requests the signature to create the Application
-	 *
-	 */
-	const signAppTx = () => {
-		if (appTxn) {
-			isSignedAppTxnLoading = true
-
-			triggerWalletDeeplink()
-			signTransaction(walletType, appTxn, 'Create an Escrow Listing on DopePanda')
-				.then((response) => {
-					signedAppTxn = response
-					submitAppTx()
-				})
-				.catch(() => (signedAppTxn = null))
-				.finally(() => (isSignedAppTxnLoading = false))
-		}
-	}
-
-	/**
-	 * Step 3. Create Application is submitted on the blockchain
-	 *
-	 */
-	const submitAppTx = () => {
-		if (signedAppTxn) {
-			isAppSubmitting = true
-			submitTransaction(signedAppTxn)
-				.then(({ txId, txInfo, confirmedRound }) => {
-					if (txInfo && txInfo['application-index']) {
-						appId = txInfo['application-index']
-					}
-
-					appCreateTxId = txId
-					appCreateConfirmedRound = confirmedRound
-
-					setupAppTransaction()
-				})
-				.catch((error) => {
-					appCreateTxId = null
-					appCreateConfirmedRound = null
-					console.log('error in submitting transaction', error)
-				})
-				.finally(() => (isAppSubmitting = false))
-		}
-	}
-
-	/**
-	 * Step 4. Application setup transaction is created
-	 *
-	 */
-	const setupAppTransaction = () => {
+	const setupTransaction = () => {
 		if (appId) {
-			buildTransactionEscrowListing(walletAccount, appId, assetId, price, qty)
-				.then((response) => (setupAppTxn = response))
-				.catch(() => (setupAppTxn = null))
-				.finally(() => (isSetupAppTxnLoading = false))
+			// deleteAppEscrowListing(walletAccount, appId, assetId, price, qty)
+			// 	.then((response) => (setupAppTxn = response))
+			// 	.catch(() => (setupAppTxn = null))
+			// 	.finally(() => (isSetupAppTxnLoading = false))
 		}
 	}
 
@@ -180,43 +113,41 @@
 	 * Step 5. User requests the signing of application setup transaction
 	 *
 	 */
-	const signSetupAppTx = () => {
-		if (setupAppTxn) {
-			isSignedAppTxnLoading = true
-			signTransactions(walletType, setupAppTxn, 'Setup your Escrow Listing on DopePanda')
-				.then((response) => {
-					signedSetupAppTxn = response
-					submitSetupAppTx()
-				})
-				.catch(() => (signedSetupAppTxn = null))
-				.finally(() => (isSignedSetupAppTxnLoading = false))
-		}
+	const signTx = () => {
+		// if (setupAppTxn) {
+		// 	isSignedAppTxnLoading = true
+		// 	signTransactions(walletType, setupAppTxn, 'Remove Escrow Listing on DopePanda')
+		// 		.then((response) => {
+		// 			signedSetupAppTxn = response
+		// 			submitTx()
+		// 		})
+		// 		.catch(() => (signedSetupAppTxn = null))
+		// 		.finally(() => (isSignedSetupAppTxnLoading = false))
+		// }
 	}
 
 	/**
 	 * Step 6. Setup application transaction is submitted on the blockchain
 	 *
 	 */
-	const submitSetupAppTx = () => {
-		if (signedSetupAppTxn) {
-			isSetupAppSubmitting = true
-			submitTransaction(signedSetupAppTxn)
-				.then(({ txId, confirmedRound }) => {
-					appSetupTxId = txId
-					appSetupConfirmedRound = confirmedRound
-
-					console.log('app setup tx!', appSetupTxId, appSetupConfirmedRound)
-
-					isUpdateDBLoading = true
-					updateDB()
-				})
-				.catch((error) => {
-					appCreateTxId = null
-					appCreateConfirmedRound = null
-					console.log('error in submitting transaction', error)
-				})
-				.finally(() => (isSetupAppSubmitting = false))
-		}
+	const submitTx = () => {
+		// if (signedSetupAppTxn) {
+		// 	isSetupAppSubmitting = true
+		// 	submitTransaction(signedSetupAppTxn)
+		// 		.then(({ txId, confirmedRound }) => {
+		// 			appSetupTxId = txId
+		// 			appSetupConfirmedRound = confirmedRound
+		// 			console.log('app setup tx!', appSetupTxId, appSetupConfirmedRound)
+		// 			isUpdateDBLoading = true
+		// 			updateDB()
+		// 		})
+		// 		.catch((error) => {
+		// 			appCreateTxId = null
+		// 			appCreateConfirmedRound = null
+		// 			console.log('error in submitting transaction', error)
+		// 		})
+		// 		.finally(() => (isSetupAppSubmitting = false))
+		// }
 	}
 
 	/**
@@ -281,9 +212,7 @@
 		}}
 		on:open
 		on:close={close}
-		on:submit={appId
-			? signSetupAppTx
-			: signAppTx}
+		on:submit={() => {}}
 	>
 		<div class="tx-modal__inner">
 			<div class="tx-modal__steps">
@@ -300,37 +229,13 @@
 						descriptionPending="Submitting transaction on Algorand ..."
 						descriptionSuccess={`Application created with ID: ${appId}`}
 					/>
-				{:else if isSignedAppTxnLoading || signedAppTxn}
-					<TxStep
-						stepCount={1}
-						label="Create Escrow Application"
-						status={isSignedAppTxnLoading
-							? LoadingStatus.IN_PROGRESS
-							: signedAppTxn
-							? LoadingStatus.SUCCESS
-							: LoadingStatus.NONE}
-						descriptionPending="Waiting for signature ..."
-						descriptionSuccess="Signature complete"
-					/>
-				{:else}
-					<TxStep
-						stepCount={1}
-						status={isAppTxnLoading
-							? LoadingStatus.IN_PROGRESS
-							: appTxn
-							? LoadingStatus.SUCCESS
-							: LoadingStatus.NONE}
-						label="Create Escrow Application"
-						descriptionPending="Building your transaction ..."
-						descriptionSuccess="Transaction ready, sign with your wallet."
-					/>
 				{/if}
 
 				<!-- Submit Transaction -->
 				{#if isSignedSetupAppTxnLoading || signedSetupAppTxn}
 					<TxStep
 						stepCount={2}
-						label="Setup Escrow Application"
+						label="Remove Escrow Application"
 						status={isSignedSetupAppTxnLoading
 							? LoadingStatus.IN_PROGRESS
 							: signedSetupAppTxn

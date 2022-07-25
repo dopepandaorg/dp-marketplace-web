@@ -9,9 +9,9 @@
 <section class="section">
 	<div class="container">
 		<EmptyPage
-			icon="/images/restricted-access-icon.svg"
-			title="Access Restricted"
-			description="This feature is only available to Beta testers"
+			icon="/images/awaiting-collections.svg"
+			title="Awaiting Verified Collections"
+			description="If you are a creator, head over to 'My Collections' and setup your collection!"
 		/>
 	</div>
 </section>
