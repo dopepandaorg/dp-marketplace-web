@@ -283,7 +283,8 @@ export const Q_GET_COLLECTIONS_TRENDING = gql`
 	query GetTrendingCollections {
 		collections(
 			order_by: { collections_analytics_1ds_aggregate: { max: { floor_price: desc_nulls_last } } }
-			limit: 12
+			limit: 12, 
+			where: { is_verified: { _eq: true } }
 		) {
 			collections_analytics_1ds(limit: 2) {
 				floor_price

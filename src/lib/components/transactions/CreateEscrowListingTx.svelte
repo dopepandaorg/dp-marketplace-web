@@ -300,11 +300,6 @@
 		<div class="tx-modal__inner">
 			{#if view === 'input'}
 				<div class="tx-modal__input">
-					<p>
-						Lorem ipsum dolor sit amet, consectetur adipisicing elit explicabo accusamus temporibus
-						eos esse amet obcaecati id reiciendis.
-					</p>
-
 					<NumberInput
 						bind:value={price}
 						label="Price"

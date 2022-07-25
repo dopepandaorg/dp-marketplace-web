@@ -11,9 +11,7 @@
 
 <section class="section">
 	<div class="container">
-		{#if $collectionQuery.fetching}
-			Loading ...
-		{:else if $collectionQuery.data && $collectionQuery.data.curated_collections}
+		{#if $collectionQuery.data && $collectionQuery.data.curated_collections}
 			<div class="section__header">
 				<h3>Curated Collections</h3>
 			</div>
