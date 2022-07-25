@@ -34,15 +34,15 @@
 				<ProfileContentSkeleton />
 			{:else if results.length > 0}
 				<EmptyPage
-					icon="/images/restricted-access-icon.svg"
-					title="Access Restricted"
-					description="This feature is only available to Beta testers"
+					icon="/images/awaiting-collections.svg"
+					title="Awaiting Verified Collections"
+					description="If you are a creator, head over to 'My Collections' and setup your collection!"
 				/>
 			{:else}
 				<EmptyPage
-					icon="/images/restricted-access-icon.svg"
-					title="Access Restricted"
-					description="This feature is only available to Beta testers"
+					icon="/images/awaiting-collections.svg"
+					title="Awaiting Verified Collections"
+					description="If you are a creator, head over to 'My Collections' and setup your collection!"
 				/>
 			{/if}
 		</div>
@@ -52,5 +52,6 @@
 <style lang="scss">
 	.search-page__title {
 		margin-bottom: 2rem;
+		text-align: center;
 	}
 </style>

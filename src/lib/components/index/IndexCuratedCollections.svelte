@@ -1,18 +1,32 @@
 <script lang="ts">
+	import { Q_GET_CURATED_COLLECTIONS } from '$lib/constants/queries'
+
+	import { operationStore, query } from '@urql/svelte'
 	import IndexCuratedCollectionsItem from './IndexCuratedCollectionsItem.svelte'
+
+	const collectionQuery = operationStore<any>(Q_GET_CURATED_COLLECTIONS)
+
+	query(collectionQuery)
 </script>
 
 <section class="section">
 	<div class="container">
-		<div class="section__header">
-			<h3>Curated Collections</h3>
-		</div>
+		{#if $collectionQuery.fetching}
+			Loading ...
+		{:else if $collectionQuery.data && $collectionQuery.data.curated_collections}
+			<div class="section__header">
+				<h3>Curated Collections</h3>
+			</div>
 
-		<div class="collections">
-			<IndexCuratedCollectionsItem id="c83faf5b-c0ab-4d4d-9c54-2989b5fb530d" featuredAssets={[97268099, 97269558, 97269646]}/>
-			<IndexCuratedCollectionsItem id="5ccccf9a-05e6-4959-9564-7ee02f31dfa8" featuredAssets={[97269867]} />
-			<IndexCuratedCollectionsItem id="ceedb1a6-9ced-49dc-95bc-a14813d9870e" featuredAssets={[97270541, 97271462]} />
-		</div>
+			<div class="collections">
+				{#each $collectionQuery.data.curated_collections as collection}
+					<IndexCuratedCollectionsItem
+						id={collection.collection}
+						featuredAssets={collection.selected_assets}
+					/>
+				{/each}
+			</div>
+		{/if}
 	</div>
 </section>
 

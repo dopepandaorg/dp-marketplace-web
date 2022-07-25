@@ -7,7 +7,7 @@ export interface CollectionRecord {
 	avatar_cid: string
 	banner_cid: string
 	pattern_prefix: string
-	
+
 	social_twitter
 	social_discord
 	social_reddit

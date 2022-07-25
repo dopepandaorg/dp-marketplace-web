@@ -14,12 +14,14 @@
 	const slug = $page.params.slug
 	const isUUID = checkValidUUID(slug)
 
+	const collectionItems = writable<number>(0)
 	const collectionData = writable<CollectionRecord>(null)
 	const collectionQuery = operationStore(
 		isUUID ? Q_GET_COLLECTION : Q_GET_COLLECTION_BY_SLUG,
 		isUUID ? { id: slug } : { slug }
 	)
 
+	setContext('collection-items', collectionItems)
 	setContext('collection-data', collectionData)
 	query(collectionQuery)
 

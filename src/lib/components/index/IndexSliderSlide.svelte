@@ -1,4 +1,6 @@
 <script>
+	import { convertIPFSUrl } from '$lib/constants/assets'
+
 	import { SplideSlide } from '@splidejs/svelte-splide'
 	import { Button } from 'carbon-components-svelte'
 	import ArrowRightSvelte from 'carbon-icons-svelte/lib/ArrowRight.svelte'
@@ -6,16 +8,13 @@
 
 	export let title
 	export let creator
-	export let image
+	export let imageCID
 </script>
 
 <SplideSlide>
 	<div class="slide">
 		<div class="slide__image">
-			<img
-				src="https://dopepanda.imgix.net/https%3A%2F%2Fipfs.io%2Fipfs%2Fbafkreicg2nuke7vl55vy55bzio2a7aouemid6toms54jnjtwm3xocux4mi?ixlib=js-3.6.0&s=6dd32166432fb642b72c40cf36dff7b4"
-				alt="Image 1"
-			/>
+			<img src={convertIPFSUrl(imageCID)} />
 		</div>
 
 		<div class="slide__content">

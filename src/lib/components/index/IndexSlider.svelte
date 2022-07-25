@@ -13,9 +13,14 @@
 <div class="index-slider">
 	<Splide {options}>
 		<IndexSliderSlide
-			title="Star wars contest"
-			creator={'R2HPT36QHQUDAKJ2GICQLNDRKQB34RMJRXXUBVSMPMKFHOEU6GZTSJ6KDY'}
-			image={null}
+			title="Panda Art Contest #2"
+			creator={'M5TWBEMR35KXIQ25R4QW3A5FH6BA7P2QUYUDIIKW3VV2JP3BSRPVZOQFIQ'}
+			imageCID={'ipfs://bafkreig6g467qhl2i3qo26uim4c4femjh2yenyesqhvxeomgy4ubq3guqu'}
+		/>
+		<IndexSliderSlide
+			title="Community Meme Contest #2"
+			creator={'M5TWBEMR35KXIQ25R4QW3A5FH6BA7P2QUYUDIIKW3VV2JP3BSRPVZOQFIQ'}
+			imageCID={'ipfs://bafkreibolnzfpzro32xxtmhwrdyq5c7q2r744a4sko5wj23mv4hnfzdcya'}
 		/>
 	</Splide>
 </div>

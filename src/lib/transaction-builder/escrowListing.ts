@@ -6,7 +6,8 @@ import {
 	getApplicationAddress,
 	makeApplicationCallTxnFromObject,
 	makeAssetTransferTxnWithSuggestedParamsFromObject,
-	makePaymentTxnWithSuggestedParamsFromObject
+	makePaymentTxnWithSuggestedParamsFromObject,
+	makeApplicationDeleteTxnFromObject
 } from 'algosdk'
 import { getAlgoClient } from '$lib/helper/algoClient'
 import { addToast } from '$lib/stores/toast'
@@ -81,7 +82,6 @@ export const buildTransactionEscrowListing = async (
 			// 4 * min txn fee
 			4 * 1_000
 
-
 		const attributes = {
 			asset_id: assetId,
 			creator: creatorAddress,
@@ -133,4 +133,34 @@ export const buildTransactionEscrowListing = async (
 	}
 
 	return txns
+}
+
+export const deleteAppEscrowListing = async (
+	walletAddress: string,
+	creatorAddress: string,
+	appId: number,
+	assetId: number
+): Promise<Transaction> => {
+	let txn: Transaction
+
+	try {
+		// Load Algorand client
+		const algodClient = getAlgoClient()
+		const params = await algodClient.getTransactionParams().do()
+
+		txn = makeApplicationDeleteTxnFromObject({
+			suggestedParams: { ...params },
+			from: walletAddress,
+			appIndex: appId,
+			foreignAssets: [assetId],
+			accounts: [creatorAddress]
+		})
+	} catch (error) {
+		// Display error notification
+		addToast(N_ERROR_CREATE_TXN)
+		console.error(error)
+		throw new Error(error)
+	}
+
+	return txn
 }

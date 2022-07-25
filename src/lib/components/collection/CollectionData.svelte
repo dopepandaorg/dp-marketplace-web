@@ -16,13 +16,17 @@
 			if (ca) {
 				floorPrice = ca.floor_price
 				volume = ca.volume
-				totalItems = ca.total_items
 			}
 
 			if (c.collections_analytics_1ds_aggregate) {
 				totalVolume = c.collections_analytics_1ds_aggregate.aggregate.sum.volume || 0
 			}
 		}
+	})
+
+	const collectionItems = getContext<Writable<number>>('collection-items')
+	collectionItems.subscribe((ci) => {
+		totalItems = ci
 	})
 </script>
 

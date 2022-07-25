@@ -16,7 +16,7 @@
 	}
 
 	.bx--text-input,
-	.bx--number input[type="number"],
+	.bx--number input[type='number'],
 	.bx--text-area,
 	.bx--select-input {
 		border-radius: 5px;
@@ -27,7 +27,6 @@
 		padding: 1rem;
 		min-height: 100px;
 	}
-
 }
 
 .bx--number__control-btn::before,

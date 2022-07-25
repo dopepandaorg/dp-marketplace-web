@@ -31,7 +31,7 @@
 	import { Q_GET_ESCROW_LISTING } from '$lib/constants/queries'
 	import BuyEscrowTx from '$lib/components/transactions/BuyEscrowTx.svelte'
 	import { wallet } from '$lib/stores/wallet'
-import RemoveEscrowListingTx from '$lib/components/transactions/RemoveEscrowListingTx.svelte';
+	import RemoveEscrowListingTx from '$lib/components/transactions/RemoveEscrowListingTx.svelte'
 
 	export let asset: AssetRecord
 	export let assetMetadata: AssetMetadata = {
@@ -43,7 +43,8 @@ import RemoveEscrowListingTx from '$lib/components/transactions/RemoveEscrowList
 
 	const escrowListingQuery = operationStore(
 		Q_GET_ESCROW_LISTING,
-		{ id: asset.id }
+		{ id: asset.id },
+		{ requestPolicy: 'network-only' }
 	)
 
 	if (asset.id) {
@@ -56,7 +57,7 @@ import RemoveEscrowListingTx from '$lib/components/transactions/RemoveEscrowList
 		}
 	})
 
-	wallet.subscribe(w => {
+	wallet.subscribe((w) => {
 		isOwner = w.assets.findIndex((wa) => wa.amount >= 1 && wa.id === asset.id) !== -1
 	})
 
@@ -128,34 +129,34 @@ import RemoveEscrowListingTx from '$lib/components/transactions/RemoveEscrowList
 						</div>
 					</div>
 
-					{#if escrowListing && !isOwner}
+					{#if escrowListing}
 						<div class="asset-detail__listing">
 							<h3>Listing</h3>
-							
+
 							<div class="asset-detail__buy">
 								<div class="asset-detail__buy-price">
 									{escrowListing.sale_price} <img src="/icons/algo.svg" alt="Algo" />
 								</div>
+
 								<div>
-									<BuyEscrowTx
-										escrowId={escrowListing.id}
-										assetId={asset.id}
-										unitPrice={escrowListing.sale_price}
-										creator={escrowListing.creator}
-										applicationId={escrowListing.application_id}
-									/>
+									{#if escrowListing.seller === $wallet.account}
+										<RemoveEscrowListingTx assetId={asset.id} />
+									{:else}
+										<BuyEscrowTx
+											escrowId={escrowListing.id}
+											assetId={asset.id}
+											unitPrice={escrowListing.sale_price}
+											creator={escrowListing.creator}
+											applicationId={escrowListing.application_id}
+										/>
+									{/if}
 								</div>
 							</div>
-						</div>
-					{:else if escrowListing && isOwner}
-						<div class="asset-detail__listing">
-							<h3>Listing</h3>
-							<RemoveEscrowListingTx assetId={asset.id} />
 						</div>
 					{:else if !escrowListing && isOwner}
 						<div class="asset-detail__listing">
 							<h3>Listing</h3>
-							<CreateEscrowListingTx assetId={asset.id} creator={escrowListing.creator} />
+							<CreateEscrowListingTx assetId={asset.id} creator={asset.creator} />
 						</div>
 					{/if}
 
