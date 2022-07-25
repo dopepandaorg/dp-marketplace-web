@@ -3,7 +3,7 @@ import { algoSubmitTransaction } from '$lib/helper/algoClient'
 import { SignedTxn, WalletType } from '$lib/interfaces/wallet'
 import { addToast } from '$lib/stores/toast'
 import { N_ERROR_CREATE_TXN } from '$lib/constants/notifications'
-import { onMyalgoSignTx, onMyalgoSignTxMultiple, onPeraSignTx } from '$lib/helper/walletConnect'
+import { onMyalgoSignTx, onMyalgoSignTxMultiple, onPeraSignTx, onPeraSignTxMultiple } from '$lib/helper/walletConnect'
 
 export const signTransaction = async (
 	walletType: WalletType,
@@ -46,7 +46,7 @@ export const signTransactions = async (
 				signedTxns = await onMyalgoSignTxMultiple(txns)
 				break
 			case WalletType.PERA:
-				// signedTxns = await onPeraSignTxMultiple(txns, description)
+				signedTxns = await onPeraSignTxMultiple(txns, description)
 				break
 		}
 	} catch (error) {
