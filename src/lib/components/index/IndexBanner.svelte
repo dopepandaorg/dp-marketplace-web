@@ -50,10 +50,14 @@
 
 	.section-banner__inner {
 		display: grid;
-		grid-template-columns: 1fr 1fr;
-		gap: 4rem;
+		grid-template-columns: 1fr;
+		gap: 2rem;
 
-		align-items: center;
+		@media screen and (min-width: 768px) {
+			grid-template-columns: 1fr 1fr;
+			align-items: center;
+			gap: 4rem;
+		}
 
 		> div {
 			min-width: 0;
@@ -75,6 +79,12 @@
 		:global(.bx--btn) {
 			font-size: 1.125rem;
 			padding: calc(1.25rem - 3px) 83px calc(1.25rem - 3px) 20px;
+			width: 100%;
+			max-width: none;
+
+			@media screen and (min-width: 768px) {
+				width: auto;
+			}
 		}
 
 		:global(.bx--btn svg) {
@@ -83,8 +93,13 @@
 		}
 
 		:global(.cta__primary) {
-			margin-right: 1.25rem;
 			background: linear-gradient(180deg, #06beb6 0%, #48b1bf 100%);
+			margin-bottom: 1rem;
+
+			@media screen and (min-width: 768px) {
+				margin-bottom: 0;
+				margin-right: 1.25rem;
+			}
 		}
 
 		:global(.cta__secondary) {
