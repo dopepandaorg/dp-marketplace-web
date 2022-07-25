@@ -24,6 +24,7 @@
 	const updateDBMutation = mutation({ query: Q_CREATE_ESCROW_LISTING })
 
 	export let assetId: number
+	export let assetUnit: string
 	export let creator: string
 	export let isComplete = false
 
@@ -175,7 +176,7 @@
 	 */
 	const setupAppTransaction = () => {
 		if (appId) {
-			buildTransactionEscrowListing(walletAccount, creator, appId, assetId, price, qty)
+			buildTransactionEscrowListing(walletAccount, creator, appId, assetId, assetUnit, price, qty)
 				.then((response) => (setupAppTxn = response))
 				.catch(() => (setupAppTxn = null))
 				.finally(() => (isSetupAppTxnLoading = false))
