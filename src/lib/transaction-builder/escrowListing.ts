@@ -59,6 +59,7 @@ export const buildTransactionEscrowListing = async (
 	creatorAddress: string,
 	appId: number,
 	assetId: number,
+	assetUnit: string,
 	price: number,
 	qty: number
 ): Promise<Transaction[]> => {
@@ -84,6 +85,7 @@ export const buildTransactionEscrowListing = async (
 
 		const attributes = {
 			asset_id: assetId,
+			asset_unit: assetUnit,
 			creator: creatorAddress,
 			seller: walletAddress,
 			sale_qty: qty,

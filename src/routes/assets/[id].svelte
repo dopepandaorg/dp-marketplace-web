@@ -156,7 +156,7 @@
 					{:else if !escrowListing && isOwner}
 						<div class="asset-detail__listing">
 							<h3>Listing</h3>
-							<CreateEscrowListingTx assetId={asset.id} creator={asset.creator} />
+							<CreateEscrowListingTx assetId={asset.id} assetUnit={asset.unit} creator={asset.creator} />
 						</div>
 					{/if}
 

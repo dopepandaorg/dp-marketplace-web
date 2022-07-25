@@ -1,11 +1,11 @@
 <script lang="ts">
-	import { convertIPFSUrl } from '$lib/constants/assets'
+	import { convertIPFSUrlOnly } from '$lib/constants/assets'
 
 	export let assetUrl
 </script>
 
 <div class="asset-media">
-	<img src={convertIPFSUrl(assetUrl)} alt="" />
+	<img src={convertIPFSUrlOnly(assetUrl)} alt="" />
 </div>
 
 <style lang="scss">
