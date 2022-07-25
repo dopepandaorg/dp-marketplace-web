@@ -291,6 +291,7 @@
 					{:else if !escrowListing && !!isOwner}
 						<CreateEscrowListingTx
 							assetId={id}
+							assetUnit={asset.unit}
 							creator={asset.creator}
 							bind:open={isOpen}
 							on:create={() => goto(`/assets/${id}`)}
