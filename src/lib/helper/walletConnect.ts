@@ -146,69 +146,35 @@ export const onPeraSignTx = async (txn: Transaction, description: string): Promi
 	return signedTx
 }
 
-// export const onPeraSignTxMultiple = async (txn: Transaction): Promise<SignedTxn> => {
-// 	if (walletConnectConnector) {
-// 		const txns = [txn]
-// 		const txnsToSign: any = txns.map((txn) => {
-// 			const encodedTxn = Buffer.from(algosdk.encodeUnsignedTransaction(txn)).toString('base64')
+export const onPeraSignTxMultiple = async (txns: Transaction[], description: string): Promise<SignedTxn[]> => {
+	onConnectPera()
 
-// 			return {
-// 				txn: encodedTxn,
-// 				message: 'Description of transaction being signed'
-// 			}
-// 		})
+	let signedTxns = []
+	const txnsToSign: any = txns.map((txn) => {
+		const encodedTxn = Buffer.from(algosdk.encodeUnsignedTransaction(txn)).toString('base64')
+		signedTxns.push({ txID: txn.txID(), blob: null })
 
-// 		const requestParams = [txnsToSign]
+		return {
+			txn: encodedTxn,
+			message: 'Description of transaction being signed'
+		}
+	})
 
-// 		const request = formatJsonRpcRequest('algo_signTxn', requestParams)
-// 		const result: Array<string | null> = await walletConnectConnector.sendCustomRequest(request)
+	const requestParams = [txnsToSign]
+	const request = formatJsonRpcRequest('algo_signTxn', requestParams)
+	const result: Array<string | null> = await walletConnectConnector.sendCustomRequest(request)
 
-// 		const indexToGroup = (index: number) => {
-// 			for (let group = 0; group < txnsToSign.length; group++) {
-// 				const groupLength = txnsToSign[group].length
-// 				console.log('group length', groupLength)
-// 				if (index < groupLength) {
-// 					return [group, index]
-// 				}
+	const decodedResult = result
+		.filter((element) => !!element)
+		.map((element) => {
+			return element ? new Uint8Array(Buffer.from(element, 'base64')) : null
+		})
 
-// 				index -= groupLength
-// 			}
+	if (decodedResult && decodedResult.length > 0) {
+		decodedResult.map((d, i) => signedTxns[i].blob = d)
+	} else {
+		throw Error('Unable to fetch signature')
+	}
 
-// 			throw new Error(`Index too large for groups: ${index}`)
-// 		}
-
-// 		const signedPartialTxns: Array<Array<Uint8Array | null>> = txnsToSign.map(() => [])
-// 		result.forEach((r, i) => {
-// 			console.log('result each', r, i)
-
-// 			const [group, groupIndex] = indexToGroup(i)
-// 			const toSign = txnsToSign[group][groupIndex]
-
-// 			if (r == null) {
-// 				if (toSign.signers !== undefined && toSign.signers?.length < 1) {
-// 					signedPartialTxns[group].push(null)
-// 					return
-// 				}
-// 				throw new Error(`Transaction at index ${i}: was not signed when it should have been`)
-// 			}
-
-// 			if (toSign.signers !== undefined && toSign.signers?.length < 1) {
-// 				throw new Error(`Transaction at index ${i} was signed when it should not have been`)
-// 			}
-
-// 			const rawSignedTxn = Buffer.from(r, 'base64')
-// 			signedPartialTxns[group].push(new Uint8Array(rawSignedTxn))
-// 		})
-
-// 		const signedTxns: Uint8Array[][] = signedPartialTxns.map((signedPartialTxnsInternal, group) => {
-// 			return signedPartialTxnsInternal.map((stxn, groupIndex) => {
-// 				if (stxn) {
-// 					return stxn
-// 				}
-// 			})
-// 		})
-// 	} else {
-// 		console.log('nope')
-// 		return null
-// 	}
-// }
+	return signedTxns
+}
