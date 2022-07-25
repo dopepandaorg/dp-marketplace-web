@@ -98,8 +98,16 @@
 
 		&__list {
 			display: grid;
-			grid-template-columns: 1fr 1fr 1fr 1fr;
+			grid-template-columns: 1fr;
 			gap: 1.5rem;
+
+			@media screen and (min-width: 768px) {
+				grid-template-columns: 1fr 1fr;
+			}
+
+			@media screen and (min-width: 992px) {
+				grid-template-columns: 1fr 1fr fr 1fr;
+			}
 		}
 
 		&__meta {
