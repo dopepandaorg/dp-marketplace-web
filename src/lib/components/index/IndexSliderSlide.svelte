@@ -61,6 +61,11 @@
 				margin-top: 1rem;
 			}
 
+			:global(button) {
+				width: 100%;
+				max-width: none;
+			}
+
 			@media screen and (min-width: 768px) {
 				flex-direction: row;
 				align-items: center;
@@ -68,6 +73,10 @@
 
 				a {
 					margin-top: 0;
+				}
+
+				:global(button) {
+					width: auto;
 				}
 			}
 		}
