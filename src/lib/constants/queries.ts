@@ -390,10 +390,23 @@ export const Q_GET_CURATED_COLLECTIONS = gql`
 	query GetCuratedCollections {
 		curated_collections {
 			id
-			collection
 			selected_assets
+			collection
+			collectionByCollection {
+				id
+				slug
+				title
+				creator
+				avatar_cid
+				description
+				social_discord
+				social_twitter
+				social_website
+				is_verified
+			}
 		}
 	}
+
 `
 
 export const Q_CREATE_COLLECTION = gql`

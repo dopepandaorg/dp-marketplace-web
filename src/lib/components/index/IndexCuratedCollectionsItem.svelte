@@ -13,19 +13,10 @@
 
 	export let id
 	export let featuredAssets = []
-	let collectionData: CollectionRecord = null
-	const collectionQuery = operationStore(Q_GET_COLLECTION, { id })
-
-	query(collectionQuery)
-
-	collectionQuery.subscribe((c) => {
-		if (c.data) {
-			collectionData = c.data.collections_by_pk
-		}
-	})
+	export let collectionData: CollectionRecord
 </script>
 
-{#if !$collectionQuery.fetching && collectionData}
+{#if collectionData}
 	<div class="curated-collection-item">
 		<div class="curated-collection-item__content">
 			<div class="curated-collection-item__meta">
