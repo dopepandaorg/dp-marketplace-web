@@ -3,76 +3,53 @@
 	import { wallet } from '$lib/stores/wallet'
 	import type { Transaction } from 'algosdk'
 	import { SignedTxn, WalletType } from '$lib/interfaces/wallet'
-	import { signTransactions, submitTransaction } from '$lib/transaction-builder/common'
+	import { signTransaction, submitTransaction } from '$lib/transaction-builder/common'
 	import { onClearPera } from '$lib/helper/walletConnect'
 	import TxStep from './TxStep.svelte'
 	import { LoadingStatus } from '$lib/constants/enums'
-	import {
-		buildTransactionEscrowListing,
-		createAppEscrowListing,
-		deleteAppEscrowListing
-	} from '$lib/transaction-builder/escrowListing'
+	import { deleteAppEscrowListing } from '$lib/transaction-builder/escrowListing'
 	import { triggerWalletDeeplink } from '$lib/helper/utils'
 	import { mutation } from '@urql/svelte'
 	import { createEventDispatcher } from 'svelte'
-	import { Q_CREATE_ESCROW_LISTING } from '$lib/constants/queries'
+	import { Q_REMOVE_ESCROW_LISTING } from '$lib/constants/queries'
 
 	const dispatch = createEventDispatcher()
-	const updateDBMutation = mutation({ query: Q_CREATE_ESCROW_LISTING })
+	const updateDBMutation = mutation({ query: Q_REMOVE_ESCROW_LISTING })
 
+	export let id: string
+	export let appId: number
 	export let assetId: number
 	export let isComplete = false
 
-	let isAppSubmitting = false
-	let isSetupAppSubmitting = false
+	let isSubmitting = false
 
 	export let open = false
 	let walletType = $wallet.type
 	let walletAccount = $wallet.account
 
-	let appTxn: Transaction
-	let setupAppTxn: Transaction[]
-	let isAppTxnLoading: boolean
-	let isSetupAppTxnLoading: boolean
+	let txn: Transaction
+	let isTxnLoading: boolean
 
-	let signedAppTxn: SignedTxn
-	let signedSetupAppTxn: SignedTxn[]
-	let isSignedAppTxnLoading: boolean
-	let isSignedSetupAppTxnLoading: boolean
+	let signedTxn: SignedTxn
+	let isSignedTxnLoading: boolean
 
-	let appId: number
-	let appCreateTxId: string
-	let appCreateConfirmedRound: number
-	let appSetupTxId: string
-	let appSetupConfirmedRound: number
+	let txId: string
+	let confirmedRound: number
 
 	let isUpdateDBLoading: boolean
 
-	let isInputValid: boolean = false
-	let isTxValid: boolean = false
-	let price: number = 10
-	let qty: number = 1
-
 	const clear = () => {
 		open = false
-		isAppSubmitting = false
-		isSetupAppSubmitting = false
+		isSubmitting = false
 
-		appTxn = null
-		setupAppTxn = null
-		signedAppTxn = null
-		signedSetupAppTxn = null
+		txn = null
+		signedTxn = null
 
-		isAppTxnLoading = false
-		isSetupAppTxnLoading = false
-		isSignedAppTxnLoading = false
-		isSignedSetupAppTxnLoading = false
+		isTxnLoading = false
+		isSignedTxnLoading = false
 
-		appId = null
-		appCreateTxId = null
-		appCreateConfirmedRound = null
-		appSetupTxId = null
-		appSetupConfirmedRound = null
+		txId = null
+		confirmedRound = null
 
 		isUpdateDBLoading = false
 
@@ -94,6 +71,7 @@
 		e.stopPropagation()
 
 		open = true
+		setupTransaction()
 	}
 
 	/**
@@ -102,10 +80,12 @@
 	 */
 	const setupTransaction = () => {
 		if (appId) {
-			// deleteAppEscrowListing(walletAccount, appId, assetId, price, qty)
-			// 	.then((response) => (setupAppTxn = response))
-			// 	.catch(() => (setupAppTxn = null))
-			// 	.finally(() => (isSetupAppTxnLoading = false))
+			isTxnLoading = true
+
+			deleteAppEscrowListing(walletAccount, walletAccount, appId, assetId)
+				.then((response) => (txn = response))
+				.catch(() => (txn = null))
+				.finally(() => (isTxnLoading = false))
 		}
 	}
 
@@ -114,16 +94,18 @@
 	 *
 	 */
 	const signTx = () => {
-		// if (setupAppTxn) {
-		// 	isSignedAppTxnLoading = true
-		// 	signTransactions(walletType, setupAppTxn, 'Remove Escrow Listing on DopePanda')
-		// 		.then((response) => {
-		// 			signedSetupAppTxn = response
-		// 			submitTx()
-		// 		})
-		// 		.catch(() => (signedSetupAppTxn = null))
-		// 		.finally(() => (isSignedSetupAppTxnLoading = false))
-		// }
+		if (txn) {
+			isSignedTxnLoading = true
+			triggerWalletDeeplink()
+
+			signTransaction(walletType, txn, 'Remove Escrow Listing on DopePanda')
+				.then((response) => {
+					signedTxn = response
+					submitTx()
+				})
+				.catch(() => (signedTxn = null))
+				.finally(() => (isSignedTxnLoading = false))
+		}
 	}
 
 	/**
@@ -131,23 +113,24 @@
 	 *
 	 */
 	const submitTx = () => {
-		// if (signedSetupAppTxn) {
-		// 	isSetupAppSubmitting = true
-		// 	submitTransaction(signedSetupAppTxn)
-		// 		.then(({ txId, confirmedRound }) => {
-		// 			appSetupTxId = txId
-		// 			appSetupConfirmedRound = confirmedRound
-		// 			console.log('app setup tx!', appSetupTxId, appSetupConfirmedRound)
-		// 			isUpdateDBLoading = true
-		// 			updateDB()
-		// 		})
-		// 		.catch((error) => {
-		// 			appCreateTxId = null
-		// 			appCreateConfirmedRound = null
-		// 			console.log('error in submitting transaction', error)
-		// 		})
-		// 		.finally(() => (isSetupAppSubmitting = false))
-		// }
+		if (signedTxn) {
+			isSubmitting = true
+
+			submitTransaction(signedTxn)
+				.then((response) => {
+					txId = response.txId
+					confirmedRound = response.confirmedRound
+					isUpdateDBLoading = true
+
+					updateDB()
+				})
+				.catch((error) => {
+					txId = null
+					confirmedRound = null
+					console.log('error in submitting transaction', error)
+				})
+				.finally(() => (isSubmitting = false))
+		}
 	}
 
 	/**
@@ -157,41 +140,36 @@
 	const updateDB = () => {
 		isComplete = true
 
-		if (appSetupTxId && appSetupConfirmedRound) {
-			updateDBMutation({ txId: appSetupTxId, wallet: walletAccount })
+		if (txId && confirmedRound) {
+			updateDBMutation({ id, assetId, appId, txId, wallet: walletAccount })
 				.then((result) => {
 					isComplete = true
 					clear()
 
 					dispatch('submitTx', {
-						txId: appSetupTxId,
-						confirmedRound: appSetupConfirmedRound
+						txId,
+						confirmedRound
 					})
 
-					if (result.data && result.data.SetupEscrowListingWithTx) {
-						dispatch('create', {
-							...result.data.SetupEscrowListingWithTx
+					if (result.data && result.data.RemoveEscrowListingWithTx) {
+						dispatch('remove', {
+							...result.data.RemoveEscrowListingWithTx
 						})
 					}
 				})
 				.finally(() => (isUpdateDBLoading = false))
 		}
 	}
-
-	$: {
-		isInputValid = price && price >= 1 && qty >= 1
-		isTxValid = !!(!appId && appTxn) || !!(appId && setupAppTxn)
-	}
 </script>
 
-<div class="tx-modal tx-modal--create-escrow">
+<div class="tx-modal tx-modal--remove-escrow">
 	<div class="tx-modal__action">
 		<Button
 			on:click={confirmModal}
 			type="button"
 			kind="danger-tertiary"
 			disabled={open}
-			icon={(isAppSubmitting || isSetupAppSubmitting) && InlineLoading}>Remove Listing</Button
+			icon={isSubmitting && InlineLoading}>Remove Listing</Button
 		>
 	</div>
 
@@ -202,79 +180,55 @@
 		modalLabel={walletType && walletType.toUpperCase()}
 		primaryButtonText={'Sign Transaction'}
 		secondaryButtonText={'Cancel'}
-		primaryButtonDisabled={!isTxValid}
-		passiveModal={isAppTxnLoading ||
-			isSetupAppTxnLoading ||
-			isAppSubmitting ||
-			isSetupAppSubmitting}
+		primaryButtonDisabled={isTxnLoading || isSignedTxnLoading}
+		passiveModal={!!signedTxn}
 		on:click:button--secondary={() => {
 			open = false
 		}}
 		on:open
 		on:close={close}
-		on:submit={() => {}}
+		on:submit={signTx}
 	>
 		<div class="tx-modal__inner">
 			<div class="tx-modal__steps">
-				<!-- Create Escrow Application -->
-				{#if isAppSubmitting || (appCreateTxId && appCreateConfirmedRound)}
-					<TxStep
-						stepCount={1}
-						label="Remove Escrow Application"
-						status={isAppSubmitting
-							? LoadingStatus.IN_PROGRESS
-							: appCreateTxId && appCreateConfirmedRound
-							? LoadingStatus.SUCCESS
-							: LoadingStatus.NONE}
-						descriptionPending="Submitting transaction on Algorand ..."
-						descriptionSuccess={`Application created with ID: ${appId}`}
-					/>
-				{/if}
-
-				<!-- Submit Transaction -->
-				{#if isSignedSetupAppTxnLoading || signedSetupAppTxn}
-					<TxStep
-						stepCount={2}
-						label="Remove Escrow Application"
-						status={isSignedSetupAppTxnLoading
-							? LoadingStatus.IN_PROGRESS
-							: signedSetupAppTxn
-							? LoadingStatus.SUCCESS
-							: LoadingStatus.NONE}
-						descriptionPending="Waiting for signature ..."
-						descriptionSuccess="Signature complete"
-					/>
-				{:else}
-					<TxStep
-						stepCount={2}
-						label="Setup Escrow Application"
-						status={isSetupAppTxnLoading
-							? LoadingStatus.IN_PROGRESS
-							: setupAppTxn
-							? LoadingStatus.SUCCESS
-							: LoadingStatus.NONE}
-						descriptionPending="Building your transaction ..."
-						descriptionSuccess="Transaction ready, sign with your wallet."
-					/>
-				{/if}
-
+				<TxStep
+					stepCount={1}
+					status={isTxnLoading
+						? LoadingStatus.IN_PROGRESS
+						: txn
+						? LoadingStatus.SUCCESS
+						: LoadingStatus.NONE}
+					label="Build Transaction"
+					descriptionPending="Building your transaction ..."
+					descriptionSuccess="Transaction ready, sign with your wallet."
+				/>
+				<TxStep
+					stepCount={2}
+					label="Sign transaction"
+					status={isSignedTxnLoading
+						? LoadingStatus.IN_PROGRESS
+						: signedTxn
+						? LoadingStatus.SUCCESS
+						: LoadingStatus.NONE}
+					descriptionPending="Waiting for signature ..."
+					descriptionSuccess="Signature complete"
+				/>
 				<TxStep
 					stepCount={3}
-					status={isSetupAppSubmitting
+					status={isSubmitting
 						? LoadingStatus.IN_PROGRESS
-						: appSetupTxId && appSetupConfirmedRound
+						: txId && confirmedRound
 						? LoadingStatus.SUCCESS
 						: LoadingStatus.NONE}
 					label="Submit transaction"
 					descriptionPending="Submitting transaction on Algorand ..."
 					descriptionSuccess="Transaction submitted"
 				/>
-
 				<TxStep
 					stepCount={4}
 					status={isUpdateDBLoading
 						? LoadingStatus.IN_PROGRESS
-						: appSetupTxId && appSetupConfirmedRound
+						: txId && confirmedRound
 						? LoadingStatus.SUCCESS
 						: LoadingStatus.NONE}
 					label="Update Index"
@@ -290,7 +244,7 @@
 </div>
 
 <style lang="scss">
-	.tx-modal--create-escrow {
+	.tx-modal--remove-escrow {
 		.tx-modal__input {
 			max-width: 520px;
 

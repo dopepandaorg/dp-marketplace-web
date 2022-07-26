@@ -283,7 +283,7 @@ export const Q_GET_COLLECTIONS_TRENDING = gql`
 	query GetTrendingCollections {
 		collections(
 			order_by: { collections_analytics_1ds_aggregate: { max: { floor_price: desc_nulls_last } } }
-			limit: 12, 
+			limit: 12
 			where: { is_verified: { _eq: true } }
 		) {
 			collections_analytics_1ds(limit: 2) {
@@ -465,6 +465,28 @@ export const Q_UPDATE_ESCROW_LISTING = gql`
 			creator
 			created_at
 			updated_at
+		}
+	}
+`
+export const Q_REMOVE_ESCROW_LISTING = gql`
+	mutation RemoveEscrowListing(
+		$txId: String!
+		$wallet: String!
+		$id: uuid!
+		$appId: bigint!
+		$assetId: bigint!
+	) {
+		RemoveEscrowListingWithTx(
+			txId: $txId
+			wallet: $wallet
+			id: $id
+			appId: $appId
+			assetId: $assetId
+		) {
+			application_id
+			asset_id
+			asset_unit
+			seller
 		}
 	}
 `
