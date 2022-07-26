@@ -32,6 +32,7 @@
 	import BuyEscrowTx from '$lib/components/transactions/BuyEscrowTx.svelte'
 	import { wallet } from '$lib/stores/wallet'
 	import RemoveEscrowListingTx from '$lib/components/transactions/RemoveEscrowListingTx.svelte'
+	import { goto } from '$app/navigation'
 
 	export let asset: AssetRecord
 	export let assetMetadata: AssetMetadata = {
@@ -54,6 +55,8 @@
 	escrowListingQuery.subscribe((e) => {
 		if (e.data && e.data.escrow_listings.length > 0) {
 			escrowListing = e.data.escrow_listings[0]
+		} else if (e.data) {
+			escrowListing = null
 		}
 	})
 
@@ -81,6 +84,10 @@
 				subtitle: 'Link has been copied to the clipboard.'
 			})
 		})
+	}
+
+	const fetchEscrowListing = () => {
+		escrowListingQuery.reexecute({ requestPolicy: 'network-only' })
 	}
 
 	onMount(() => {
@@ -140,7 +147,12 @@
 
 								<div>
 									{#if escrowListing.seller === $wallet.account}
-										<RemoveEscrowListingTx assetId={asset.id} />
+										<RemoveEscrowListingTx
+											id={escrowListing.id}
+											assetId={asset.id}
+											appId={escrowListing.application_id}
+											on:remove={() => fetchEscrowListing()}
+										/>
 									{:else}
 										<BuyEscrowTx
 											escrowId={escrowListing.id}
@@ -148,6 +160,7 @@
 											unitPrice={escrowListing.sale_price}
 											creator={escrowListing.creator}
 											applicationId={escrowListing.application_id}
+											on:buy={() => fetchEscrowListing()}
 										/>
 									{/if}
 								</div>
@@ -156,7 +169,12 @@
 					{:else if !escrowListing && isOwner}
 						<div class="asset-detail__listing">
 							<h3>Listing</h3>
-							<CreateEscrowListingTx assetId={asset.id} assetUnit={asset.unit} creator={asset.creator} />
+							<CreateEscrowListingTx
+								assetId={asset.id}
+								assetUnit={asset.unit}
+								creator={asset.creator}
+								on:create={() => fetchEscrowListing()}
+							/>
 						</div>
 					{/if}
 

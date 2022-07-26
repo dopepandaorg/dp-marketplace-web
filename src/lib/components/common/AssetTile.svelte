@@ -18,7 +18,6 @@
 	import BuyEscrowTx from '../transactions/BuyEscrowTx.svelte'
 	import RemoveEscrowListingTx from '../transactions/RemoveEscrowListingTx.svelte'
 	import ConnectWallet from './ConnectWallet.svelte'
-	import { escape_object } from 'svelte/internal'
 
 	export let id
 	export let amount: number = null
@@ -59,6 +58,8 @@
 			if (escrowListing && escrowListing.seller === $wallet.account) {
 				showListing = true
 			}
+		} else if (e.data) {
+			escrowListing = null
 		}
 	})
 
@@ -102,6 +103,10 @@
 					.finally(() => (isLoading = false))
 			}
 		}, 100)
+	}
+
+	const fetchEscrowListing = () => {
+		escrowListingQuery.reexecute({ requestPolicy: 'network-only' })
 	}
 
 	let isActionable = false
@@ -260,7 +265,9 @@
 							</div>
 							<div class="asset-tile__meta-item__value">
 								{#if $escrowListingQuery.data.escrow_listings.length > 0}
-									{$escrowListingQuery.data.escrow_listings[0].sale_price}
+									<strong class="gradient-highlight">
+										{$escrowListingQuery.data.escrow_listings[0].sale_price}
+									</strong>
 									<img src="/icons/algo.svg" alt="Algo" />
 								{:else}
 									Unlisted
@@ -275,9 +282,11 @@
 						<ConnectWallet label="Connect Wallet" />
 					{:else if !!escrowListing && escrowListing.seller === $wallet.account}
 						<RemoveEscrowListingTx
+							id={escrowListing.id}
 							assetId={id}
+							appId={escrowListing.application_id}
 							bind:open={isOpen}
-							on:remove={() => goto(`/assets/${id}`)}
+							on:remove={() => fetchEscrowListing()}
 						/>
 					{:else if escrowListing && !isOwner}
 						<BuyEscrowTx
@@ -287,6 +296,7 @@
 							escrowId={escrowListing.id}
 							unitPrice={escrowListing.sale_price}
 							applicationId={escrowListing.application_id}
+							on:buy={() => fetchEscrowListing()}
 						/>
 					{:else if !escrowListing && !!isOwner}
 						<CreateEscrowListingTx
@@ -294,7 +304,9 @@
 							assetUnit={asset.unit}
 							creator={asset.creator}
 							bind:open={isOpen}
-							on:create={() => goto(`/assets/${id}`)}
+							on:create={() => {
+								fetchEscrowListing()
+							}}
 						/>
 					{/if}
 				</div>

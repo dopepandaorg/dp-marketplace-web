@@ -146,7 +146,10 @@ export const onPeraSignTx = async (txn: Transaction, description: string): Promi
 	return signedTx
 }
 
-export const onPeraSignTxMultiple = async (txns: Transaction[], description: string): Promise<SignedTxn[]> => {
+export const onPeraSignTxMultiple = async (
+	txns: Transaction[],
+	description: string
+): Promise<SignedTxn[]> => {
 	onConnectPera()
 
 	let signedTxns = []
@@ -171,7 +174,7 @@ export const onPeraSignTxMultiple = async (txns: Transaction[], description: str
 		})
 
 	if (decodedResult && decodedResult.length > 0) {
-		decodedResult.map((d, i) => signedTxns[i].blob = d)
+		decodedResult.map((d, i) => (signedTxns[i].blob = d))
 	} else {
 		throw Error('Unable to fetch signature')
 	}
