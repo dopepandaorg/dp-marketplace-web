@@ -22,8 +22,12 @@
 			<div class="trending-item__content">
 				<div class="trending-item__title">{title}</div>
 				<div class="trending-item__floor-price">
-					<img src="/icons/algo.svg" alt="Algo" />
-					{Number(floorPrice).toLocaleString()}
+					{#if floorPrice}
+						<img src="/icons/algo.svg" alt="Algo" />
+						{Number(floorPrice).toLocaleString()}
+					{:else}
+						N/A
+					{/if}
 				</div>
 			</div>
 

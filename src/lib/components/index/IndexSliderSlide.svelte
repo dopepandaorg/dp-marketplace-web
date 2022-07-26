@@ -54,9 +54,31 @@
 
 		&__meta {
 			display: flex;
-			justify-content: space-between;
-			align-items: center;
+			flex-direction: column;
 			margin-top: 1rem;
+
+			a {
+				margin-top: 1rem;
+			}
+
+			:global(button) {
+				width: 100%;
+				max-width: none;
+			}
+
+			@media screen and (min-width: 768px) {
+				flex-direction: row;
+				align-items: center;
+				justify-content: space-between;
+
+				a {
+					margin-top: 0;
+				}
+
+				:global(button) {
+					width: auto;
+				}
+			}
 		}
 
 		&__content {

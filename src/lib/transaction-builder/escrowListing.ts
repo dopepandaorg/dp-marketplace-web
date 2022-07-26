@@ -150,12 +150,22 @@ export const deleteAppEscrowListing = async (
 		const algodClient = getAlgoClient()
 		const params = await algodClient.getTransactionParams().do()
 
+		const attributes = {
+			asset_id: assetId,
+			creator: creatorAddress,
+			seller: walletAddress,
+			application_id: appId
+		}
+
+		const note = `dp.listingRemove.escrow(${JSON.stringify(attributes)})`
+
 		txn = makeApplicationDeleteTxnFromObject({
 			suggestedParams: { ...params },
 			from: walletAddress,
 			appIndex: appId,
 			foreignAssets: [assetId],
-			accounts: [creatorAddress]
+			accounts: [creatorAddress],
+			note: Uint8Array.from(Buffer.from(note))
 		})
 	} catch (error) {
 		// Display error notification

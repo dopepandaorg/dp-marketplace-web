@@ -42,7 +42,7 @@
 <section class="section">
 	<div class="container">
 		<div class="section__header">
-			<h3>Trending</h3>
+			<h3>Trending Collections</h3>
 		</div>
 
 		{#if $collections.fetching}
@@ -75,6 +75,10 @@
 </section>
 
 <style lang="scss">
+	.section {
+		padding-bottom: 2vw;
+	}
+	
 	.trending-list {
 		display: grid;
 		grid-template-columns: 1fr;

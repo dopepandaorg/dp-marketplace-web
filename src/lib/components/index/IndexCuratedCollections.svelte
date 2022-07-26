@@ -2,6 +2,7 @@
 	import { Q_GET_CURATED_COLLECTIONS } from '$lib/constants/queries'
 
 	import { operationStore, query } from '@urql/svelte'
+	import ProfileContentSkeleton from '../profile/ProfileContentSkeleton.svelte'
 	import IndexCuratedCollectionsItem from './IndexCuratedCollectionsItem.svelte'
 
 	const collectionQuery = operationStore<any>(Q_GET_CURATED_COLLECTIONS)
@@ -11,7 +12,9 @@
 
 <section class="section">
 	<div class="container">
-		{#if $collectionQuery.data && $collectionQuery.data.curated_collections}
+		{#if $collectionQuery.fetching}
+			<ProfileContentSkeleton />
+		{:else if $collectionQuery.data && $collectionQuery.data.curated_collections}
 			<div class="section__header">
 				<h3>Curated Collections</h3>
 			</div>
@@ -21,6 +24,7 @@
 					<IndexCuratedCollectionsItem
 						id={collection.collection}
 						featuredAssets={collection.selected_assets}
+						collectionData={collection.collectionByCollection}
 					/>
 				{/each}
 			</div>
