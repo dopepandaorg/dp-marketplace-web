@@ -9,6 +9,7 @@
 
 	let isLoading = false
 	let activeContests = []
+	let upcomingContests = []
 	let pastContests = []
 
 	const contests = operationStore<any>(Q_GET_CONTESTS)
@@ -19,12 +20,13 @@
 
 		if (cq.data && cq.data.contests) {
 			activeContests = cq.data.contests
-				.filter(c => new Date(c.end_at) >= new Date())
-				.sort((a, b) => new Date(b.start_at).getTime() - new Date(a.start_at).getTime())
+				.filter(c => new Date(c.end_at) >= new Date() && new Date(c.start_at) <= new Date())
+
+			upcomingContests = cq.data.contests
+				.filter(c => new Date(c.end_at) > new Date() && new Date(c.start_at) > new Date())
 			
 			pastContests = cq.data.contests
 				.filter(c => new Date(c.end_at) < new Date())
-				.sort((a, b) => new Date(b.start_at).getTime() - new Date(a.start_at).getTime())
 		}
 	})
 </script>
@@ -59,6 +61,16 @@
 				
 				<div class="contests__list">
 					{#each activeContests as contest (contest.id)}
+						<ContestTile {contest} />
+					{/each}
+				</div>
+			{/if}
+
+			{#if upcomingContests.length > 0}
+				<h2>Upcoming Contests</h2>
+				
+				<div class="contests__list">
+					{#each upcomingContests as contest (contest.id)}
 						<ContestTile {contest} />
 					{/each}
 				</div>
