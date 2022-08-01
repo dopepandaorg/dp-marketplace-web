@@ -6,7 +6,7 @@
 		TooltipDefinition
 	} from 'carbon-components-svelte'
 	import { convertIPFSUrl, convertIPFSUrlOnly } from '$lib/constants/assets'
-	import ProfileAvatar from '../profile/ProfileAvatar.svelte'
+	import ProfileAvatarDisplay from '../profile/ProfileAvatarDisplay.svelte'
 	import IconIPFS from '../../../../static/icons/ipfs.svg'
 	import IconAlgoExplorer from '../../../../static/icons/algoexplorer.svg'
 	import { getGetOrdinal, nWeightFormat } from '$lib/helper/stringUtils'
@@ -36,7 +36,7 @@
 		<div class="asset-tile__content">
 			<div class="asset-tile__title-wrap">
 				<div class="asset-tile__creator-avatar">
-					<ProfileAvatar identifier={asset.creator} size={40} />
+					<ProfileAvatarDisplay account={asset.creator} size={40} />
 				</div>
 
 				<div class="asset-tile__title">{asset.name}</div>

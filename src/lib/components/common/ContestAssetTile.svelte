@@ -7,7 +7,7 @@
 		TooltipDefinition
 	} from 'carbon-components-svelte'
 	import { convertIPFSUrl, convertIPFSUrlOnly } from '$lib/constants/assets'
-	import ProfileAvatar from '../profile/ProfileAvatar.svelte'
+	import ProfileAvatarDisplay from '../profile/ProfileAvatarDisplay.svelte'
 	import IconIPFS from '../../../../static/icons/ipfs.svg'
 	import IconAlgoExplorer from '../../../../static/icons/algoexplorer.svg'
 	import ContestVoteTx from '$lib/components/transactions/ContestVoteTx.svelte'
@@ -68,7 +68,7 @@
 			<div class="asset-tile__content">
 				<div class="asset-tile__title-wrap">
 					<div class="asset-tile__creator-avatar">
-						<ProfileAvatar identifier={asset.creator} size={40} />
+						<ProfileAvatarDisplay account={asset.creator} size={40} />
 					</div>
 
 					<div class="asset-tile__title">{asset.name}</div>
@@ -198,8 +198,8 @@
 			position: absolute;
 			top: -2rem;
 
-			width: 2rem;
-			height: 2rem;
+			width: 2.5rem;
+			height: 2.5rem;
 
 			transform: translateY(-60%);
 		}

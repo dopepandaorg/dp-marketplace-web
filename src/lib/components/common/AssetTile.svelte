@@ -3,7 +3,7 @@
 	import { Button, ImageLoader, InlineLoading, SkeletonPlaceholder } from 'carbon-components-svelte'
 	import { goto } from '$app/navigation'
 	import { convertIPFSUrlOnly } from '$lib/constants/assets'
-	import ProfileAvatar from '../profile/ProfileAvatar.svelte'
+	import ProfileAvatarDisplay from '../profile/ProfileAvatarDisplay.svelte'
 	import { explorerUrl, formatWallet } from '$lib/helper/utils'
 
 	import { wallet } from '$lib/stores/wallet'
@@ -207,7 +207,7 @@
 			<div class="asset-tile__content">
 				<div class="asset-tile__title-wrap" on:click={goToAsset}>
 					<div class="asset-tile__creator-avatar">
-						<ProfileAvatar identifier={asset.creator} size={40} />
+						<ProfileAvatarDisplay account={asset.creator} size={40} />
 					</div>
 
 					<div class="asset-tile__title">{asset.name}</div>
@@ -413,8 +413,8 @@
 			position: absolute;
 			top: -2rem;
 
-			width: 2rem;
-			height: 2rem;
+			width: 2.5rem;
+			height: 2.5rem;
 
 			transform: translateY(-60%);
 		}
