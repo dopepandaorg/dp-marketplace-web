@@ -406,7 +406,6 @@ export const Q_GET_CURATED_COLLECTIONS = gql`
 			}
 		}
 	}
-
 `
 
 export const Q_CREATE_COLLECTION = gql`

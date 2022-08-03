@@ -86,7 +86,7 @@
 
 		&:hover {
 			cursor: pointer;
-			
+
 			.profile-avatar__meta {
 				max-width: 180px;
 				opacity: 1;

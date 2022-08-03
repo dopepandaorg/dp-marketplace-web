@@ -32,7 +32,7 @@
 			</div>
 
 			<div class="trending-item__price-change">
-				{formatPercentage(priceChange)}
+				{formatPercentage(0)}
 			</div>
 		</div>
 	</a>

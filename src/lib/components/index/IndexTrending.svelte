@@ -78,7 +78,7 @@
 	.section {
 		padding-bottom: 2vw;
 	}
-	
+
 	.trending-list {
 		display: grid;
 		grid-template-columns: 1fr;
