@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { formatPercentage } from '$lib/helper/stringUtils'
-
 	import { ImageLoader } from 'carbon-components-svelte'
+	import GrowthIcon from 'carbon-icons-svelte/lib/Growth.svelte'
 
 	export let rank: number
 	export let title: string
@@ -31,8 +31,11 @@
 				</div>
 			</div>
 
-			<div class="trending-item__price-change">
-				{formatPercentage(0)}
+			<div class="trending-item__price-change" class:increase={priceChange > 0}>
+				{priceChange > 0 ? formatPercentage(priceChange) : 0}
+				{#if priceChange > 0}
+					<GrowthIcon/>
+				{/if}
 			</div>
 		</div>
 	</a>
@@ -92,7 +95,20 @@
 		}
 
 		&__price-change {
-			font-size: 0.875rem;
+			display: flex;
+			align-items: center;
+
+			:global(svg) {
+				float: left;
+				width: 1.25rem;
+				height: 1.25rem;
+				margin-left: 0.375rem;
+				margin-top: -1px;
+			}
+
+			&.increase {
+				color: #42be65;
+			}
 		}
 	}
 </style>
