@@ -15,18 +15,19 @@
 	const contests = operationStore<any>(Q_GET_CONTESTS)
 	query(contests)
 
-	contests.subscribe(cq => {
+	contests.subscribe((cq) => {
 		isLoading = cq.fetching
 
 		if (cq.data && cq.data.contests) {
-			activeContests = cq.data.contests
-				.filter(c => new Date(c.end_at) >= new Date() && new Date(c.start_at) <= new Date())
+			activeContests = cq.data.contests.filter(
+				(c) => new Date(c.end_at) >= new Date() && new Date(c.start_at) <= new Date()
+			)
 
-			upcomingContests = cq.data.contests
-				.filter(c => new Date(c.end_at) > new Date() && new Date(c.start_at) > new Date())
-			
-			pastContests = cq.data.contests
-				.filter(c => new Date(c.end_at) < new Date())
+			upcomingContests = cq.data.contests.filter(
+				(c) => new Date(c.end_at) > new Date() && new Date(c.start_at) > new Date()
+			)
+
+			pastContests = cq.data.contests.filter((c) => new Date(c.end_at) < new Date())
 		}
 	})
 </script>
@@ -58,7 +59,7 @@
 		{:else}
 			{#if activeContests.length > 0}
 				<h2>Active Contests</h2>
-				
+
 				<div class="contests__list">
 					{#each activeContests as contest (contest.id)}
 						<ContestTile {contest} />
@@ -68,7 +69,7 @@
 
 			{#if upcomingContests.length > 0}
 				<h2>Upcoming Contests</h2>
-				
+
 				<div class="contests__list">
 					{#each upcomingContests as contest (contest.id)}
 						<ContestTile {contest} />
@@ -78,7 +79,7 @@
 
 			{#if pastContests.length > 0}
 				<h2>Past Contests</h2>
-				
+
 				<div class="contests__list">
 					{#each pastContests as contest (contest.id)}
 						<ContestTile {contest} />
