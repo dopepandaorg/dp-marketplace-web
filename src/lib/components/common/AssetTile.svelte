@@ -92,13 +92,20 @@
 
 				fetch(`/api/assets/${id}.json`)
 					.then((response) => response.json())
-					.then((a: AssetRecord) => {
+					.then(async (a: AssetRecord) => {
 						asset = a
 
 						if ($wallet.account) {
 							isCreator = a.creator === $wallet.account
 							isOwner = $wallet.assets.findIndex((wa) => wa.amount >= 1 && wa.id === a.id) !== -1
 						}
+
+						try {
+							if (a.url.endsWith('#arc3')) {
+								const arc3Response = await fetch(convertIPFSUrlOnly(a.url)).then((response) => response.json())
+								asset.url = arc3Response.image
+							}
+						} catch {}
 					})
 					.finally(() => (isLoading = false))
 			}
