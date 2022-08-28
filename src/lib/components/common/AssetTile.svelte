@@ -217,7 +217,10 @@
 				<div class="asset-tile__title-wrap" on:click={goToAsset}>
 					{#if showListing && $escrowListingQuery.data && $escrowListingQuery.data.escrow_listings.length > 0}
 						<div class="asset-tile__creator-avatar">
-							<ProfileAvatarDisplay account={$escrowListingQuery.data.escrow_listings[0].seller} size={40} />
+							<ProfileAvatarDisplay
+								account={$escrowListingQuery.data.escrow_listings[0].seller}
+								size={40}
+							/>
 						</div>
 					{:else}
 						<div class="asset-tile__creator-avatar">

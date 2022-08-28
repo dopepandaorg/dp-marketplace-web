@@ -19,6 +19,7 @@
 
 				let floor = 0
 				let diff = 0
+				let volume = 0
 
 				if (analyticsLast) {
 					floor = analyticsLast.floor_price
@@ -29,10 +30,15 @@
 					}
 				}
 
+				if (c.collections_analytics_1ds_aggregate.aggregate.sum.volume) {
+					volume = c.collections_analytics_1ds_aggregate.aggregate.sum.volume
+				}
+
 				return {
 					...c,
 					floor,
-					diff
+					diff,
+					volume
 				}
 			})
 		}
@@ -67,6 +73,7 @@
 						imageUrl={convertIPFSCIDToUrl(collection.avatar_cid)}
 						floorPrice={collection.floor}
 						priceChange={collection.diff}
+						volume={collection.volume}
 					/>
 				{/each}
 			</div>
