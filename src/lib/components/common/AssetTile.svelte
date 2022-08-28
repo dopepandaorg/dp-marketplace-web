@@ -102,7 +102,9 @@
 
 						try {
 							if (a.url.endsWith('#arc3')) {
-								const arc3Response = await fetch(convertIPFSUrlOnly(a.url)).then((response) => response.json())
+								const arc3Response = await fetch(convertIPFSUrlOnly(a.url)).then((response) =>
+									response.json()
+								)
 								asset.url = arc3Response.image
 							}
 						} catch {}

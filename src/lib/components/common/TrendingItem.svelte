@@ -34,7 +34,7 @@
 			<div class="trending-item__price-change" class:increase={priceChange > 0}>
 				{priceChange > 0 ? formatPercentage(priceChange) : 0}
 				{#if priceChange > 0}
-					<GrowthIcon/>
+					<GrowthIcon />
 				{/if}
 			</div>
 		</div>

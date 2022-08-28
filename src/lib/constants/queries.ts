@@ -449,6 +449,19 @@ export const Q_GET_ESCROW_LISTING = gql`
 		}
 	}
 `
+export const Q_GET_ESCROW_LISTING_RECENT = gql`
+	query GetEscorwListingRecent {
+		escrow_listings(
+			limit: 4
+			order_by: { created_at: desc }
+			where: { status: { _eq: "active" } }
+		) {
+			id
+			asset_id
+			status
+		}
+	}
+`
 export const Q_CREATE_ESCROW_LISTING = gql`
 	mutation SetupEscrowListing($txId: String!, $wallet: String!) {
 		SetupEscrowListingWithTx(txId: $txId, wallet: $wallet) {
