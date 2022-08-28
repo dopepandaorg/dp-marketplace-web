@@ -3,7 +3,7 @@
 	let apyAlgoStake = 25
 
 	let durationAlgoStake = Math.round(
-		(new Date('2022-09-01').getTime() - new Date().getTime()) / DAYS_MULTIPLIER
+		(new Date('2022-08-28').getTime() - new Date().getTime()) / DAYS_MULTIPLIER
 	)
 	let durationAlgoStakeLP = Math.round(
 		(new Date('2022-12-01').getTime() - new Date().getTime()) / DAYS_MULTIPLIER
@@ -56,7 +56,7 @@
 								</div>
 							</div>
 						</td>
-						<td>{durationAlgoStake} days</td>
+						<td>Ended</td>
 						<td>{apyAlgoStake.toFixed(2)}% APR</td>
 						<td>
 							<a href="https://app.algostake.org" target="_blank">Stake Now ↗</a>
