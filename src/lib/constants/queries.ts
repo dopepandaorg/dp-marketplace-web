@@ -281,10 +281,21 @@ export const Q_SUB_MY_CONTEST_ENTRY = gql`
 
 export const Q_GET_COLLECTIONS_TRENDING = gql`
 	query GetTrendingCollections {
-		collections(limit: 12, where: { is_verified: { _eq: true } }) {
+		collections(
+			limit: 12
+			where: { is_verified: { _eq: true } }
+			order_by: { collections_analytics_1ds_aggregate: { sum: { volume: desc_nulls_last } } }
+		) {
 			collections_analytics_1ds(limit: 2, order_by: { ts: desc }) {
 				floor_price
 				ts
+			}
+			collections_analytics_1ds_aggregate {
+				aggregate {
+					sum {
+						volume
+					}
+				}
 			}
 			id
 			title

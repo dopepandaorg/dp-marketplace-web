@@ -18,6 +18,10 @@ export const parseAmount = (amount: number) => {
 	return Number(amount / (1000 * 1000))
 }
 
+export const formatNumber = (n: number): string => {
+	return Number(n).toLocaleString()
+}
+
 export const assetImageUrl = (chain: 'algo', assetId: string, iconUrl?: string): string => {
 	return iconUrl ? iconUrl : `https://asa-list.tinyman.org/assets/${assetId}/icon.svg`
 }

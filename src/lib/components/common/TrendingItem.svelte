@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { formatPercentage } from '$lib/helper/stringUtils'
-	import { ImageLoader } from 'carbon-components-svelte'
+	import { formatAmount, formatNumber } from '$lib/helper/utils'
+	import { ImageLoader, TooltipDefinition } from 'carbon-components-svelte'
 	import GrowthIcon from 'carbon-icons-svelte/lib/Growth.svelte'
 
 	export let rank: number
@@ -9,6 +10,7 @@
 	export let imageUrl: string
 	export let floorPrice: number
 	export let priceChange: number
+	export let volume: number
 </script>
 
 <div class="trending-item">
@@ -23,18 +25,30 @@
 				<div class="trending-item__title">{title}</div>
 				<div class="trending-item__floor-price">
 					{#if floorPrice}
-						<img src="/icons/algo.svg" alt="Algo" />
-						{Number(floorPrice).toLocaleString()}
+						<TooltipDefinition tooltipText="Floor Price">
+							{Number(floorPrice).toLocaleString()}
+							<img src="/icons/algo.svg" alt="Algo" />
+						</TooltipDefinition>
 					{:else}
 						N/A
 					{/if}
 				</div>
 			</div>
 
-			<div class="trending-item__price-change" class:increase={priceChange > 0}>
-				{priceChange > 0 ? formatPercentage(priceChange) : 0}
+			<div class="trending-item__value">
+				<div class="trending-item__volume">
+					<img src="/icons/algo.svg" alt="Algo" />
+					{formatNumber(volume)}
+				</div>
+
 				{#if priceChange > 0}
-					<GrowthIcon />
+					<div class="trending-item__price-change" class:increase={priceChange > 0}>
+						{formatPercentage(priceChange)}
+
+						{#if priceChange > 0}
+							<GrowthIcon />
+						{/if}
+					</div>
 				{/if}
 			</div>
 		</div>
@@ -80,34 +94,70 @@
 			font-weight: 500;
 		}
 
+		&__value {
+			display: flex;
+			align-items: flex-end;
+			flex-direction: column;
+		}
+
 		&__floor-price {
 			font-size: 0.875rem;
 
 			display: flex;
 			align-items: center;
-			margin-top: 0.625rem;
+			margin-top: 0.25rem;
+
+			:global(.bx--tooltip--a11y) {
+				font-size: 0.875rem;
+			}
 
 			img {
 				width: 0.75rem;
 				height: 0.75rem;
-				margin-right: 0.375rem;
+				margin-left: 0.25rem;
+				margin-top: -1px;
 			}
 		}
 
 		&__price-change {
+			font-size: 0.75rem;
+
 			display: flex;
 			align-items: center;
+			margin-top: 0.25rem;
 
 			:global(svg) {
 				float: left;
-				width: 1.25rem;
-				height: 1.25rem;
-				margin-left: 0.375rem;
-				margin-top: -1px;
+				width: 1rem;
+				height: 1rem;
+				margin-left: 0.25rem;
 			}
 
 			&.increase {
 				color: #42be65;
+			}
+		}
+
+		&__volume {
+			font-size: 1.125rem;
+
+			display: flex;
+			align-items: center;
+
+			span {
+				font-size: 0.625rem;
+				font-weight: 400;
+				margin-left: 0.5rem;
+				letter-spacing: 0.05rem;
+				text-transform: uppercase;
+				opacity: 0.75;
+			}
+
+			img {
+				width: 0.875rem;
+				height: 0.875rem;
+				margin-right: 0.375rem;
+				margin-top: -1px;
 			}
 		}
 	}
