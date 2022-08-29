@@ -25,12 +25,19 @@ export const getNativeASAs = (env?: NetworkEnv) =>
 		: (nativeASAs as any).testnet
 
 export const convertIPFSCIDToUrl = (url: string): string => {
-	return (url && attachImgixProxy('https://ipfs.io/ipfs/' + url)) || ''
+	// return (url && attachImgixProxy('https://w3s.link/ipfs/' + url)) || ''
+	// return (url && (url.indexOf('ipfs://') === 0 ? url.replace('ipfs://', 'https://w3s.link/ipfs/') : 'https://w3s.link/ipfs/' + url)) || ''
+	return convertIPFSUrlOnly(url)
 }
 export const convertIPFSUrl = (url: string): string => {
-	return (url && attachImgixProxy(url.replace('ipfs://', 'https://ipfs.io/ipfs/'))) || ''
+	// return (url && attachImgixProxy(url.replace('ipfs://', 'https://w3s.link/ipfs/'))) || ''
+	// return (url && (url.indexOf('ipfs://') !== -1 ? url.replace('ipfs://', 'https://w3s.link/ipfs/') : 'https://w3s.link/ipfs/' + url)) || ''
+	return convertIPFSUrlOnly(url)
 }
 
 export const convertIPFSUrlOnly = (url: string): string => {
-	return (url && url.replace('ipfs://', 'https://ipfs.io/ipfs/')) || ''
+	let cleanURL = (url && url.indexOf('ipfs://') !== -1) ? url.replace('ipfs://', '') : url
+	cleanURL = cleanURL.replace('https://gateway.pinata.cloud/ipfs/', '')
+	cleanURL = cleanURL.split('#')[0]
+	return 'https://w3s.link/ipfs/' + cleanURL
 }
